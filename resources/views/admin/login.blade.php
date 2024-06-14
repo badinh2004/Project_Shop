@@ -6,7 +6,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Grocee - Organic Food HTML Template</title>
+    <title>Login Admin</title>
     <meta name="description" content="Morden Bootstrap HTML5 Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets')}}/img/favicon.ico">
@@ -25,16 +25,25 @@
 </head>
 
 <body>
+    
+<div class="container mt-5">
+    <div class="border">
     <form action="" method="post">
         @csrf
     
-    <div class="account__login--inner">
+    <div class="account__login--inner m-3">
+        <label for="">
+            Email Or Name
+        </label>
         <label>
-            <input class="account__login--input" placeholder="Enter Name" type="text" name="login">
+            <input class="account__login--input" placeholder="Enter Name or Email" type="text" name="login">
         </label>
         @error('login')
             <small class="text-danger">{{$message}}</small>
         @enderror
+        <label for="">
+            Password
+        </label>
         <label>
             <input class="account__login--input" placeholder="Enter Password" type="password" name="password">
         </label>
@@ -54,6 +63,8 @@
         {{-- <p class="account__login--signup__text">Don,t Have an Account? <button type="submit">Sign up now</button></p> --}}
     </div>
 </form>
+</div>
+</div>
 
 <script src="{{asset('assets')}}/js/vendor/popper.js" defer="defer"></script>
     <script src="{{asset('assets')}}/js/vendor/bootstrap.min.js" defer="defer"></script>

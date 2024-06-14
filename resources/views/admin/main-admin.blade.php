@@ -215,14 +215,14 @@
 
       <ul class="sidebar-menu" data-widget="tree">
 
-        {{-- <li>
-          <a href="menu.html">
-            <i class="fa fa-th"></i> <span>Quản lý Menu </span>
+        <li>
+          <a href="">
+            <i class="fa fa-th"></i> <span>??????????</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-green">FE</small>
             </span>
           </a>
-        </li> --}}
+        </li>
 
         <li class="treeview">
           <a href="#">
@@ -232,8 +232,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{route('admin')}}"><i class="fa fa-circle-o"></i>Table Product</a></li>
-            <li><a href=""><i class="fa fa-circle-o"></i>Add Product</a></li>
+            <li><a href="{{route('product.index')}}"><i class="fa fa-circle-o"></i>Table Product</a></li>
+            <li><a href="{{route('product.create')}}"><i class="fa fa-circle-o"></i>Add Product</a></li>
           </ul>
         </li>
 
@@ -247,6 +247,18 @@
             <ul class="treeview-menu">
               <li><a href="{{route('category.index')}}"><i class="fa fa-circle-o"></i>Table Category</a></li>
               <li><a href="{{route('category.create')}}"><i class="fa fa-circle-o"></i>Add Category</a></li>
+            </ul>
+          </li>
+          <li class="treeview">
+            <a href="#">
+              <i class="fa fa-dashboard"></i> <span>Variants</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="{{route('variant.index')}}"><i class="fa fa-circle-o"></i>Table Variants</a></li>
+              <li><a href=""><i class="fa fa-circle-o"></i>Add Variants</a></li>
             </ul>
           </li>
         
@@ -314,5 +326,6 @@
 <script src="{{asset('ad')}}/tinymce/tinymce.min.js"></script>
 <script src="{{asset('ad')}}/tinymce/config.js"></script>
 <script src="{{asset('ad')}}/js/function.js"></script>
+@yield('script')
 </body>
 </html>

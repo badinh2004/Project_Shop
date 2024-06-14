@@ -3,7 +3,7 @@
 <div class="col-xs-12">
     <div class="box">
       <div class="box-header">
-     <a href="add-menu.html" class="btn btn-success">Table Category </a>
+     <a href="{{route('category.create')}}" class="btn btn-success">+ADD Category </a>
 
         <div class="box-tools">
           <div class="input-group input-group-sm" style="width: 150px;">
@@ -19,47 +19,27 @@
       <div class="box-body table-responsive no-padding">
         <table class="table table-hover">
           <tbody><tr>
-            <th></th>
-            <th>Kiểu banner</th>
-            <th>Ngày tạo</th>
-            <th>Trạng thái</th>
-            <th>Tùy chọn</th>
+            
+            <th>Name Category</th>
+            <th>Created_at</th>
+            <th>Update_at</th>    
+            <th>Action</th>
           </tr>
+          @foreach ($category as $value)
           <tr>
-            <td><img src="https://bachkhoa-aptech.edu.vn/upload/image/banner-web(1).jpg" alt="" width="250px"></td>
-            <td>Banner video</td>
-            <td>10-10-2018</td>
-            <td><span class="label label-success">Hiển thị</span></td>
+            <td>{{$value->name}}</td>
+            <td>{{$value->created_at->format('d-m-Y')}}</td>
+            <td>{{$value->updated_at->format('d-m-Y')}}</td>
             <td>
-            <a href="edit-menu.html" class="btn btn-success">Sửa</a>
-            <a href="" class="btn btn-danger">Xóa</a>
-              
+            <a href="{{route('category.edit',$value->id)}}" class="btn btn-success">Edit</a>
+            <form action="{{route('category.destroy',$value->id)}}" method="post">
+              @method("DELETE")
+              @csrf
+            <button class="btn btn-danger" type="submit">Delete</button>
+          </form>
             </td>
-          </tr>
-          <tr>
-            <td><img src="https://bachkhoa-aptech.edu.vn/upload/image/banner-connect-web-chv.jpg" alt="" width="250px"></td>
-            <td>Banner ảnh</td>
-            <td>10-10-2018</td>
-            <td><span class="label label-success">Hiển thị</span></td>
-            <td>
-            <a href="edit-menu.html" class="btn btn-success">Sửa</a>
-            <a href="" class="btn btn-danger">Xóa</a>
-              
-            </td>
-          </tr>
-          
-          <tr>
-            <td><img src="https://bachkhoa-aptech.edu.vn/upload/image/banner-connect-web-chv.jpg" alt="" width="250px"></td>
-            <td>Banner Chữ</td>
-            <td>10-10-2018</td>
-            <td><span class="label label-danger"> ẩn hiển thị</span></td>
-            <td>
-            <a href="edit-menu.html" class="btn btn-success">Sửa</a>
-            <a href="" class="btn btn-danger">Xóa</a>
-              
-            </td>
-          </tr>
-          
+          </tr>    
+          @endforeach
         </tbody></table>
       </div>
       <!-- /.box-body -->

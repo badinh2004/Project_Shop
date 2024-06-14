@@ -14,7 +14,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('admin.category.tableCategory');
+        $category = category::orderBy('id','desc')->get();
+        return view('admin.category.tableCategory',compact('category'));
     }
 
     /**
@@ -45,23 +46,29 @@ class CategoryController extends Controller
      */
     public function show(string $id,Request $req)
     {
-        dd($req->all());
+       
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(category $category)
     {
-        return view('admin.category/editCategory');
+        $editCate = category::where('id',$category->id)->first();
+        return view('admin.category/editCategory',compact('category','editCate'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $req, category $category)
     {
-        //
+        try {
+            $category->update($req->all());
+            return Redirect::route('category.index')->with('success','successflly');
+        } catch (\Throwable $th) {
+            return Redirect::back()->with('error','Failed');
+        }
     }
 
     /**
@@ -69,6 +76,11 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $delcate = category::find($id)->delete();
+            return Redirect::route('category.index')->with('success','Delete successfully');
+        } catch (\Throwable $th) {
+            return Redirect::back()->with('success','Delete successfully');
+        }
     }
 }
