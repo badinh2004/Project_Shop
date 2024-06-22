@@ -24,6 +24,10 @@
                         <label for="exampleInputEmail1">Enter size</label>
                         <div class="radio">
                             <label>
+                                <input type="radio" name="size" id="input"value="500g"  {{ $editvariant->size == '500g' ? 'checked' : '' }}>
+                                500g
+                            </label>
+                            <label>
                                 <input type="radio" name="size" id="input"value="1kg"  {{ $editvariant->size == '1kg' ? 'checked' : '' }}>
                                 1kg
                             </label>

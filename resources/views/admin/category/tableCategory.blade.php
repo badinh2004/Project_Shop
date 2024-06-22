@@ -35,8 +35,8 @@
             <form action="{{route('category.destroy',$value->id)}}" method="post">
               @method("DELETE")
               @csrf
-            <button class="btn btn-danger" type="submit">Delete</button>
-          </form>
+              <button class="btn btn-danger" type="submit">Delete</button>
+            </form>
             </td>
           </tr>    
           @endforeach

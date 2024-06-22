@@ -25,35 +25,40 @@
                         <label for="exampleInputEmail1">Enter size</label>
                         <div class="radio">
                             <label>
-                                <input type="radio" name="size" id="input" value="1kg">
+                                <input type="radio" name="variants[0][size]" id="input" value="500g">
+                                500g
+                            </label>
+                            <label>
+                                <input type="radio" name="variants[0][size]" id="input" value="1kg">
                                 1kg
                             </label>
                             <label>
-                                <input type="radio" name="size" id="input" value="2kg">
+                                <input type="radio" name="variants[0][size]" id="input" value="2kg">
                                 2kg
                             </label>
                             <label>
-                                <input type="radio" name="size" id="input" value="5kg">
+                                <input type="radio" name="variants[0][size]" id="input" value="5kg">
                                 5kg
                             </label>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Price</label>
-                        <input type="text" name="price" class="form-control" id="exampleInputEmail1"
+                        <input type="text" name="variants[0][price]" class="form-control" id="exampleInputEmail1"
                             placeholder="Enter Price">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Sale Price</label>
-                        <input type="text" name="sale_price" class="form-control" id="exampleInputEmail1"
-                            placeholder="Enter Price">
+                        <input type="text" name="variants[0][sale_price]" class="form-control"
+                            id="exampleInputEmail1" placeholder="Enter Price">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Quantity</label>
-                        <input type="text" name="quatity" class="form-control" id="exampleInputEmail1"
+                        <label for="exampleInputEmail1">Quatity</label>
+                        <input type="text" name="variants[0][quatity]" class="form-control" id="exampleInputEmail1"
                             placeholder="Enter Price">
                     </div>
                 </div>
+                <button type="button" onclick="addVariant()">add variants</button><br>
                 <div class="box-footer">
                     <button type="submit" class="btn btn-primary">Add </button>
                 </div>
@@ -62,4 +67,54 @@
         </div>
         <!-- /.box -->
     </div>
+@endsection
+@section('script')
+    <script>
+        let variantIndex = 1;
+
+        function addVariant() {
+            const variantsDiv = document.getElementById('variants');
+            const variantDiv = document.createElement('div');
+            variantDiv.innerHTML = `
+<div id="variants">
+            <div class="form-group form-check form-check-inline">
+              <label for="exampleInputEmail1">Enter size</label>
+              <div class="radio">
+                <label>
+                  <input type="radio" name="variants[${variantIndex}][size]" id="input" value="500g">
+                  500g
+                </label>
+                <label>
+                  <input type="radio" name="variants[${variantIndex}][size]" id="input" value="1kg">
+                  1kg
+                </label>
+                <label>
+                  <input type="radio" name="variants[${variantIndex}][size]" id="input" value="2kg" >
+                  2kg
+                </label>
+                <label>
+                  <input type="radio" name="variants[${variantIndex}][size]" id="input" value="5kg" >
+                  5kg
+                </label>
+              </div>
+            </div>
+            <div class="form-group">
+            <label for="exampleInputEmail1">Price</label>
+            <input type="text" name="variants[${variantIndex}][price]" class="form-control" id="exampleInputEmail1" placeholder="Enter Price">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Sale Price</label>
+              <input type="text" name="variants[${variantIndex}][sale_price]" class="form-control" id="exampleInputEmail1" placeholder="Enter Price">
+              </div>
+            <div class="form-group">
+            <label for="exampleInputEmail1">Quatity</label>
+            <input type="text" name="variants[${variantIndex}][quatity]" class="form-control" id="exampleInputEmail1" placeholder="Enter Price">
+            </div>
+          </div>
+`;
+            variantsDiv.appendChild(variantDiv);
+            variantIndex++;
+        }
+    </script>
+    
 @endsection

@@ -32,145 +32,57 @@
                                 <table class="cart__table--inner">
                                     <thead class="cart__table--header">
                                         <tr class="cart__table--header__items">
+                                            <th></th>
                                             <th class="cart__table--header__list">Product</th>
                                             <th class="cart__table--header__list">Price</th>
                                             <th class="cart__table--header__list">Quantity</th>
                                             <th class="cart__table--header__list">Total</th>
+                                            <th class="cart__table--header__list">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody class="cart__table--body">
-                                        <tr class="cart__table--body__items">
+                                        @foreach ($cart as $value)
+                                        <tr class="cart__table--body__items" data-id="{{$value->id}}">
+                                            <td class="cart__table--body__list">
+                                                <input type="checkbox">
+                                            </td>
                                             <td class="cart__table--body__list">
                                                 <div class="cart__product d-flex align-items-center">
-                                                    <button class="cart__remove--btn" aria-label="search button" type="button">
-                                                        <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="16px" height="16px"><path d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z"/></svg>
-                                                    </button>
                                                     <div class="cart__thumbnail">
-                                                        <a href="product-details.html"><img class="border-radius-5" src="assets/img/product/product1.png" alt="cart-product"></a>
+                                                        <a href="product-details.html"><img class="border-radius-5" src="{{ asset('storage/images/' . $value->products->image) }}" alt="cart-product"></a>
                                                     </div>
                                                     <div class="cart__content">
-                                                        <h3 class="cart__content--title h4"><a href="product-details.html">Fresh-whole-fish</a></h3>
-                                                        <span class="cart__content--variant">COLOR: Blue</span>
-                                                        <span class="cart__content--variant">WEIGHT: 2 Kg</span>
+                                                        <h3 class="cart__content--title h4"><a href="">{{$value->products->name}}</a></h3>
+                                                        <span class="cart__content--variant">WEIGHT: {{$value->variants->size}}</span>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td class="cart__table--body__list">
-                                                <span class="cart__price">£65.00</span>
+                                                <span class="cart__price" id="price">${{$value->variants->sale_price}}</span>
                                             </td>
                                             <td class="cart__table--body__list">
                                                 <div class="quantity__box">
-                                                    <button type="button" class="quantity__value quickview__value--quantity decrease" aria-label="quantity value" value="Decrease Value">-</button>
+                                                    <button type="button" id="btnMinus" class="quantity__value quickview__value--quantity decrease " aria-label="quantity value" value="Decrease Value">-</button>
                                                     <label>
-                                                        <input type="number" class="quantity__number quickview__value--number" value="1" data-counter />
+                                                        <input type="text" id="quantity" class="quantity__number quickview__value--number" value="{{$value->quantity}}" data-counter />
                                                     </label>
-                                                    <button type="button" class="quantity__value quickview__value--quantity increase" aria-label="quantity value" value="Increase Value">+</button>
+                                                    <button type="button" id="btnPlus" class="quantity__value quickview__value--quantity increase " aria-label="quantity value" value="Increase Value">+</button>
                                                 </div>
                                             </td>
                                             <td class="cart__table--body__list">
-                                                <span class="cart__price end">£130.00</span>
-                                            </td>
-                                        </tr>
-                                        <tr class="cart__table--body__items">
-                                            <td class="cart__table--body__list">
-                                                <div class="cart__product d-flex align-items-center">
-                                                    <button class="cart__remove--btn" aria-label="search button" type="button">
-                                                        <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="16px" height="16px"><path d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z"/></svg>
-                                                    </button>
-                                                    <div class="cart__thumbnail">
-                                                        <a href="product-details.html"><img class="border-radius-5" src="assets/img/product/product2.png" alt="cart-product"></a>
-                                                    </div>
-                                                    <div class="cart__content">
-                                                        <h3 class="cart__content--title h4"><a href="product-details.html">Vegetable-healthy</a></h3>
-                                                        <span class="cart__content--variant">COLOR: Blue</span>
-                                                        <span class="cart__content--variant">WEIGHT: 2 Kg</span>
-                                                    </div>
-                                                </div>
+                                                <span class="cart__price end" id="toTal">${{$value->quantity*$value->variants->sale_price}}</span>
                                             </td>
                                             <td class="cart__table--body__list">
-                                                <span class="cart__price">£65.00</span>
+                                                <button class="cart__remove--btn" aria-label="search button" type="button">
+                                                    <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="16px" height="16px"><path d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z"/></svg>
+                                                </button>
                                             </td>
-                                            <td class="cart__table--body__list">
-                                                <div class="quantity__box">
-                                                    <button type="button" class="quantity__value quickview__value--quantity decrease" aria-label="quantity value" value="Decrease Value">-</button>
-                                                    <label>
-                                                        <input type="number" class="quantity__number quickview__value--number" value="1" data-counter />
-                                                    </label>
-                                                    <button type="button" class="quantity__value quickview__value--quantity increase" aria-label="quantity value" value="Increase Value">+</button>
-                                                </div>
-                                            </td>
-                                            <td class="cart__table--body__list">
-                                                <span class="cart__price end">£130.00</span>
-                                            </td>
-                                        </tr>
-                                        <tr class="cart__table--body__items">
-                                            <td class="cart__table--body__list">
-                                                <div class="cart__product d-flex align-items-center">
-                                                    <button class="cart__remove--btn" aria-label="search button" type="button">
-                                                        <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="16px" height="16px"><path d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z"/></svg>
-                                                    </button>
-                                                    <div class="cart__thumbnail">
-                                                        <a href="product-details.html"><img class="border-radius-5" src="assets/img/product/product3.png" alt="cart-product"></a>
-                                                    </div>
-                                                    <div class="cart__content">
-                                                        <h3 class="cart__content--title h4"><a href="product-details.html">Raw-onions-surface</a></h3>
-                                                        <span class="cart__content--variant">COLOR: Blue</span>
-                                                        <span class="cart__content--variant">WEIGHT: 2 Kg</span>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="cart__table--body__list">
-                                                <span class="cart__price">£65.00</span>
-                                            </td>
-                                            <td class="cart__table--body__list">
-                                                <div class="quantity__box">
-                                                    <button type="button" class="quantity__value quickview__value--quantity decrease" aria-label="quantity value" value="Decrease Value">-</button>
-                                                    <label>
-                                                        <input type="number" class="quantity__number quickview__value--number" value="1" data-counter />
-                                                    </label>
-                                                    <button type="button" class="quantity__value quickview__value--quantity increase" aria-label="quantity value" value="Increase Value">+</button>
-                                                </div>
-                                            </td>
-                                            <td class="cart__table--body__list">
-                                                <span class="cart__price end">£130.00</span>
-                                            </td>
-                                        </tr>
-                                        <tr class="cart__table--body__items">
-                                            <td class="cart__table--body__list">
-                                                <div class="cart__product d-flex align-items-center">
-                                                    <button class="cart__remove--btn" aria-label="search button" type="button">
-                                                        <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="16px" height="16px"><path d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z"/></svg>
-                                                    </button>
-                                                    <div class="cart__thumbnail">
-                                                        <a href="product-details.html"><img class="border-radius-5" src="assets/img/product/product4.png" alt="cart-product"></a>
-                                                    </div>
-                                                    <div class="cart__content">
-                                                        <h3 class="cart__content--title h4"><a href="product-details.html">Red-tomato-isolated</a></h3>
-                                                        <span class="cart__content--variant">COLOR: Blue</span>
-                                                        <span class="cart__content--variant">WEIGHT: 2 Kg</span>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="cart__table--body__list">
-                                                <span class="cart__price">£65.00</span>
-                                            </td>
-                                            <td class="cart__table--body__list">
-                                                <div class="quantity__box">
-                                                    <button type="button" class="quantity__value quickview__value--quantity decrease" aria-label="quantity value" value="Decrease Value">-</button>
-                                                    <label>
-                                                        <input type="number" class="quantity__number quickview__value--number" value="1" data-counter />
-                                                    </label>
-                                                    <button type="button" class="quantity__value quickview__value--quantity increase" aria-label="quantity value" value="Increase Value">+</button>
-                                                </div>
-                                            </td>
-                                            <td class="cart__table--body__list">
-                                                <span class="cart__price end">£130.00</span>
-                                            </td>
-                                        </tr>
+                                        </tr>  
+                                        @endforeach                                  
                                     </tbody>
                                 </table> 
                                 <div class="continue__shopping d-flex justify-content-between">
-                                    <a class="continue__shopping--link" href="shop.html">Continue shopping</a>
+                                    <a class="continue__shopping--link" href="{{route('shop')}}">Continue shopping</a>
                                     <button class="continue__shopping--clear" type="submit">Clear Cart</button>
                                 </div>
                             </div>
@@ -879,4 +791,74 @@
     <!-- End shipping section -->
 
 </main>
+@endsection
+@section('script')
+<script type="module">
+    document.addEventListener('DOMContentLoaded', (event) => {
+        var btnPlus = document.querySelectorAll('#btnPlus');
+        var btnMinus = document.querySelectorAll('#btnMinus');
+
+        btnPlus.forEach(function(button) {
+            button.addEventListener('click', function() {
+                let tr = this.closest('tr');
+                let cartId = tr.getAttribute('data-id');
+                let quantityInput = tr.querySelector('#quantity');
+                let quantity = parseInt(quantityInput.value);
+                quantity+1; // Tăng số lượng trước khi cập nhật giá trị
+
+                quantityInput.value = quantity; // Cập nhật giá trị hiển thị
+
+                let priceValue = tr.querySelector('#price').textContent;
+                let price = parseFloat(priceValue.replace(/[^0-9.]/g, '')); // Sử dụng parseFloat để giữ lại phần thập phân
+
+                let total = tr.querySelector('#toTal');
+                let toTalPrice = price * quantity;
+                total.textContent = '$' + toTalPrice;
+
+                axios.post('{{ route('updateCart') }}', {
+                        id: cartId,
+                        quantity: quantity
+                    })
+                    .then(response => {
+                        console.log(response.data);
+                    })
+                    .catch(e => {
+                        console.error(e);
+                    });
+            });
+        });
+
+        btnMinus.forEach(function(button) {
+            button.addEventListener('click', function() {
+                let tr = this.closest('tr');
+                let cartId = tr.getAttribute('data-id');
+                let quantityInput = tr.querySelector('#quantity');
+                let quantity = parseInt(quantityInput.value);
+
+                if (quantity > 1) { // Đảm bảo số lượng không giảm dưới 1
+                    quantity-1; // Giảm số lượng trước khi cập nhật giá trị
+                    quantityInput.value = quantity; // Cập nhật giá trị hiển thị
+
+                    let priceValue = tr.querySelector('#price').textContent;
+                    let price = parseFloat(priceValue.replace(/[^0-9.]/g, ''));
+
+                    let total = tr.querySelector('#toTal');
+                    let toTalPrice = price * quantity;
+                    total.textContent = '$' + toTalPrice;
+
+                    axios.post('{{ route('updateCart') }}', {
+                            id: cartId,
+                            quantity: quantity
+                        })
+                        .then(response => {
+                            console.log(response.data);
+                        })
+                        .catch(e => {
+                            console.error(e);
+                        });
+                }
+            });
+        });
+    });
+</script>
 @endsection

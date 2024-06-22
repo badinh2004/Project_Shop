@@ -22,6 +22,10 @@
                             <label for="exampleInputEmail1">Enter size</label>
                             <div class="radio">
                                 <label>
+                                    <input type="radio" name="variants[0][size]" id="input" value="500g">
+                                    500g
+                                </label>
+                                <label>
                                     <input type="radio" name="variants[0][size]" id="input" value="1kg">
                                     1kg
                                 </label>
@@ -81,7 +85,7 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Description</label><br>
-                    <textarea name="description" id="" cols="80" rows="7"></textarea>
+                    <textarea name="description" id="editor1" cols="80" rows="7"></textarea>
                 </div>
         </div>
         <!-- /.box-body -->
@@ -107,6 +111,10 @@
             <div class="form-group form-check form-check-inline">
               <label for="exampleInputEmail1">Enter size</label>
               <div class="radio">
+                <label>
+                  <input type="radio" name="variants[${variantIndex}][size]" id="input" value="500g">
+                  500g
+                </label>
                 <label>
                   <input type="radio" name="variants[${variantIndex}][size]" id="input" value="1kg">
                   1kg
@@ -138,5 +146,17 @@
             variantsDiv.appendChild(variantDiv);
             variantIndex++;
         }
+    </script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor1'))
+            .then(editor => {
+                console.log(editor);
+            })
+            .catch(error => {
+                console.error(error);
+            });
     </script>
 @endsection

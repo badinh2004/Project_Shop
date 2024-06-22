@@ -138,15 +138,24 @@ class ProductController extends Controller
         return view('admin.variants.add', compact('product'));
     }
     public function storeVariant(Request $request, $ProductID)
-{
-    $product = Product::findOrFail($ProductID);
-
-    $product->variants()->create([
-        'price' => $request->price,
-        'sale_price' => $request->sale_price,
-        'size' => $request->size,
-        'quatity' => $request->quatity,
-    ]);
-    return redirect()->route('variant.show', $ProductID)->with('success', 'Variant added successfully');
-}
+    {
+        try {
+            $product = Product::find($ProductID);
+            foreach ($request->variants as $variantData) {
+                $variants = [
+                    "size" => $variantData['size'],
+                    "price" => $variantData['price'],
+                    "sale_price" => $variantData['sale_price'],
+                    "quatity" => $variantData['quatity']
+                ];
+                $product->variants()->create($variants);
+            }
+            // dd($request->all());
+            return redirect()->route('variant.show', $ProductID)->with('success', 'Variant added successfully');
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+            return redirect()->back();
+        }
+        
+    }
 }
