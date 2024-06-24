@@ -135,7 +135,7 @@
     <!-- End banner section -->
 
     <!-- Start categories product section -->
-    <section class="product__section product__categories--section section--padding pt-0">
+    {{-- <section class="product__section product__categories--section section--padding pt-0">
         <div class="container">
             <div class="section__heading mb-40">
                 <h2 class="section__heading--maintitle">Featured Categories</h2>
@@ -213,7 +213,7 @@
                 <div class="swiper__nav--btn swiper-button-prev"></div>
             </div>
         </div>
-    </section>
+    </section> --}}
     <!-- End categories product section -->
 
     <!-- Start product section -->
@@ -271,8 +271,13 @@
                                             </ul>
                                         </div>
                                         <div class="product__items--content product__items2--content text-center">
-                                            <a class="add__to--cart__btn" href="cart.html">+ Add to cart</a>
-                                            <h3 class="product__items--content__title h4"><a href="{{ route('productDetail', ['product' => $value->category->name, 'slug' => $value->slug]) }}">{{$value->name}}</a></h3>
+                                            <form id="addToCartForm" action="{{ route('addToCart', $value->id) }}" method="get">
+                                                @csrf
+                                                <input type="hidden" name="variant_id" value="{{ $value->variants->first()->id }}">
+                                                <input type="hidden" name="quantity" value="1" min="1">
+                                                <a href="javascript:void(0)" onclick="submitForm()" class="add__to--cart__btn" >+ add to cart</a>
+                                            </form>
+                                            <h3 class="product__items--content__title h4"><a href="{{ route('productDetail', ['product' => $value->category->name, 'slug' => $value->slug]) }}">{{$value->name}}-{{$value->variants->first()->size}}</a></h3>
                                             <div class="product__items--price">
                                                 <span class="current__price">
                                                     @foreach ($value->variants as $var)
@@ -1532,7 +1537,19 @@
                     //         selectedCategories.push(element.value)
                     //     })
                     // })
-                    selectedCategories =[cateId];
+                    filter.forEach(function(el) {
+                        el.classList.remove('active');
+                    });
+
+
+                    e.classList.add('active');
+
+                    // Đặt danh mục được chọn
+                    if (cateId === 'all') {
+                        selectedCategories = ['all'];
+                    } else {
+                        selectedCategories = [cateId];
+                    }
 
                     console.log('selectedCategories:',selectedCategories);
                     axios.post('{{ route('filterByCategory',[ 'id'=> ':cateId']) }}'.replace(':cateId',cateId),{
@@ -1545,8 +1562,6 @@
                     .catch(error =>{
                         console.log('Error:',error);
                     });
-
-
                 });
                 
                 function updateProductDisplay(products){
@@ -1659,5 +1674,10 @@
                 }
             });
         });
+    </script>
+    <script>
+        function submitForm() {
+            document.getElementById("addToCartForm").submit();
+        }
     </script>
 @endsection

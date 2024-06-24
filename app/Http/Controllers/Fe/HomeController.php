@@ -24,6 +24,7 @@ class HomeController extends Controller
     public function index()
     {
         $product = Product::orderBy('id','desc')->get();
+        $product = $product->take(8);
         foreach ($product as $value) {
             // Kiểm tra nếu sản phẩm được tạo trong vòng 2 ngày gần đây
             if ($value->created_at->greaterThanOrEqualTo(Carbon::now()->subDays(2))) {
@@ -95,21 +96,19 @@ class HomeController extends Controller
         $selectedCategories = $request->input('categories', []);
         $products = collect();
 
-        if ($selectedCategories) {
+        if (!empty($selectedCategories) && !in_array('all', $selectedCategories)) {
             // Lấy sản phẩm từ các danh mục đã chọn
             foreach ($selectedCategories as $categoryId) {
                 $category = Category::findOrFail($categoryId);
                 $products = $products->merge($category->products);
             }
         } else {
-            // Lấy sản phẩm từ danh mục chính và các danh mục con
-            // $category = Category::findOrFail($id);
-            // $products = $category->products;
-            // foreach ($category->children as $childCategory) {
-            //     $products = $products->merge($childCategory->products);
-            // }
-            $products = Product::orderBy('id','desc')->get();
+            // Lấy tất cả sản phẩm nếu không có danh mục được chọn
+            $products = Product::orderBy('id', 'desc')->get();
         }
+
+        $products = $products->take(8);
+    
         // Chuẩn bị dữ liệu trả về cho frontend
         $formattedProducts = $products->map(function ($product) {
             // Kiểm tra nếu variants không rỗng trước khi truy cập price

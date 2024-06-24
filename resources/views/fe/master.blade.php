@@ -775,17 +775,21 @@
                         <div class="minicart__text">
                             <h4 class="minicart__subtitle"><a href="">{{ $item->products->name }}</a>
                             </h4>
+                            <span class="color__variant"><b>Weight:</b> {{ $item->variants->size }}</span><br>
+                            <span class="color__variant" id="price"><b>Price:</b> ${{ $item->variants->sale_price }}</span>
                             <div class="minicart__price d-flex justify-content-between">
+                                {{-- <div>
+                                    <span class="color__variant" id="price">${{ $item->variants->sale_price }}</span>
+                                </div> --}}
                                 <div>
-                                    <span class="current__price" id="price">${{ $item->variants->sale_price }}</span>
-                                    <span class="current__price">/ {{ $item->variants->size }}</span>
+                                    <span class="" id="toTal"><b>Quantity: x{{ $item->quantity }}</b></span>
                                 </div>
                                 <div>
-                                    <span class="ms-5 " id="toTal"><b>${{ $item->quantity*$item->variants->sale_price }}</b></span>
+                                    <span class="text-danger" id="toTal"><b> ${{ $item->quantity*$item->variants->sale_price }}</b></span>
                                 </div>
                             </div>
                             <div class="minicart__text--footer d-flex align-items-center">
-                                <div class="quantity__box minicart__quantity">
+                                {{-- <div class="quantity__box minicart__quantity">
                                     <button type="button" class="quantity__value decrease"
                                         aria-label="quantity value" id="Minus" value="Decrease Value">-</button>
                                     <label>
@@ -794,7 +798,7 @@
                                     </label>
                                     <button type="button" class="quantity__value increase"
                                         aria-label="quantity value" id="Plus" value="Increase Value">+</button>
-                                </div>
+                                </div> --}}
                                 <button class="minicart__product--remove" type="button">Remove</button>
                             </div>
                         </div>
@@ -823,7 +827,7 @@
             </div> --}}
             <div class="minicart__button d-flex justify-content-center">
                 <a class="btn minicart__button--link" href="{{route('Cart')}}">View cart</a>
-                <a class="btn minicart__button--link" href="checkout.html">Checkout</a>
+                <a class="btn minicart__button--link" href="checkout.html">Continue shopping</a>
             </div>
         </div>
         <!-- End offCanvas minicart -->
@@ -1583,85 +1587,6 @@
     <!-- Customscript js -->
     <script src="{{ asset('assets') }}/js/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-    <script type="module">
-        document.addEventListener('DOMContentLoaded', (event) => {
-            var btnPlus = document.querySelectorAll('#Plus');
-            var btnMinus = document.querySelectorAll('#Minus');
-    
-            btnPlus.forEach(function(button) {
-                button.addEventListener('click', function() {
-                    let tr = this.closest('.minicart__product--items');
-                    let cartId = tr.getAttribute('data-id');
-                    let quantityInput = tr.querySelector('#quantity');
-                    let quantity = parseInt(quantityInput.value);
-                    quantity+1; // Tăng số lượng trước khi cập nhật giá trị
-                    
-                    quantityInput.value = quantity; // Cập nhật giá trị hiển thị
-                    
-                    let priceValue = tr.querySelector('#price').textContent;
-                    let price = parseFloat(priceValue.replace(/[^0-9.]/g, '')); // Sử dụng parseFloat để giữ lại phần thập phân
-                    let total = tr.querySelector('#toTal');
-                    let toTalPrice = price * quantity;
-                    total.textContent = '$' + toTalPrice;
-                    
-                    console.log(cartId);
-                    console.log(quantity);
-                    let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                    axios.post('{{ route('updateCart') }}', {
-                            id: cartId,
-                            quantity: quantity
-                        }, {
-                            headers: {
-                                'X-CSRF-TOKEN': csrfToken
-                            }
-                        })
-                        .then(response => {
-                            console.log(response.data);
-                        })
-                        .catch(e => {
-                            console.error(e);
-                        });
-                });
-            });
-    
-            btnMinus.forEach(function(button) {
-                button.addEventListener('click', function() {
-                    let tr = this.closest('.minicart__product--items');
-                    let cartId = tr.getAttribute('data-id');
-                    let quantityInput = tr.querySelector('#quantity');
-                    let quantity = parseInt(quantityInput.value);
-    
-                    if (quantity > 1) { // Đảm bảo số lượng không giảm dưới 1
-                        quantity-1; // Giảm số lượng trước khi cập nhật giá trị
-                        quantityInput.value = quantity; // Cập nhật giá trị hiển thị
-    
-                        let priceValue = tr.querySelector('#price').textContent;
-                        let price = parseFloat(priceValue.replace(/[^0-9.]/g, ''));
-    
-                        let total = tr.querySelector('#toTal');
-                        let toTalPrice = price * quantity;
-                        total.textContent = '$' + toTalPrice;
-                        let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                        axios.post('{{ route('updateCart') }}', {
-                            id: cartId,
-                            quantity: quantity
-                        }, {
-                            headers: {
-                                'X-CSRF-TOKEN': csrfToken
-                            }
-                        })
-                        .then(response => {
-                            console.log(response.data);
-                        })
-                        .catch(e => {
-                            console.error(e);
-                        });
-                    }
-                });
-            });
-        });
-    </script>
     
 </body>
 

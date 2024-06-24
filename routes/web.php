@@ -53,7 +53,6 @@ route::post('/postRegister', [HomeController::class, 'postRegister'])->name('pos
 route::get('/logout', [HomeController::class, 'logout'])->name('logout');
 
 
-
 route::get('/shop', [ProductShopController::class, 'ViewShop'])->name('shop');
 route::get('/shop/{product}/{slug}', [ProductShopController::class, 'ViewProduct'])->name('productDetail');
 
@@ -70,11 +69,10 @@ Route::get('/addWishList/{product}',[ProductShopController::class,'addWishlist']
 Route::get('/delete-wishlist/{id}', [ProductShopController::class, 'deleteWishList'])->name('deleteWishList');
 
 
-
-
 Route::prefix('cart')->group(function(){
     Route::get('/',[CartController::class,'index'])->name('Cart');
     Route::get('/addToCart/{product}',[CartController::class,'addToCart'])->name('addToCart');
     Route::post('/updateCart',[CartController::class,'updateCart'])->name('updateCart');
 });
+
 

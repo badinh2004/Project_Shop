@@ -402,8 +402,13 @@
                                                         </ul>
                                                     </div>
                                                     <div class="product__items--content product__items2--content text-center">
-                                                        <a class="add__to--cart__btn" href="cart.html">+ Add to cart</a>
-                                                        <h3 class="product__items--content__title h4"><a href="{{ route('productDetail', ['product' => $value->category->name, 'slug' => $value->slug]) }}">{{ $value->name }}</a></h3>
+                                                        <form id="addToCartForm" action="{{ route('addToCart', $value->id) }}" method="get">
+                                                            @csrf
+                                                            <input type="hidden" name="variant_id" value="{{ $value->variants->first()->id }}">
+                                                            <input type="hidden" name="quantity" value="1" min="1">
+                                                            <a href="javascript:void(0)" onclick="submitForm()" class="add__to--cart__btn" style="font-size: 1.40rem;">+ add to cart</a>
+                                                        </form>
+                                                        <h3 class="product__items--content__title" style="font-size: 1.40rem;"><a href="{{ route('productDetail', ['product' => $value->category->name, 'slug' => $value->slug]) }}">{{$value->name}}-{{$value->variants->first()->size}}</a></h3>
                                                         <div class="product__items--price">
                                                             <span class="current__price">
                                                                 @foreach ($value->variants as $var)
@@ -587,7 +592,7 @@
                                                         </ul>
                                                     </div>
                                                     <div class="product__list--items__content">
-                                                        <h3 class="product__list--items__content--title h4 mb-10"><a href="{{ route('productDetail', ['product' => $value->category->name, 'slug' => $value->slug]) }}">Vegetables Juices</a></h3>
+                                                        <h3 class="product__list--items__content--title h4 mb-10"><a href="{{ route('productDetail', ['product' => $value->category->name, 'slug' => $value->slug]) }}">{{$value->name}}-{{$value->variants->first()->size}}</a></h3>
                                                         <div class="product__items--price mb-10">
                                                             <span class="current__price">
                                                                 @foreach ($value->variants as $var)
@@ -643,7 +648,12 @@
                                                             <span class="product__items--rating__count--number">(24)</span>
                                                         </div>
                                                         <p class="product__list--items__content--desc mb-20">{{$value->sortdescription}}</p>
-                                                        <a class="btn add__to--cart__btn2" href="cart.html">+ Add to cart</a>
+                                                        <form id="addToCartForm" action="{{ route('addToCart', $value->id) }}" method="get">
+                                                            @csrf
+                                                            <input type="hidden" name="variant_id" value="{{ $value->variants->first()->id }}">
+                                                            <input type="hidden" name="quantity" value="1" min="1">
+                                                            <a href="javascript:void(0)" onclick="submitForm()" class="add__to--cart__btn" >+ add to cart</a>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
