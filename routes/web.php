@@ -57,7 +57,7 @@ route::get('/shop', [ProductShopController::class, 'ViewShop'])->name('shop');
 route::get('/shop/{product}/{slug}', [ProductShopController::class, 'ViewProduct'])->name('productDetail');
 
 Route::post('/filterByCategory/{id}', [HomeController::class, 'filterByCategory'])->name('filterByCategory');
-Route::get('/filter-category/{category}', [ProductShopController::class, 'filterProductsByCategory'])->name('filterProductsByCategory');
+Route::get('/shop/{category}', [ProductShopController::class, 'filterProductsByCategory'])->name('filterProductsByCategory');
 Route::get('/filter-price', [ProductShopController::class, 'filterProductsByPrice'])->name('filterByPrice');
 
 // Route để nhận query string từ form
@@ -67,6 +67,8 @@ Route::get('/tim-kiem/{search}', [ProductShopController::class, 'search'])->name
 Route::get('/wishlist',[ProductShopController::class,'ViewWish'])->name('ViewWish');
 Route::get('/addWishList/{product}',[ProductShopController::class,'addWishlist'])->name('addWishlist');
 Route::get('/delete-wishlist/{id}', [ProductShopController::class, 'deleteWishList'])->name('deleteWishList');
+
+Route::post('shop/sortproducts',[ProductShopController::class,'sortProducts'])->name('sortProducts');
 
 
 Route::prefix('cart')->group(function(){

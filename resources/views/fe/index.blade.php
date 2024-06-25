@@ -271,11 +271,11 @@
                                             </ul>
                                         </div>
                                         <div class="product__items--content product__items2--content text-center">
-                                            <form id="addToCartForm" action="{{ route('addToCart', $value->id) }}" method="get">
+                                            <form id="addToCartForm{{ $value->id }}" action="{{ route('addToCart', $value->id) }}" method="get">
                                                 @csrf
                                                 <input type="hidden" name="variant_id" value="{{ $value->variants->first()->id }}">
-                                                <input type="hidden" name="quantity" value="1" min="1">
-                                                <a href="javascript:void(0)" onclick="submitForm()" class="add__to--cart__btn" >+ add to cart</a>
+                                                <input type="hidden" name="quantity" value="1">
+                                                <a href="javascript:void(0)" onclick="submitForm('addToCartForm{{ $value->id }}')" class="add__to--cart__btn" style="font-size: 1.40rem;">+ add to cart</a>
                                             </form>
                                             <h3 class="product__items--content__title h4"><a href="{{ route('productDetail', ['product' => $value->category->name, 'slug' => $value->slug]) }}">{{$value->name}}-{{$value->variants->first()->size}}</a></h3>
                                             <div class="product__items--price">
@@ -1525,25 +1525,20 @@
 @endsection
 @section('script')
     <script>
+        function submitForm(formId) {
+            document.getElementById(formId).submit();
+        }
         document.addEventListener('DOMContentLoaded',function(){
             var filter = document.querySelectorAll('#filter');
             var selectedCategories = [];
             filter.forEach(function(e){
                 e.addEventListener('click',function(){
                     var cateId = e.getAttribute('data-id');
-                    console.log(cateId);
-                    // document.querySelectorAll('#filter').forEach(function(element){
-                    //     element.addEventListener('click',function(){
-                    //         selectedCategories.push(element.value)
-                    //     })
-                    // })
                     filter.forEach(function(el) {
                         el.classList.remove('active');
                     });
 
-
                     e.classList.add('active');
-
                     // Đặt danh mục được chọn
                     if (cateId === 'all') {
                         selectedCategories = ['all'];
@@ -1572,6 +1567,8 @@
                         var categoryName = product.category && product.category.name ? product.category.name : '';
                         var salePrice = product.variants.length > 0 ? product.variants[0].sale_price : 0;
                         var price = product.variants.length > 0 ? product.variants[0].price : 0;
+                        var variant_id = product.variants[0].id;
+                        console.log(variant_id);
                         var productHTML = `
                                 <div class="col md-28">
                                     <div class="product__items product__items2">
@@ -1581,11 +1578,7 @@
                                                 <img class="product__items--img product__secondary--img" src="{{ asset('storage/images/${product.image}') }}" alt="product-img">
                                             </a>
                                             <div class="product__badge">
-                                                @if ($value->isNew)
-                                                    <span class="product__badge--items new">New</span>
-                                                @else
-                                                    <span class="product__badge--items sale">Sale</span>
-                                                @endif
+                                                ${product.isNew ? '<span class="product__badge--items new">New</span>' : '<span class="product__badge--items sale">Sale</span>'}
                                             </div>
                                             <ul class="product__items--action">
                                                 <li class="product__items--action__list">
@@ -1609,7 +1602,12 @@
                                             </ul>
                                         </div>
                                         <div class="product__items--content product__items2--content text-center">
-                                            <a class="add__to--cart__btn" href="cart.html">+ Add to cart</a>
+                                            <form id="addToCartForm${product.id}" action="/addToCart/${product.id}" method="get">
+                                                @csrf
+                                                <input type="hidden" name="variant_id" value="${variant_id}">
+                                                <input type="hidden" name="quantity" value="1">
+                                                <a href="javascript:void(0)" onclick="submitForm('addToCartForm${product.id}')" class="add__to--cart__btn" style="font-size: 1.40rem;">+ add to cart</a>
+                                            </form>
                                             <h3 class="product__items--content__title h4"><a href="shop/${product.category}/${product.slug}">${product.name}</a></h3>
                                             <div class="product__items--price">
                                                 <span class="current__price">
@@ -1625,46 +1623,6 @@
                                                     @endforeach
                                                 </span>
                                             </div>
-                                            <div class="product__items--rating d-flex justify-content-center align-items-center">
-                                                <ul class="d-flex">
-                                                    <li class="product__items--rating__list">
-                                                        <span class="product__items--rating__icon">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732" viewBox="0 0 10.105 9.732">
-                                                            <path  data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor"/>
-                                                            </svg>
-                                                        </span>
-                                                    </li>
-                                                    <li class="product__items--rating__list">
-                                                        <span class="product__items--rating__icon">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732" viewBox="0 0 10.105 9.732">
-                                                            <path  data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor"/>
-                                                            </svg>
-                                                        </span>
-                                                    </li>
-                                                    <li class="product__items--rating__list">
-                                                        <span class="product__items--rating__icon">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732" viewBox="0 0 10.105 9.732">
-                                                            <path  data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor"/>
-                                                            </svg>
-                                                        </span>
-                                                    </li>
-                                                    <li class="product__items--rating__list">
-                                                        <span class="product__items--rating__icon">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732" viewBox="0 0 10.105 9.732">
-                                                            <path  data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor"/>
-                                                            </svg>
-                                                        </span>
-                                                    </li>
-                                                    <li class="product__items--rating__list">
-                                                        <span class="product__items--rating__icon">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732" viewBox="0 0 10.105 9.732">
-                                                                <path  data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="#c7c5c2"/>
-                                                            </svg> 
-                                                        </span>
-                                                    </li>
-                                                </ul>
-                                                <span class="product__items--rating__count--number">(24)</span>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1675,9 +1633,9 @@
             });
         });
     </script>
-    <script>
-        function submitForm() {
-            document.getElementById("addToCartForm").submit();
+    {{-- <script>
+        function submitForm(formId) {
+            document.getElementById(formId).submit();
         }
-    </script>
+    </script> --}}
 @endsection

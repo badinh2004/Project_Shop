@@ -11,6 +11,7 @@ use App\Models\Wishlist;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Termwind\Components\Dd;
@@ -175,5 +176,59 @@ class ProductShopController extends Controller
         } catch (\Throwable $th) {
             return Redirect::back()->with('success','Delete successfully');
         }
+    }
+
+    public function sortProducts(Request $request,ProductVariants $variants){
+
+        $sortBy = $request->input('sortBy');
+
+        switch ($sortBy) {
+            case '1':
+                $products = Product::orderBy('created_at', 'desc')->get(); // Sắp xếp mới nhất
+                break;
+            case '2':
+                $products = Product::orderBy('name', 'asc')->get(); // Sắp xếp theo A - Z
+                break;
+            case '3':
+                $products = Product::orderBy('name', 'desc')->get(); // Sắp xếp theo Z - A
+                break;
+            case '4':
+                $products = Product::leftJoin('productvarians', 'products.id', '=', 'productvarians.ProductID')
+                    ->select('products.id', 'products.name', 'products.image', 'products.slug', 'products.created_at', 'products.updated_at', DB::raw('MIN(productvarians.price) as min_price'))
+                    ->groupBy('products.id', 'products.name', 'products.created_at', 'products.updated_at')
+                    ->orderBy('min_price', 'asc')->get();
+                break;
+            case '5':
+                $products = Product::leftJoin('productvarians', 'products.id', '=', 'productvarians.ProductID')
+                    ->select('products.id', 'products.name','products.image', 'products.slug', 'products.created_at', 'products.updated_at', DB::raw('MIN(productvarians.price) as min_price'))
+                    ->groupBy('products.id', 'products.name', 'products.created_at', 'products.updated_at')
+                    ->orderBy('min_price', 'desc')->get();
+                break;
+            default:
+                $products = Product::orderBy('created_at', 'desc')->get(); // Mặc định sắp xếp mới nhất
+                break;
+        }
+        $formattedProducts = $products->map(function ($product) {
+            // Kiểm tra nếu variants không rỗng trước khi truy cập price
+            $price = !empty($variants) ? $variants[0]['price'] : null;
+
+            return [
+                'category' => $product->category->name ?? '',
+                'variants' =>  $product->variants->toArray(),
+            ];
+        });
+        $cates = Category::orderBy('id', 'desc')->get();
+        foreach ($products as $product) {
+            // Kiểm tra nếu sản phẩm được tạo trong vòng 2 ngày gần đây
+            if ($product->created_at->greaterThanOrEqualTo(Carbon::now()->subDays(2))) {
+                $product->isNew = true;
+            } else {
+                $product->isNew = false;
+            }
+        }
+        $productsort = Product::orderBy('created_at', 'desc')->take(3)->get();
+
+        return response()->json(['products' => $products,'productsort'=>$productsort,'cates'=>$cates]);
+        return view('fe.shop.products', compact('products', 'productsort', 'cates'));
     }
 }
