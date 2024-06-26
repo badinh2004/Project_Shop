@@ -1558,84 +1558,78 @@
                         console.log('Error:',error);
                     });
                 });
-                
-                function updateProductDisplay(products){
-                    var productContainer = document.querySelector('#filtered-products');
-                    productContainer.innerHTML = '';
-                    // console.log(productContainer);
-                    products.forEach(function(product) {
-                        var categoryName = product.category && product.category.name ? product.category.name : '';
-                        var salePrice = product.variants.length > 0 ? product.variants[0].sale_price : 0;
-                        var price = product.variants.length > 0 ? product.variants[0].price : 0;
-                        var variant_id = product.variants[0].id;
-                        console.log(variant_id);
-                        var productHTML = `
-                                <div class="col md-28">
-                                    <div class="product__items product__items2">
-                                        <div class="product__items--thumbnail">
-                                            <a class="product__items--link" href="shop/${product.category}/${product.slug}">
-                                                <img class="product__items--img product__primary--img" src="{{ asset('storage/images/${product.image}') }}" alt="product-img">
-                                                <img class="product__items--img product__secondary--img" src="{{ asset('storage/images/${product.image}') }}" alt="product-img">
-                                            </a>
-                                            <div class="product__badge">
-                                                ${product.isNew ? '<span class="product__badge--items new">New</span>' : '<span class="product__badge--items sale">Sale</span>'}
-                                            </div>
-                                            <ul class="product__items--action">
-                                                <li class="product__items--action__list">
-                                                    <a class="product__items--action__btn" href="/addWishList/${product.id}">
-                                                        <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 512 512"><path d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
-                                                        <span class="visually-hidden">Wishlist</span> 
-                                                    </a>
-                                                </li>
-                                                <li class="product__items--action__list">
-                                                    <a class="product__items--action__btn" data-open="modal1" href="javascript:void(0)">
-                                                        <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 512 512"><path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448"/></svg>
-                                                        <span class="visually-hidden">Quick View</span>  
-                                                    </a>
-                                                </li>
-                                                <li class="product__items--action__list">
-                                                    <a class="product__items--action__btn" href="compare.html">
-                                                        <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M400 304l48 48-48 48M400 112l48 48-48 48M64 352h85.19a80 80 0 0066.56-35.62L256 256"/><path d="M64 160h85.19a80 80 0 0166.56 35.62l80.5 120.76A80 80 0 00362.81 352H416M416 160h-53.19a80 80 0 00-66.56 35.62L288 208" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
-                                                        <span class="visually-hidden">Compare</span>    
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="product__items--content product__items2--content text-center">
-                                            <form id="addToCartForm${product.id}" action="/addToCart/${product.id}" method="get">
-                                                @csrf
-                                                <input type="hidden" name="variant_id" value="${variant_id}">
-                                                <input type="hidden" name="quantity" value="1">
-                                                <a href="javascript:void(0)" onclick="submitForm('addToCartForm${product.id}')" class="add__to--cart__btn" style="font-size: 1.40rem;">+ add to cart</a>
-                                            </form>
-                                            <h3 class="product__items--content__title h4"><a href="shop/${product.category}/${product.slug}">${product.name}</a></h3>
-                                            <div class="product__items--price">
-                                                <span class="current__price">
-                                                    @foreach ($value->variants as $var)
-                                                        <p>${salePrice}$</p>
-                                                    @break
-                                                    @endforeach
-                                                </span>
-                                                <span class="old__price">
-                                                    @foreach ($value->variants as $var)
-                                                        <p>${price}$</p>
-                                                    @break
-                                                    @endforeach
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                        `;
-                        productContainer.insertAdjacentHTML('beforeend', productHTML);
-                    })
-                }
             });
         });
+        function updateProductDisplay(products){
+            var productContainer = document.querySelector('#filtered-products');
+            productContainer.innerHTML = '';
+            // console.log(productContainer);
+            products.forEach(function(product) {
+                var categoryName = product.category && product.category.name ? product.category.name : '';
+                var salePrice = product.variants.length > 0 ? product.variants[0].sale_price : 0;
+                var price = product.variants.length > 0 ? product.variants[0].price : 0;
+                var variant_id = product.variants[0].id;
+                console.log(variant_id);
+                var productHTML = `
+                        <div class="col md-28">
+                            <div class="product__items product__items2">
+                                <div class="product__items--thumbnail">
+                                    <a class="product__items--link" href="shop/${product.category}/${product.slug}">
+                                        <img class="product__items--img product__primary--img" src="{{ asset('storage/images/${product.image}') }}" alt="product-img">
+                                        <img class="product__items--img product__secondary--img" src="{{ asset('storage/images/${product.image}') }}" alt="product-img">
+                                    </a>
+                                    <div class="product__badge">
+                                        ${product.isNew ? '<span class="product__badge--items new">New</span>' : '<span class="product__badge--items sale">Sale</span>'}
+                                    </div>
+                                    <ul class="product__items--action">
+                                        <li class="product__items--action__list">
+                                            <a class="product__items--action__btn" href="/addWishList/${product.id}">
+                                                <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 512 512"><path d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
+                                                <span class="visually-hidden">Wishlist</span> 
+                                            </a>
+                                        </li>
+                                        <li class="product__items--action__list">
+                                            <a class="product__items--action__btn" data-open="modal1" href="javascript:void(0)">
+                                                <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 512 512"><path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448"/></svg>
+                                                <span class="visually-hidden">Quick View</span>  
+                                            </a>
+                                        </li>
+                                        <li class="product__items--action__list">
+                                            <a class="product__items--action__btn" href="compare.html">
+                                                <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M400 304l48 48-48 48M400 112l48 48-48 48M64 352h85.19a80 80 0 0066.56-35.62L256 256"/><path d="M64 160h85.19a80 80 0 0166.56 35.62l80.5 120.76A80 80 0 00362.81 352H416M416 160h-53.19a80 80 0 00-66.56 35.62L288 208" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
+                                                <span class="visually-hidden">Compare</span>    
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="product__items--content product__items2--content text-center">
+                                    <form id="addToCartForm${product.id}" action="/addToCart/${product.id}" method="get">
+                                        @csrf
+                                        <input type="hidden" name="variant_id" value="${variant_id}">
+                                        <input type="hidden" name="quantity" value="1">
+                                        <a href="javascript:void(0)" onclick="submitForm('addToCartForm${product.id}')" class="add__to--cart__btn" style="font-size: 1.40rem;">+ add to cart</a>
+                                    </form>
+                                    <h3 class="product__items--content__title h4"><a href="shop/${product.category}/${product.slug}">${product.name}</a></h3>
+                                    <div class="product__items--price">
+                                        <span class="current__price">
+                                            @foreach ($value->variants as $var)
+                                                <p>${salePrice}$</p>
+                                            @break
+                                            @endforeach
+                                        </span>
+                                        <span class="old__price">
+                                            @foreach ($value->variants as $var)
+                                                <p>${price}$</p>
+                                            @break
+                                            @endforeach
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                `;
+                productContainer.insertAdjacentHTML('beforeend', productHTML);
+            });
+        };
     </script>
-    {{-- <script>
-        function submitForm(formId) {
-            document.getElementById(formId).submit();
-        }
-    </script> --}}
 @endsection

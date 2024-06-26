@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\admin\ProductVariantsController;
 use App\Http\Controllers\admin\VariantsController;
 use App\Http\Controllers\Fe\CartController;
+use App\Http\Controllers\Fe\FilterController;
 use App\Http\Controllers\Fe\HomeController;
 use App\Http\Controllers\Fe\ProductShopController;
 use Illuminate\Support\Facades\Route;
@@ -42,33 +43,41 @@ Route::prefix('admin')->group(function () {
     Route::get('/logout', [Admincontroller::class, 'logoutadmin'])->name('logoutadmin');
 });
 
-Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::get('/', [HomeController::class, 'index'])->name('index');//home
 
-Route::get('/login', [HomeController::class, 'login'])->name('login');
-route::post('/postLogin', [HomeController::class, 'postLogin'])->name('postLogin');
+//login-logout-register
+Route::prefix('account')->group(function(){
+    Route::get('/login', [HomeController::class, 'login'])->name('login');
+    Route::post('/postLogin', [HomeController::class, 'postLogin'])->name('postLogin');
+    Route::get('/register', [HomeController::class, 'Register'])->name('Register');
+    Route::post('/postRegister', [HomeController::class, 'postRegister'])->name('postRegister');
+    Route::get('/forgotpassword', [HomeController::class, 'forgotpassword'])->name('forgotpassword');
+    Route::post('/postforgotpassword', [HomeController::class, 'postForgotpassword'])->name('postForgotpassword');
+    Route::get('/logout', [HomeController::class, 'logout'])->name('logout');
+});
+//end route login-logout-register
 
-Route::get('/register', [HomeController::class, 'Register'])->name('Register');
-route::post('/postRegister', [HomeController::class, 'postRegister'])->name('postRegister');
+// view Products-productdetail
+Route::get('/shop', [ProductShopController::class, 'ViewShop'])->name('shop');
+Route::get('/shop/{product}/{slug}', [ProductShopController::class, 'ViewProduct'])->name('productDetail');
+//end Products-productdetail
 
-route::get('/logout', [HomeController::class, 'logout'])->name('logout');
+// Filter
+Route::post('/filterByCategory/{id}', [FilterController::class, 'filterByCategory'])->name('filterByCategory');
+Route::get('/shop/{category}', [FilterController::class, 'filterProductsByCategory'])->name('filterProductsByCategory');
+Route::get('/filter-price', [FilterController::class, 'filterProductsByPrice'])->name('filterByPrice');
+Route::post('shop/sortproducts',[ProductShopController::class,'sortProducts'])->name('sortProducts');
+// end filter
 
-
-route::get('/shop', [ProductShopController::class, 'ViewShop'])->name('shop');
-route::get('/shop/{product}/{slug}', [ProductShopController::class, 'ViewProduct'])->name('productDetail');
-
-Route::post('/filterByCategory/{id}', [HomeController::class, 'filterByCategory'])->name('filterByCategory');
-Route::get('/shop/{category}', [ProductShopController::class, 'filterProductsByCategory'])->name('filterProductsByCategory');
-Route::get('/filter-price', [ProductShopController::class, 'filterProductsByPrice'])->name('filterByPrice');
-
-// Route để nhận query string từ form
+// Search
 Route::get('/search', [ProductShopController::class, 'handleSearchQuery'])->name('handleSearchQuery');
 Route::get('/tim-kiem/{search}', [ProductShopController::class, 'search'])->name('search');
+// end Search
 
 Route::get('/wishlist',[ProductShopController::class,'ViewWish'])->name('ViewWish');
 Route::get('/addWishList/{product}',[ProductShopController::class,'addWishlist'])->name('addWishlist');
 Route::get('/delete-wishlist/{id}', [ProductShopController::class, 'deleteWishList'])->name('deleteWishList');
 
-Route::post('shop/sortproducts',[ProductShopController::class,'sortProducts'])->name('sortProducts');
 
 
 Route::prefix('cart')->group(function(){
@@ -76,5 +85,7 @@ Route::prefix('cart')->group(function(){
     Route::get('/addToCart/{product}',[CartController::class,'addToCart'])->name('addToCart');
     Route::post('/updateCart',[CartController::class,'updateCart'])->name('updateCart');
 });
+
+
 
 

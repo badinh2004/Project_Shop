@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Fe;
 
+use App\Events\ForGotPassWord as EventsForGotPassWord;
 use App\Http\Controllers\Controller;
 use App\Models\category;
 use App\Models\Customers;
+use App\Models\Forgotpassword;
 use App\Models\Product;
 use App\Models\ProductVariants;
 use App\Models\Wishlit;
@@ -13,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Termwind\Components\Dd;
+use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
@@ -89,6 +92,32 @@ class HomeController extends Controller
     {
         auth('customers')->logout();
         return redirect()->back()->with('sucess', 'logout successfully');
+    }
+
+    public function forgotpassword()
+    {
+        return view('fe.login-register/forgotpassword');
+    }
+    public function postForgotpassword(Request $req)
+    {
+        $validate = $req->validate([
+            'email' => 'required|email|exists:customers,email', // exists:customers,email kiểm tra email tồn tại
+        ]);
+
+        $customer = Customers::where('email', $req->email)->firstOrFail();
+        $newPassword = Str::random(8);
+        $customer->password = Hash::make($newPassword);
+        $customer->save();
+
+
+        // Tạo sự kiện quên mật khẩu
+        event(new EventsForGotPassWord($customer, $newPassword));
+
+        return redirect()->back();
+
+    }
+    public function resetpass(){
+        view('fe.login-register/resetpass');
     }
 
     public function filterByCategory(Request $request, $id)

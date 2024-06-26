@@ -45,66 +45,6 @@ class ProductShopController extends Controller
         return view('fe.shop/product-detail', compact('products', 'cate'));
     }
 
-
-    public function filterProductsByCategory($category)
-    {
-        // Tìm danh mục dựa trên tên
-        $category = Category::where('name', $category)->first();
-
-        if ($category) {
-            $products = Product::where('category_id', $category->id)->get();
-        } else {
-            $products = Product::all();
-        }
-
-        $cates = Category::orderBy('id', 'desc')->get();
-
-        foreach ($products as $product) {
-            // Kiểm tra nếu sản phẩm được tạo trong vòng 2 ngày gần đây
-            if ($product->created_at->greaterThanOrEqualTo(Carbon::now()->subDays(2))) {
-                $product->isNew = true;
-            } else {
-                $product->isNew = false;
-            }
-        }
-
-        $productsort = Product::orderBy('created_at', 'desc')->take(3)->get();
-
-        return view('fe.shop.products', compact('products', 'productsort', 'cates'));
-    }
-
-    public function filterProductsByPrice(Request $request)
-    {
-        $filterPriceGTE = $request->input('filterPriceGTE');
-        $filterPriceLTE = $request->input('filterPriceLTE');
-
-        // Lọc sản phẩm theo khoảng giá
-        $variants = ProductVariants::whereBetween('sale_price', [$filterPriceGTE, $filterPriceLTE])
-            ->with('product') // Load sản phẩm tương ứng với biến thể
-            ->get();
-
-        $products = collect();
-        foreach ($variants as $variant) {
-            $product = $variant->product;
-
-            // Chỉ hiển thị duy nhất một sản phẩm với product_id
-            if (!$products->contains('id', $product->id)) {
-                $products->push($product);
-            }
-        }
-
-        // Kiểm tra nếu sản phẩm được tạo trong vòng 2 ngày gần đây
-        if ($product->created_at->greaterThanOrEqualTo(Carbon::now()->subDays(2))) {
-            $product->isNew = true;
-        } else {
-            $product->isNew = false;
-        }
-        $cates = category::orderBy('id', 'desc')->get();
-        $productsort = Product::orderBy('created_at', 'desc')->take(3)->get();
-
-        return view('fe.shop/products', compact('products', 'productsort', 'cates'));
-    }
-
     public function handleSearchQuery(Request $req)
     {
         // Lấy từ khóa tìm kiếm từ request
