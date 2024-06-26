@@ -281,13 +281,13 @@
                                             <div class="product__items--price">
                                                 <span class="current__price">
                                                     @foreach ($value->variants as $var)
-                                                        <p>${{ $var->sale_price }}</p>
+                                                        <p>{{ $var->sale_price }}$</p>
                                                     @break
                                                     @endforeach
                                                 </span>
                                                 <span class="old__price">
                                                     @foreach ($value->variants as $var)
-                                                        <p>${{ $var->price }}</p>
+                                                        <p>{{ $var->price }}$</p>
                                                     @break
                                                     @endforeach
                                                 </span>

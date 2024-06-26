@@ -3,9 +3,11 @@
 namespace App\Listeners;
 
 use App\Events\ForGotPassWord;
+use Carbon\Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 
 class SendMailAfterForGotPassword implements ShouldQueue
@@ -24,25 +26,21 @@ class SendMailAfterForGotPassword implements ShouldQueue
      */
     public function handle(ForGotPassWord $event): void
     {
-        // gia lap thoi gian tre 5
-        // sleep(5);
-        
-        // $amount = $event->forgot->amount;
-        // $note = $event->forgot->note;
-        // $content = "forgotpassword: $amount \nNote: $note";
         $email = $event->customer->email;
         $name = $event->customer->name;
-        $newPassword = $event->newPassword;
-        
-        // file_put_contents('./public/data.txt',$content);
+        $customerId = $event->customer->id;
+
+        $timeup = Carbon::now()->addMinute(5);// tính thêm 5 phút từ lúc này
+        $token  = Crypt::encrypt(['customer_id' => $customerId, 'timeup' => $timeup]);
 
         $subject = "Shop Foods Forgot your password";
         $content = [
             'title' => "Hello $name,",
-            'body' => "You forgot your password. This is your password : $newPassword"
+            'body'  => "You forgot your password. Click the link below to reset your password.\nNote: The link will not work after 5 minutes",
+            'token' => $token,
         ];
-
-        Mail::send('email',$content,function($message) use($email,$subject) {
+    
+        Mail::send('emailpassword',$content,function($message) use($email,$subject) {
             $message->to($email)->subject($subject);
         });
     }

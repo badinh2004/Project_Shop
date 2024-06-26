@@ -9,5 +9,6 @@
 <body>
     <h1>{{$title}}</h1>
     <h4>{{$body}}</h4>
+    <a href="{{ route('ResetPass', ['token' => $token]) }}">Reset password</a>
 </body>
 </html>

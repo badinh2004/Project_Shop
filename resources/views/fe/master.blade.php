@@ -266,18 +266,14 @@
                                                         class="header__mega--sub__menu--title" href="404.html">404
                                                         Page</a></li>
                                                 @if (auth('customers')->check())
-                                                    <li class="offcanvas__sub_menu_li"><a
-                                                            href="{{ route('logout') }}"
-                                                            class="offcanvas__sub_menu_item">Logout</a></li>
+                                                    <li class="header__mega--sub__menu_li"><a href="{{ route('logout') }}"
+                                                            class="header__mega--sub__menu--title">Logout</a></li>
                                                 @else
-                                                    <li class="offcanvas__sub_menu_li"><a href="{{ route('login') }}"
-                                                            class="offcanvas__sub_menu_item">Login Page</a></li>
+                                                    <li class="header__mega--sub__menu_li"><a href="{{ route('login') }}"
+                                                            class="header__mega--sub__menu--title">Login Page</a></li>
                                                 @endif
-                                                <li class="offcanvas__sub_menu_li"><a href="404.html"
-                                                        class="offcanvas__sub_menu_item">Error Page</a></li>
                                                 <li class="header__mega--sub__menu_li"><a
-                                                        class="header__mega--sub__menu--title" href="faq.html">Faq
-                                                        Page</a></li>
+                                                        class="header__mega--sub__menu--title" href="faq.html">FaqPage</a></li>
                                             </ul>
                                         </li>
                                         <li class="header__mega--menu__li">

@@ -13,6 +13,7 @@ use App\Models\Wishlit;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Termwind\Components\Dd;
 use Illuminate\Support\Str;
@@ -26,7 +27,7 @@ class HomeController extends Controller
     // }
     public function index()
     {
-        $product = Product::orderBy('id','desc')->get();
+        $product = Product::orderBy('id', 'desc')->get();
         $product = $product->take(8);
         foreach ($product as $value) {
             // Kiểm tra nếu sản phẩm được tạo trong vòng 2 ngày gần đây
@@ -36,8 +37,8 @@ class HomeController extends Controller
                 $value->isNew = false;
             }
         }
-        $cate = category::orderBy('id','desc')->get();
-        return view('fe.index',compact('product','cate'));
+        $cate = category::orderBy('id', 'desc')->get();
+        return view('fe.index', compact('product', 'cate'));
     }
 
     public function login()
@@ -105,55 +106,54 @@ class HomeController extends Controller
         ]);
 
         $customer = Customers::where('email', $req->email)->firstOrFail();
-        $newPassword = Str::random(8);
-        $customer->password = Hash::make($newPassword);
-        $customer->save();
+        // $newPassword = Str::random(8);
+        // $customer->password = Hash::make($newPassword);
+        // $customer->save();
 
 
-        // Tạo sự kiện quên mật khẩu
-        event(new EventsForGotPassWord($customer, $newPassword));
+        // event(new EventsForGotPassWord($customer, $newPassword));
+        event(new EventsForGotPassWord($customer));
 
-        return redirect()->back();
-
-    }
-    public function resetpass(){
-        view('fe.login-register/resetpass');
+        return view('fe.checkmail');
     }
 
-    public function filterByCategory(Request $request, $id)
+    public function ResetPass(Request $request)
     {
-        $selectedCategories = $request->input('categories', []);
-        $products = collect();
+        $token = $request->query('token');
 
-        if (!empty($selectedCategories) && !in_array('all', $selectedCategories)) {
-            // Lấy sản phẩm từ các danh mục đã chọn
-            foreach ($selectedCategories as $categoryId) {
-                $category = Category::findOrFail($categoryId);
-                $products = $products->merge($category->products);
-            }
-        } else {
-            // Lấy tất cả sản phẩm nếu không có danh mục được chọn
-            $products = Product::orderBy('id', 'desc')->get();
+        try {
+            $data = Crypt::decrypt($token) ;
+        } catch (\Throwable $th) {
+            return redirect()->route('login')->with('error', 'Invalid or expired link.');
         }
 
-        $products = $products->take(8);
-    
-        // Chuẩn bị dữ liệu trả về cho frontend
-        $formattedProducts = $products->map(function ($product) {
-            // Kiểm tra nếu variants không rỗng trước khi truy cập price
-            $price = !empty($variants) ? $variants[0]['price'] : null;
+        $timeup = Carbon::parse($data['timeup']);
+        if (Carbon::now()->greaterThan($timeup)) {
+            return redirect()->route('login')->with('error', 'This link has expired.');
+        }
 
-            return [
-                'id' => $product->id,
-                'name' => $product->name,
-                'image' => $product->image,
-                'slug' => $product->slug,
-                'category' => $product->category->name ?? '',
-                'variants' =>  $product->variants->toArray(),
-                'price' => $price,
-            ];
-        });
+        $customer = Customers::find($data['customer_id']);
+        if (!$customer) {
+            return redirect()->route('login')->with('error', 'Customer not found.');
+        }
+        return view('fe.login-register.resetpass', ['customer' => $customer]);
+    }
 
-        return response()->json(['products' => $products]);
+    public function postResetPass(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|min:8',
+            'confirm_password' => 'required|same:password|min:8'
+        ]);
+
+        $customer = Customers::find($request->customer_id);
+        if (!$customer) {
+            return redirect()->route('login')->with('error', 'Customer not found.');
+        }
+
+        $customer->password = Hash::make($request->password);
+        $customer->save();
+
+        return redirect()->route('login')->with('success', 'Password reset successfully.');
     }
 }

@@ -51,7 +51,6 @@ class FilterController extends Controller
         } else {
             $products = Product::orderBy('id', 'desc')->get();
         }
-        $products = $products->take(8);
         
         $formattedProducts = $products->map(function ($product) {
             $price = !empty($variants) ? $variants[0]['price'] : null;

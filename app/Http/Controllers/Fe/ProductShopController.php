@@ -103,7 +103,7 @@ class ProductShopController extends Controller
     public function ViewWish()
     {
         $wish = Wishlist::all();
-        $productsort = Product::orderBy('created_at', 'desc')->take(4)->get();
+        $productsort = Product::orderBy('created_at', 'desc')->take(5)->get();
         // dd($wish->products);
         return view('fe.shop.wishlist', compact('wish', 'productsort'));
     }

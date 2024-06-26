@@ -185,7 +185,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="product__view--mode__list">
+                    {{-- <div class="product__view--mode__list">
                         <div class="product__tab--one product__grid--column__buttons d-flex justify-content-center">
                             <button class="product__grid--column__buttons--icons active" aria-label="grid btn" data-toggle="tab" data-target="#product_grid">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 9 9">
@@ -218,7 +218,7 @@
                                   </svg>
                             </button>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 <p class="product__showing--count">Showing 1–9 of 21 results</p>
             </div>
@@ -229,14 +229,14 @@
                             <h2 class="widget__title h3">Categorys</h2>
                             <ul class="widget__form--check">
                                 <li class="widget__form--check__list">
-                                    <label class="widget__form--check__label">
-                                        <a href="{{ route('shop') }}">All</a>
+                                    <label class="widget__form--check__label" id="filter" data-id="all">
+                                        All
                                     </label>
                                 </li>
                                 @foreach ($cates as $item)
                                     <li class="widget__form--check__list">
-                                        <label class="widget__form--check__label">
-                                            <a href="{{ route('filterProductsByCategory', ['category' => $item->name]) }}">{{ $item->name }}</a>
+                                        <label class="widget__form--check__label" id="filter" data-id="{{$item->id}}">
+                                            {{ $item->name }}
                                         </label>
                                     </li>
                                 @endforeach
@@ -407,13 +407,13 @@
                                                         <div class="product__items--price">
                                                             <span class="current__price">
                                                                 @foreach ($value->variants as $var)
-                                                                    <p>${{ $var->sale_price }}</p>
+                                                                    <p>{{ $var->sale_price }}$</p>
                                                                 @break
                                                                 @endforeach
                                                             </span>
                                                             <span class="old__price">
                                                                 @foreach ($value->variants as $var)
-                                                                    <p>${{ $var->price }}</p>
+                                                                    <p>{{ $var->price }}$</p>
                                                                 @break
                                                                 @endforeach
                                                             </span>
@@ -959,6 +959,37 @@
             console.error('Error:', error);
         });
     });
+    document.addEventListener('DOMContentLoaded',function(){
+            var filter = document.querySelectorAll('#filter');
+            var selectedCategories = [];
+            filter.forEach(function(e){
+                e.addEventListener('click',function(){
+                    var cateId = e.getAttribute('data-id');
+                    filter.forEach(function(el) {
+                        el.classList.remove('active');
+                    });
+
+                    e.classList.add('active');
+                    if (cateId === 'all') {
+                        selectedCategories = ['all'];
+                    } else {
+                        selectedCategories = [cateId];
+                    }
+
+                    console.log('selectedCategories:',selectedCategories);
+                    axios.post('{{ route('filterByCategory',[ 'id'=> ':cateId']) }}'.replace(':cateId',cateId),{
+                        categories: selectedCategories
+                    })
+                    .then(reponse => {
+                        console.log(reponse.data);
+                        updateProductDisplay(reponse.data.products)
+                    })
+                    .catch(error =>{
+                        console.log('Error:',error);
+                    });
+                });
+            });
+        });
     function updateProductDisplay(products) {
             var productContainer = document.querySelector('#filtered-products');
             

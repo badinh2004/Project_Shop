@@ -56,7 +56,7 @@
                                                     </h3>
                                                     <span class="cart__content--variant"></span>
                                                     <fieldset class="variant__input--fieldset">
-                                                        <legend class="product__variant--title mb-8">Weight :</legend>
+                                                        <legend class="product__variant--title mb-8">Weight : </legend>
                                                         <ul class="variant__size d-flex">
                                                             @foreach ($value->products->variants as $index => $item)
                                                                 <li class="variant__size--list" data-price="{{ $item->price }}" data-sale-price="{{ $item->sale_price }}">

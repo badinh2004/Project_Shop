@@ -19,27 +19,25 @@
                 <div class="account__login">
                     <div class="account__login--header mb-25">
                         <h2 class="account__login--header__title h3 mb-10">Reset Password</h2>
-                        <p class="account__login--header__desc">Reset Password if you area a returning customer.</p>
+                        <p class="account__login--header__desc">Reset Password if you are a returning customer.</p>
                     </div>
-                    <form action="{{route('postForgotpassword')}}" method="post">
+                    <form action="{{ route('postResetPass') }}" method="post">
                         @csrf
+                        <input type="hidden" name="customer_id" value="{{ $customer->id }}">
                         <div class="account__login--inner">
                             <label>
-                                <input class="account__login--input" placeholder="Email Addres" type="email" name="email">
-                                @Error('email')
-                                <small class="text-danger">{{$message}}</small>
-                                @enderror
+                                <input class="account__login--input" placeholder="Email Address" type="email" name="email" value="{{ $customer->email }}" readonly>
                             </label>
                             <label>
                                 <input class="account__login--input" placeholder="Password" type="password" name="password">
-                                @Error('password')
-                                <small class="text-danger">{{$message}}</small>
+                                @error('password')
+                                <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </label>
                             <label>
-                                <input class="account__login--input" placeholder="Confirm Password" type="password" name="confirmpassword">
-                                @Error('password')
-                                <small class="text-danger">{{$message}}</small>
+                                <input class="account__login--input" placeholder="Confirm Password" type="password" name="confirm_password">
+                                @error('confirm_password')
+                                <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </label>
                             <button class="account__login--btn btn" type="submit">Reset Password</button>

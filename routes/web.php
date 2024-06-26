@@ -54,6 +54,9 @@ Route::prefix('account')->group(function(){
     Route::get('/forgotpassword', [HomeController::class, 'forgotpassword'])->name('forgotpassword');
     Route::post('/postforgotpassword', [HomeController::class, 'postForgotpassword'])->name('postForgotpassword');
     Route::get('/logout', [HomeController::class, 'logout'])->name('logout');
+    Route::get('/ResetPass',[HomeController::class,'ResetPass'])->name('ResetPass');
+    Route::post('/postResetPass',[HomeController::class,'postResetPass'])->name('postResetPass');
+
 });
 //end route login-logout-register
 

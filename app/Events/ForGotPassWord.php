@@ -20,13 +20,13 @@ class ForGotPassWord
      * Create a new event instance.
      */
 
-     public $customer;
-     public $newPassword;
-     public function __construct(Customers $customer,$newPassword)
-     {
-        $this->customer = $customer;
-        $this->newPassword = $newPassword;
-     }
+    public $customer;
+    //  public $newPassword;
+    public function __construct(Customers $customer)
+    {
+       $this->customer = $customer;
+       // $this->newPassword = $newPassword;
+    }
  
 
     /**
