@@ -68,7 +68,7 @@
                                     </div>
                                     <div class="account__social d-flex justify-content-center mb-15">
                                         <a class="account__social--link facebook" target="_blank" href="https://www.facebook.com/">Facebook</a>
-                                        <a class="account__social--link google" target="_blank" href="https://www.google.com/">Google</a>
+                                        <a class="account__social--link google" target="_blank" href="{{route('google')}}">Google</a>
                                         <a class="account__social--link twitter" target="_blank" href="https://twitter.com/">Twitter</a>
                                     </div>
                                 </div>

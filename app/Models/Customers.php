@@ -24,8 +24,9 @@ class Customers extends Authenticatable
         'phone',
         'address',
         'image',
-        'password',	
-        'gender'
+        'password',
+        'gender',
+        'google_id'
     ];
 
     /**
@@ -47,6 +48,4 @@ class Customers extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
-    
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\admin\ProductVariantsController;
 use App\Http\Controllers\admin\VariantsController;
 use App\Http\Controllers\Fe\CartController;
+use App\Http\Controllers\Fe\CommentController;
 use App\Http\Controllers\Fe\FilterController;
 use App\Http\Controllers\Fe\HomeController;
 use App\Http\Controllers\Fe\ProductShopController;
@@ -57,6 +58,8 @@ Route::prefix('account')->group(function(){
     Route::get('/ResetPass',[HomeController::class,'ResetPass'])->name('ResetPass');
     Route::post('/postResetPass',[HomeController::class,'postResetPass'])->name('postResetPass');
 
+    Route::get('/auth/google',[HomeController::class,'redirectToGoogle'])->name('google');
+    Route::get('/auth/google/callback',[HomeController::class,'handleGoogleCallback']);
 });
 //end route login-logout-register
 
@@ -80,6 +83,8 @@ Route::get('/tim-kiem/{search}', [ProductShopController::class, 'search'])->name
 Route::get('/wishlist',[ProductShopController::class,'ViewWish'])->name('ViewWish');
 Route::get('/addWishList/{product}',[ProductShopController::class,'addWishlist'])->name('addWishlist');
 Route::get('/delete-wishlist/{id}', [ProductShopController::class, 'deleteWishList'])->name('deleteWishList');
+
+Route::post('/comment/{id}',[CommentController::class,'index'])->name('comment');
 
 
 

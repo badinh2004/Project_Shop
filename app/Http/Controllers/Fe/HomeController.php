@@ -17,20 +17,15 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Termwind\Components\Dd;
 use Illuminate\Support\Str;
+use Laravel\Socialite\Facades\Socialite;
 
 class HomeController extends Controller
 {
-    // public function __construct(Product $product,category $category)
-    // {
-    //     $product = Product::orderBy('id','desc')->get();
-    //     $cate = category::orderBy('id','desc')->get();
-    // }
     public function index()
     {
         $product = Product::orderBy('id', 'desc')->get();
         $product = $product->take(8);
         foreach ($product as $value) {
-            // Kiểm tra nếu sản phẩm được tạo trong vòng 2 ngày gần đây
             if ($value->created_at->greaterThanOrEqualTo(Carbon::now()->subDays(2))) {
                 $value->isNew = true;
             } else {
@@ -67,7 +62,6 @@ class HomeController extends Controller
 
     public function postRegister(Request $req)
     {
-        // dd($req->all());
         $validate = $req->validate([
             'name' => 'required',
             'email' => 'required|email',
@@ -99,6 +93,7 @@ class HomeController extends Controller
     {
         return view('fe.login-register/forgotpassword');
     }
+
     public function postForgotpassword(Request $req)
     {
         $validate = $req->validate([
@@ -106,12 +101,6 @@ class HomeController extends Controller
         ]);
 
         $customer = Customers::where('email', $req->email)->firstOrFail();
-        // $newPassword = Str::random(8);
-        // $customer->password = Hash::make($newPassword);
-        // $customer->save();
-
-
-        // event(new EventsForGotPassWord($customer, $newPassword));
         event(new EventsForGotPassWord($customer));
 
         return view('fe.checkmail');
@@ -155,5 +144,41 @@ class HomeController extends Controller
         $customer->save();
 
         return redirect()->route('login')->with('success', 'Password reset successfully.');
+    }
+
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+          
+    public function handleGoogleCallback()
+    {
+        try {
+        
+            $user = Socialite::driver('google')->user();
+         
+            $finduser = Customers::where('google_id', $user->id)->first();
+         
+            if($finduser){
+         
+                Auth::guard('customers')->login($finduser);
+        
+                return redirect()->intended('/');
+         
+            }else{
+                $newUser = Customers::updateOrCreate(['email' => $user->email],[
+                        'name' => $user->name,
+                        'google_id'=> $user->id,
+                        'password' => encrypt('123456dummy')
+                    ]);
+         
+                    Auth::guard('customers')->login($newUser);
+        
+                return redirect()->intended('/');
+            }
+        
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
     }
 }

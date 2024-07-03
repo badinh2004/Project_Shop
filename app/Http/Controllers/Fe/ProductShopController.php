@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Fe;
 
 use App\Http\Controllers\Controller;
 use App\Models\category;
+use App\Models\Comment;
 use App\Models\Customers;
 use App\Models\Product;
 use App\Models\ProductVariants;
@@ -40,9 +41,15 @@ class ProductShopController extends Controller
 
         $cate = category::all();
         $products = Product::where('slug', $slug)->first();
-        // dd($products->variants);
+        $product_id = $products->id;
+        $comment = Comment::where('product_id',$product_id)->orderBy('id', 'desc')->get();
+        $comments_count = Comment::where('product_id', $products->id)->count();
+        $totalRating = $comment->sum('rating');
+        $averageRating = $comments_count > 0 ? $totalRating / $comments_count : 0;
+        // dd($comment->Customers->name);
 
-        return view('fe.shop/product-detail', compact('products', 'cate'));
+
+        return view('fe.shop/product-detail', compact('products', 'cate','comment','comments_count','averageRating'));
     }
 
     public function handleSearchQuery(Request $req)
