@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Fe;
 
 use App\Http\Controllers\Controller;
+use App\Models\Blogs;
 use App\Models\category;
 use App\Models\Product;
 use App\Models\ProductVariants;
@@ -98,6 +99,15 @@ class FilterController extends Controller
         $productsort = Product::orderBy('created_at', 'desc')->take(3)->get();
 
         return view('fe.shop/products', compact('products', 'productsort', 'cates'));
+    }
+
+    public function filterBlogsByCategory($category)
+    {
+        // Tìm danh mục dựa trên tên
+        $category = category::where('name', $category)->first();
+        $blogs = Blogs::where('category_id', $category->id)->get();
+
+        return view('fe.blog.blogs', compact('blogs','category'));
     }
 
 }

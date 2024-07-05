@@ -41,6 +41,17 @@ class ProductShopController extends Controller
 
         $cate = category::all();
         $products = Product::where('slug', $slug)->first();
+        $productbycategory = Product::where('category_id', $products->category_id)
+            ->where('id', '!=', $products->id)
+            ->get();
+            foreach ($productbycategory as $value) {
+                // Kiểm tra nếu sản phẩm được tạo trong vòng 2 ngày gần đây
+                if ($value->created_at->greaterThanOrEqualTo(Carbon::now()->subDays(2))) {
+                    $value->isNew = true;
+                } else {
+                    $value->isNew = false;
+                }
+            }
         $product_id = $products->id;
         $comment = Comment::where('product_id',$product_id)->orderBy('id', 'desc')->get();
         $comments_count = Comment::where('product_id', $products->id)->count();
@@ -49,7 +60,7 @@ class ProductShopController extends Controller
         // dd($comment->Customers->name);
 
 
-        return view('fe.shop/product-detail', compact('products', 'cate','comment','comments_count','averageRating'));
+        return view('fe.shop/product-detail', compact('products', 'cate','comment','comments_count','averageRating','productbycategory'));
     }
 
     public function handleSearchQuery(Request $req)

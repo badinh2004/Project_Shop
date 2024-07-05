@@ -14,9 +14,11 @@
                                 </li>
                                 <li class="breadcrumb__content--menu__items"><span class="text-white">Product Details</span>
                                 </li>
-                                <li class="breadcrumb__content--menu__items"><span class="text-white">{{ $products->category->name }}</span>
+                                <li class="breadcrumb__content--menu__items"><span
+                                        class="text-white">{{ $products->category->name }}</span>
                                 </li>
-                                <li class="breadcrumb__content--menu__items"><span class="text-white">{{$products->name}}</span>
+                                <li class="breadcrumb__content--menu__items"><span
+                                        class="text-white">{{ $products->name }}</span>
                                 </li>
                             </ul>
                         </div>
@@ -92,23 +94,30 @@
                                 </div>
                                 <div class="product__items--rating d-flex align-items-center mb-15">
                                     @for ($i = 1; $i <= 5; $i++)
-                                    @if ($i <= $averageRating || $averageRating == 0)
-                                        <span class="reviews__ratting--icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="14.105" height="12.732" viewBox="0 0 10.105 9.732">
-                                                <path data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor" />
-                                            </svg>
-                                        </span>
-                                    @else
-                                        <span class="reviews__ratting--icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="14.105" height="12.732" viewBox="0 0 10.105 9.732">
-                                                <path data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="#c7c5c2" />
-                                            </svg>
-                                        </span>
-                                    @endif
+                                        @if ($i <= $averageRating || $averageRating == 0)
+                                            <span class="reviews__ratting--icon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14.105" height="12.732"
+                                                    viewBox="0 0 10.105 9.732">
+                                                    <path data-name="star - Copy"
+                                                        d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
+                                                        transform="translate(0 -0.018)" fill="currentColor" />
+                                                </svg>
+                                            </span>
+                                        @else
+                                            <span class="reviews__ratting--icon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14.105" height="12.732"
+                                                    viewBox="0 0 10.105 9.732">
+                                                    <path data-name="star - Copy"
+                                                        d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
+                                                        transform="translate(0 -0.018)" fill="#c7c5c2" />
+                                                </svg>
+                                            </span>
+                                        @endif
                                     @endfor
-                                    <span class="product__items--rating__count--number">({{$comments_count}})</span>
+                                    <span class="product__items--rating__count--number">({{ $comments_count }})</span>
                                 </div>
-                                <p class="product__details--info__desc mb-20">{{ $products->sortdescription }}</p>
+                                <p class="product__details--info__desc mb-20">
+                                    {{ Str::limit($products->sortdescription, 200) }}</p>
                                 <div class="product__variant">
                                     <div class="product__variant--list mb-20">
                                         <fieldset class="variant__input--fieldset">
@@ -263,58 +272,79 @@
                                             <h2 class="product__reviews--header__title h3 mb-20">Customer Reviews</h2>
                                             <div class="reviews__ratting d-flex align-items-center">
                                                 @for ($i = 1; $i <= 5; $i++)
-                                                @if ($i <= $averageRating || $averageRating == 0)
-                                                    <span class="reviews__ratting--icon">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="14.105" height="12.732" viewBox="0 0 10.105 9.732">
-                                                            <path data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor" />
-                                                        </svg>
-                                                    </span>
-                                                @else
-                                                    <span class="reviews__ratting--icon">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="14.105" height="12.732" viewBox="0 0 10.105 9.732">
-                                                            <path data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="#c7c5c2" />
-                                                        </svg>
-                                                    </span>
-                                                @endif
+                                                    @if ($i <= $averageRating || $averageRating == 0)
+                                                        <span class="reviews__ratting--icon">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="14.105"
+                                                                height="12.732" viewBox="0 0 10.105 9.732">
+                                                                <path data-name="star - Copy"
+                                                                    d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
+                                                                    transform="translate(0 -0.018)" fill="currentColor" />
+                                                            </svg>
+                                                        </span>
+                                                    @else
+                                                        <span class="reviews__ratting--icon">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="14.105"
+                                                                height="12.732" viewBox="0 0 10.105 9.732">
+                                                                <path data-name="star - Copy"
+                                                                    d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
+                                                                    transform="translate(0 -0.018)" fill="#c7c5c2" />
+                                                            </svg>
+                                                        </span>
+                                                    @endif
                                                 @endfor
-                                                <span class="reviews__summary--caption">Based on {{$comments_count}} reviews</span>
+                                                <span class="reviews__summary--caption">Based on {{ $comments_count }}
+                                                    reviews</span>
                                             </div>
                                             <a class="actions__newreviews--btn btn" href="#writereview">Write A Review</a>
                                         </div>
                                         <div class="reviews__comment--area" id="comments">
                                             @foreach ($comment as $item)
-                                            <div class="reviews__comment--list d-flex">
-                                                <div class="reviews__comment--thumb">
-                                                    <img src="assets/img/other/comment-thumb1.png" alt="comment-thumb">
-                                                </div>
-                                                <div class="reviews__comment--content">
-                                                    <div class="reviews__comment--top d-flex justify-content-between">
-                                                        <div class="reviews__comment--top__left">
-                                                            <h3 class="reviews__comment--content__title h4">{{$item->customer->name}}</h3>
-                                                            @php
-                                                                $rating = $item->rating;
-                                                            @endphp
-                                                            @for ($i = 1; $i <= 5; $i++)
-                                                                @if ($i <= $rating)
-                                                                    <span class="reviews__ratting--icon">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="14.105" height="12.732" viewBox="0 0 10.105 9.732">
-                                                                            <path data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor" />
-                                                                        </svg>
-                                                                    </span>
-                                                                @else
-                                                                    <span class="reviews__ratting--icon">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="14.105" height="12.732" viewBox="0 0 10.105 9.732">
-                                                                            <path data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="#c7c5c2" />
-                                                                        </svg>
-                                                                    </span>
-                                                                @endif
-                                                            @endfor
-                                                        </div>
-                                                        <span class="reviews__comment--content__date">{{ $item->created_at->format('F j, Y') }}</span>
+                                                <div class="reviews__comment--list d-flex">
+                                                    <div class="reviews__comment--thumb">
+                                                        <img src="assets/img/other/comment-thumb1.png"
+                                                            alt="comment-thumb">
                                                     </div>
-                                                    <p class="reviews__comment--content__desc">{{$item->content}}</p>
+                                                    <div class="reviews__comment--content">
+                                                        <div class="reviews__comment--top d-flex justify-content-between">
+                                                            <div class="reviews__comment--top__left">
+                                                                <h3 class="reviews__comment--content__title h4">
+                                                                    {{ $item->customer->name }}</h3>
+                                                                @php
+                                                                    $rating = $item->rating;
+                                                                @endphp
+                                                                @for ($i = 1; $i <= 5; $i++)
+                                                                    @if ($i <= $rating)
+                                                                        <span class="reviews__ratting--icon">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                width="14.105" height="12.732"
+                                                                                viewBox="0 0 10.105 9.732">
+                                                                                <path data-name="star - Copy"
+                                                                                    d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
+                                                                                    transform="translate(0 -0.018)"
+                                                                                    fill="currentColor" />
+                                                                            </svg>
+                                                                        </span>
+                                                                    @else
+                                                                        <span class="reviews__ratting--icon">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                width="14.105" height="12.732"
+                                                                                viewBox="0 0 10.105 9.732">
+                                                                                <path data-name="star - Copy"
+                                                                                    d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
+                                                                                    transform="translate(0 -0.018)"
+                                                                                    fill="#c7c5c2" />
+                                                                            </svg>
+                                                                        </span>
+                                                                    @endif
+                                                                @endfor
+                                                            </div>
+                                                            <span
+                                                                class="reviews__comment--content__date">{{ $item->created_at->format('F j, Y') }}</span>
+                                                        </div>
+                                                        <p class="reviews__comment--content__desc">{{ $item->content }}
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                            </div>
                                             @endforeach
                                             {{-- <div class="reviews__comment--list margin__left d-flex">
                                                 <div class="reviews__comment--thumb">
@@ -336,16 +366,23 @@
                                             </div> --}}
                                         </div>
                                         <div id="writereview" class="reviews__comment--reply__area">
-                                            <form id="commentForm" action="{{route('comment',$products->id)}}" method="POST">
+                                            <form id="commentForm" action="{{ route('commentproduct', $products->id) }}"
+                                                method="POST">
                                                 @csrf
                                                 <h3 class="reviews__comment--reply__title mb-15">Add a review </h3>
                                                 <div class="reviews__ratting d-flex align-items-center mb-20">
                                                     <ul class="d-flex">
                                                         @for ($i = 1; $i <= 5; $i++)
                                                             <li class="reviews__ratting--list">
-                                                                <span class="reviews__ratting--icon" id="reviews__ratting--icon" data-value="{{ $i }}">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14.105" height="12.732" viewBox="0 0 10.105 9.732">
-                                                                        <path data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor" />
+                                                                <span class="reviews__ratting--icon"
+                                                                    id="reviews__ratting--icon"
+                                                                    data-value="{{ $i }}">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14.105"
+                                                                        height="12.732" viewBox="0 0 10.105 9.732">
+                                                                        <path data-name="star - Copy"
+                                                                            d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
+                                                                            transform="translate(0 -0.018)"
+                                                                            fill="currentColor" />
                                                                     </svg>
                                                                 </span>
                                                             </li>
@@ -356,18 +393,6 @@
                                                 <div class="row">
                                                     <div class="col-12 mb-10">
                                                         <textarea class="reviews__comment--reply__textarea" placeholder="Your Comments...." name="content"></textarea>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6 mb-15">
-                                                        <label>
-                                                            <input class="reviews__comment--reply__input"
-                                                                placeholder="Your Name...." type="text">
-                                                        </label>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6 mb-15">
-                                                        <label>
-                                                            <input class="reviews__comment--reply__input"
-                                                                placeholder="Your Email...." type="email">
-                                                        </label>
                                                     </div>
                                                 </div>
                                                 <button class="btn text-white" data-hover="Submit"
@@ -416,26 +441,31 @@
         <section class="product__section product__section--style3 section--padding">
             <div class="container product3__section--container">
                 <div class="section__heading3 text-center mb-40">
-                    <h2 class="section__heading3--maintitle">You may also like</h2>
+                    <h2 class="section__heading3--maintitle">Products in the same category</h2>
                 </div>
                 <div
                     class="product__section--inner product3__section--inner__padding product__section--style3__inner product__swiper--activation swiper">
                     <div class="swiper-wrapper">
+                        @foreach ($productbycategory as $value)
                         <div class="swiper-slide">
                             <div class="product__items product__items2">
                                 <div class="product__items--thumbnail">
-                                    <a class="product__items--link" href="product-details.html">
+                                    <a class="product__items--link" href="{{ route('productDetail', ['product' => $value->category->name, 'slug' => $value->slug]) }}">
                                         <img class="product__items--img product__primary--img"
-                                            src="assets/img/product/product7.png" alt="product-img">
+                                            src="{{ asset('storage/images/' . $value->image) }}" alt="product-img">
                                         <img class="product__items--img product__secondary--img"
-                                            src="assets/img/product/product8.png" alt="product-img">
+                                            src="{{ asset('storage/images/' . $value->image) }}" alt="product-img">
                                     </a>
                                     <div class="product__badge">
-                                        <span class="product__badge--items sale">Sale</span>
+                                        @if ($value->isNew)
+                                            <span class="product__badge--items new">New</span>
+                                        @else
+                                            <span class="product__badge--items sale">Sale</span>
+                                        @endif
                                     </div>
                                     <ul class="product__items--action">
                                         <li class="product__items--action__list">
-                                            <a class="product__items--action__btn" href="wishlist.html">
+                                            <a class="product__items--action__btn" href="{{ route('addWishlist', $value->id) }}">
                                                 <svg class="product__items--action__btn--svg"
                                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                                     <path
@@ -480,12 +510,27 @@
                                     </ul>
                                 </div>
                                 <div class="product__items--content product__items2--content text-center">
-                                    <a class="add__to--cart__btn" href="cart.html">+ Add to cart</a>
+                                    <form id="addToCartForm{{ $value->id }}" action="{{ route('addToCart', $value->id) }}" method="get">
+                                        @csrf
+                                        <input type="hidden" name="variant_id" value="{{ $value->variants->first()->id }}">
+                                        <input type="hidden" name="quantity" value="1">
+                                        <a href="javascript:void(0)" onclick="submitForm('addToCartForm{{ $value->id }}')" class="add__to--cart__btn" style="font-size: 1.40rem;">+ add to cart</a>
+                                    </form>
                                     <h3 class="product__items--content__title h4"><a
-                                            href="product-details.html">Green-surface</a></h3>
+                                            href="{{ route('productDetail', ['product' => $value->category->name, 'slug' => $value->slug]) }}">{{$value->name}}-{{$value->variants->first()->size}}</a></h3>
                                     <div class="product__items--price">
-                                        <span class="current__price">$38.00</span>
-                                        <span class="old__price">$40.00</span>
+                                        <span class="current__price">
+                                            @foreach ($value->variants as $var)
+                                                <p>{{ $var->sale_price }}$</p>
+                                            @break
+                                            @endforeach
+                                        </span>
+                                        <span class="old__price">
+                                            @foreach ($value->variants as $var)
+                                                <p>{{ $var->price }}$</p>
+                                            @break
+                                            @endforeach
+                                        </span>
                                     </div>
                                     <div class="product__items--rating d-flex justify-content-center align-items-center">
                                         <ul class="d-flex">
@@ -545,502 +590,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="swiper-slide">
-                            <div class="product__items product__items2">
-                                <div class="product__items--thumbnail">
-                                    <a class="product__items--link" href="product-details.html">
-                                        <img class="product__items--img product__primary--img"
-                                            src="assets/img/product/product2.png" alt="product-img">
-                                        <img class="product__items--img product__secondary--img"
-                                            src="assets/img/product/product1.png" alt="product-img">
-                                    </a>
-                                    <div class="product__badge">
-                                        <span class="product__badge--items sale">Sale</span>
-                                    </div>
-                                    <ul class="product__items--action">
-                                        <li class="product__items--action__list">
-                                            <a class="product__items--action__btn" href="wishlist.html">
-                                                <svg class="product__items--action__btn--svg"
-                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                                    <path
-                                                        d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z"
-                                                        fill="none" stroke="currentColor" stroke-linecap="round"
-                                                        stroke-linejoin="round" stroke-width="32" />
-                                                </svg>
-                                                <span class="visually-hidden">Wishlist</span>
-                                            </a>
-                                        </li>
-                                        <li class="product__items--action__list">
-                                            <a class="product__items--action__btn" data-open="modal1"
-                                                href="javascript:void(0)">
-                                                <svg class="product__items--action__btn--svg"
-                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                                    <path
-                                                        d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
-                                                        fill="none" stroke="currentColor" stroke-miterlimit="10"
-                                                        stroke-width="32" />
-                                                    <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                                        stroke-miterlimit="10" stroke-width="32"
-                                                        d="M338.29 338.29L448 448" />
-                                                </svg>
-                                                <span class="visually-hidden">Quick View</span>
-                                            </a>
-                                        </li>
-                                        <li class="product__items--action__list">
-                                            <a class="product__items--action__btn" href="compare.html">
-                                                <svg class="product__items--action__btn--svg"
-                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                                    <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                                        stroke-linejoin="round" stroke-width="32"
-                                                        d="M400 304l48 48-48 48M400 112l48 48-48 48M64 352h85.19a80 80 0 0066.56-35.62L256 256" />
-                                                    <path
-                                                        d="M64 160h85.19a80 80 0 0166.56 35.62l80.5 120.76A80 80 0 00362.81 352H416M416 160h-53.19a80 80 0 00-66.56 35.62L288 208"
-                                                        fill="none" stroke="currentColor" stroke-linecap="round"
-                                                        stroke-linejoin="round" stroke-width="32" />
-                                                </svg>
-                                                <span class="visually-hidden">Compare</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="product__items--content product__items2--content text-center">
-                                    <a class="add__to--cart__btn" href="cart.html">+ Add to cart</a>
-                                    <h3 class="product__items--content__title h4"><a
-                                            href="product-details.html">Red-tomato-isolated</a></h3>
-                                    <div class="product__items--price">
-                                        <span class="current__price">$52.00</span>
-                                        <span class="old__price">$62.00</span>
-                                    </div>
-                                    <div class="product__items--rating d-flex justify-content-center align-items-center">
-                                        <ul class="d-flex">
-                                            <li class="product__items--rating__list">
-                                                <span class="product__items--rating__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732"
-                                                        viewBox="0 0 10.105 9.732">
-                                                        <path data-name="star - Copy"
-                                                            d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                                            transform="translate(0 -0.018)" fill="currentColor" />
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="product__items--rating__list">
-                                                <span class="product__items--rating__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732"
-                                                        viewBox="0 0 10.105 9.732">
-                                                        <path data-name="star - Copy"
-                                                            d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                                            transform="translate(0 -0.018)" fill="currentColor" />
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="product__items--rating__list">
-                                                <span class="product__items--rating__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732"
-                                                        viewBox="0 0 10.105 9.732">
-                                                        <path data-name="star - Copy"
-                                                            d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                                            transform="translate(0 -0.018)" fill="currentColor" />
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="product__items--rating__list">
-                                                <span class="product__items--rating__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732"
-                                                        viewBox="0 0 10.105 9.732">
-                                                        <path data-name="star - Copy"
-                                                            d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                                            transform="translate(0 -0.018)" fill="currentColor" />
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="product__items--rating__list">
-                                                <span class="product__items--rating__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732"
-                                                        viewBox="0 0 10.105 9.732">
-                                                        <path data-name="star - Copy"
-                                                            d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                                            transform="translate(0 -0.018)" fill="#c7c5c2" />
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                        </ul>
-                                        <span class="product__items--rating__count--number">(24)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="product__items product__items2">
-                                <div class="product__items--thumbnail">
-                                    <a class="product__items--link" href="product-details.html">
-                                        <img class="product__items--img product__primary--img"
-                                            src="assets/img/product/product1.png" alt="product-img">
-                                        <img class="product__items--img product__secondary--img"
-                                            src="assets/img/product/product2.png" alt="product-img">
-                                    </a>
-                                    <div class="product__badge">
-                                        <span class="product__badge--items sale">Sale</span>
-                                    </div>
-                                    <ul class="product__items--action">
-                                        <li class="product__items--action__list">
-                                            <a class="product__items--action__btn" href="wishlist.html">
-                                                <svg class="product__items--action__btn--svg"
-                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                                    <path
-                                                        d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z"
-                                                        fill="none" stroke="currentColor" stroke-linecap="round"
-                                                        stroke-linejoin="round" stroke-width="32" />
-                                                </svg>
-                                                <span class="visually-hidden">Wishlist</span>
-                                            </a>
-                                        </li>
-                                        <li class="product__items--action__list">
-                                            <a class="product__items--action__btn" data-open="modal1"
-                                                href="javascript:void(0)">
-                                                <svg class="product__items--action__btn--svg"
-                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                                    <path
-                                                        d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
-                                                        fill="none" stroke="currentColor" stroke-miterlimit="10"
-                                                        stroke-width="32" />
-                                                    <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                                        stroke-miterlimit="10" stroke-width="32"
-                                                        d="M338.29 338.29L448 448" />
-                                                </svg>
-                                                <span class="visually-hidden">Quick View</span>
-                                            </a>
-                                        </li>
-                                        <li class="product__items--action__list">
-                                            <a class="product__items--action__btn" href="compare.html">
-                                                <svg class="product__items--action__btn--svg"
-                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                                    <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                                        stroke-linejoin="round" stroke-width="32"
-                                                        d="M400 304l48 48-48 48M400 112l48 48-48 48M64 352h85.19a80 80 0 0066.56-35.62L256 256" />
-                                                    <path
-                                                        d="M64 160h85.19a80 80 0 0166.56 35.62l80.5 120.76A80 80 0 00362.81 352H416M416 160h-53.19a80 80 0 00-66.56 35.62L288 208"
-                                                        fill="none" stroke="currentColor" stroke-linecap="round"
-                                                        stroke-linejoin="round" stroke-width="32" />
-                                                </svg>
-                                                <span class="visually-hidden">Compare</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="product__items--content product__items2--content text-center">
-                                    <a class="add__to--cart__btn" href="cart.html">+ Add to cart</a>
-                                    <h3 class="product__items--content__title h4"><a
-                                            href="product-details.html">Vegetable-healthy</a></h3>
-                                    <div class="product__items--price">
-                                        <span class="current__price">$39.00</span>
-                                        <span class="old__price">$59.00</span>
-                                    </div>
-                                    <div class="product__items--rating d-flex justify-content-center align-items-center">
-                                        <ul class="d-flex">
-                                            <li class="product__items--rating__list">
-                                                <span class="product__items--rating__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732"
-                                                        viewBox="0 0 10.105 9.732">
-                                                        <path data-name="star - Copy"
-                                                            d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                                            transform="translate(0 -0.018)" fill="currentColor" />
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="product__items--rating__list">
-                                                <span class="product__items--rating__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732"
-                                                        viewBox="0 0 10.105 9.732">
-                                                        <path data-name="star - Copy"
-                                                            d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                                            transform="translate(0 -0.018)" fill="currentColor" />
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="product__items--rating__list">
-                                                <span class="product__items--rating__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732"
-                                                        viewBox="0 0 10.105 9.732">
-                                                        <path data-name="star - Copy"
-                                                            d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                                            transform="translate(0 -0.018)" fill="currentColor" />
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="product__items--rating__list">
-                                                <span class="product__items--rating__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732"
-                                                        viewBox="0 0 10.105 9.732">
-                                                        <path data-name="star - Copy"
-                                                            d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                                            transform="translate(0 -0.018)" fill="currentColor" />
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="product__items--rating__list">
-                                                <span class="product__items--rating__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732"
-                                                        viewBox="0 0 10.105 9.732">
-                                                        <path data-name="star - Copy"
-                                                            d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                                            transform="translate(0 -0.018)" fill="#c7c5c2" />
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                        </ul>
-                                        <span class="product__items--rating__count--number">(24)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="product__items product__items2">
-                                <div class="product__items--thumbnail">
-                                    <a class="product__items--link" href="product-details.html">
-                                        <img class="product__items--img product__primary--img"
-                                            src="assets/img/product/product3.png" alt="product-img">
-                                        <img class="product__items--img product__secondary--img"
-                                            src="assets/img/product/product4.png" alt="product-img">
-                                    </a>
-                                    <div class="product__badge">
-                                        <span class="product__badge--items sale">Sale</span>
-                                    </div>
-                                    <ul class="product__items--action">
-                                        <li class="product__items--action__list">
-                                            <a class="product__items--action__btn" href="wishlist.html">
-                                                <svg class="product__items--action__btn--svg"
-                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                                    <path
-                                                        d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z"
-                                                        fill="none" stroke="currentColor" stroke-linecap="round"
-                                                        stroke-linejoin="round" stroke-width="32" />
-                                                </svg>
-                                                <span class="visually-hidden">Wishlist</span>
-                                            </a>
-                                        </li>
-                                        <li class="product__items--action__list">
-                                            <a class="product__items--action__btn" data-open="modal1"
-                                                href="javascript:void(0)">
-                                                <svg class="product__items--action__btn--svg"
-                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                                    <path
-                                                        d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
-                                                        fill="none" stroke="currentColor" stroke-miterlimit="10"
-                                                        stroke-width="32" />
-                                                    <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                                        stroke-miterlimit="10" stroke-width="32"
-                                                        d="M338.29 338.29L448 448" />
-                                                </svg>
-                                                <span class="visually-hidden">Quick View</span>
-                                            </a>
-                                        </li>
-                                        <li class="product__items--action__list">
-                                            <a class="product__items--action__btn" href="compare.html">
-                                                <svg class="product__items--action__btn--svg"
-                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                                    <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                                        stroke-linejoin="round" stroke-width="32"
-                                                        d="M400 304l48 48-48 48M400 112l48 48-48 48M64 352h85.19a80 80 0 0066.56-35.62L256 256" />
-                                                    <path
-                                                        d="M64 160h85.19a80 80 0 0166.56 35.62l80.5 120.76A80 80 0 00362.81 352H416M416 160h-53.19a80 80 0 00-66.56 35.62L288 208"
-                                                        fill="none" stroke="currentColor" stroke-linecap="round"
-                                                        stroke-linejoin="round" stroke-width="32" />
-                                                </svg>
-                                                <span class="visually-hidden">Compare</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="product__items--content product__items2--content text-center">
-                                    <a class="add__to--cart__btn" href="cart.html">+ Add to cart</a>
-                                    <h3 class="product__items--content__title h4"><a
-                                            href="product-details.html">Fresh-whole-fish</a></h3>
-                                    <div class="product__items--price">
-                                        <span class="current__price">$42.00</span>
-                                        <span class="old__price">$48.00</span>
-                                    </div>
-                                    <div class="product__items--rating d-flex justify-content-center align-items-center">
-                                        <ul class="d-flex">
-                                            <li class="product__items--rating__list">
-                                                <span class="product__items--rating__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732"
-                                                        viewBox="0 0 10.105 9.732">
-                                                        <path data-name="star - Copy"
-                                                            d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                                            transform="translate(0 -0.018)" fill="currentColor" />
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="product__items--rating__list">
-                                                <span class="product__items--rating__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732"
-                                                        viewBox="0 0 10.105 9.732">
-                                                        <path data-name="star - Copy"
-                                                            d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                                            transform="translate(0 -0.018)" fill="currentColor" />
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="product__items--rating__list">
-                                                <span class="product__items--rating__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732"
-                                                        viewBox="0 0 10.105 9.732">
-                                                        <path data-name="star - Copy"
-                                                            d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                                            transform="translate(0 -0.018)" fill="currentColor" />
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="product__items--rating__list">
-                                                <span class="product__items--rating__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732"
-                                                        viewBox="0 0 10.105 9.732">
-                                                        <path data-name="star - Copy"
-                                                            d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                                            transform="translate(0 -0.018)" fill="currentColor" />
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="product__items--rating__list">
-                                                <span class="product__items--rating__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732"
-                                                        viewBox="0 0 10.105 9.732">
-                                                        <path data-name="star - Copy"
-                                                            d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                                            transform="translate(0 -0.018)" fill="#c7c5c2" />
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                        </ul>
-                                        <span class="product__items--rating__count--number">(24)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="product__items product__items2">
-                                <div class="product__items--thumbnail">
-                                    <a class="product__items--link" href="product-details.html">
-                                        <img class="product__items--img product__primary--img"
-                                            src="assets/img/product/product5.png" alt="product-img">
-                                        <img class="product__items--img product__secondary--img"
-                                            src="assets/img/product/product6.png" alt="product-img">
-                                    </a>
-                                    <div class="product__badge">
-                                        <span class="product__badge--items sale">Sale</span>
-                                    </div>
-                                    <ul class="product__items--action">
-                                        <li class="product__items--action__list">
-                                            <a class="product__items--action__btn" href="wishlist.html">
-                                                <svg class="product__items--action__btn--svg"
-                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                                    <path
-                                                        d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z"
-                                                        fill="none" stroke="currentColor" stroke-linecap="round"
-                                                        stroke-linejoin="round" stroke-width="32" />
-                                                </svg>
-                                                <span class="visually-hidden">Wishlist</span>
-                                            </a>
-                                        </li>
-                                        <li class="product__items--action__list">
-                                            <a class="product__items--action__btn" data-open="modal1"
-                                                href="javascript:void(0)">
-                                                <svg class="product__items--action__btn--svg"
-                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                                    <path
-                                                        d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
-                                                        fill="none" stroke="currentColor" stroke-miterlimit="10"
-                                                        stroke-width="32" />
-                                                    <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                                        stroke-miterlimit="10" stroke-width="32"
-                                                        d="M338.29 338.29L448 448" />
-                                                </svg>
-                                                <span class="visually-hidden">Quick View</span>
-                                            </a>
-                                        </li>
-                                        <li class="product__items--action__list">
-                                            <a class="product__items--action__btn" href="compare.html">
-                                                <svg class="product__items--action__btn--svg"
-                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                                    <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                                        stroke-linejoin="round" stroke-width="32"
-                                                        d="M400 304l48 48-48 48M400 112l48 48-48 48M64 352h85.19a80 80 0 0066.56-35.62L256 256" />
-                                                    <path
-                                                        d="M64 160h85.19a80 80 0 0166.56 35.62l80.5 120.76A80 80 0 00362.81 352H416M416 160h-53.19a80 80 0 00-66.56 35.62L288 208"
-                                                        fill="none" stroke="currentColor" stroke-linecap="round"
-                                                        stroke-linejoin="round" stroke-width="32" />
-                                                </svg>
-                                                <span class="visually-hidden">Compare</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="product__items--content product__items2--content text-center">
-                                    <a class="add__to--cart__btn" href="cart.html">+ Add to cart</a>
-                                    <h3 class="product__items--content__title h4"><a
-                                            href="product-details.html">Chili-pepper</a></h3>
-                                    <div class="product__items--price">
-                                        <span class="current__price">$38.00</span>
-                                        <span class="old__price">$44.00</span>
-                                    </div>
-                                    <div class="product__items--rating d-flex justify-content-center align-items-center">
-                                        <ul class="d-flex">
-                                            <li class="product__items--rating__list">
-                                                <span class="product__items--rating__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10.105"
-                                                        height="9.732" viewBox="0 0 10.105 9.732">
-                                                        <path data-name="star - Copy"
-                                                            d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                                            transform="translate(0 -0.018)" fill="currentColor" />
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="product__items--rating__list">
-                                                <span class="product__items--rating__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10.105"
-                                                        height="9.732" viewBox="0 0 10.105 9.732">
-                                                        <path data-name="star - Copy"
-                                                            d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                                            transform="translate(0 -0.018)" fill="currentColor" />
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="product__items--rating__list">
-                                                <span class="product__items--rating__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10.105"
-                                                        height="9.732" viewBox="0 0 10.105 9.732">
-                                                        <path data-name="star - Copy"
-                                                            d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                                            transform="translate(0 -0.018)" fill="currentColor" />
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="product__items--rating__list">
-                                                <span class="product__items--rating__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10.105"
-                                                        height="9.732" viewBox="0 0 10.105 9.732">
-                                                        <path data-name="star - Copy"
-                                                            d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                                            transform="translate(0 -0.018)" fill="currentColor" />
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="product__items--rating__list">
-                                                <span class="product__items--rating__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10.105"
-                                                        height="9.732" viewBox="0 0 10.105 9.732">
-                                                        <path data-name="star - Copy"
-                                                            d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                                            transform="translate(0 -0.018)" fill="#c7c5c2" />
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                        </ul>
-                                        <span class="product__items--rating__count--number">(24)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                     <div class="swiper__nav--btn swiper-button-next"></div>
                     <div class="swiper__nav--btn swiper-button-prev"></div>
@@ -1054,12 +604,17 @@
 @endsection
 @section('script')
     <script>
+        // submit from add to cart
+        function submitForm(formId) {
+        document.getElementById(formId).submit();
+        }
+
+        // variant price 
         document.querySelectorAll('.variant__size--list input[type="radio"]').forEach(item => {
             item.addEventListener('click', function() {
                 let variantId = this.getAttribute('data-variant-id');
                 document.querySelector('input[name="variant_id"]').value = variantId;
 
-                // Optional: Update price display based on the selected variant
                 let price = parseFloat(this.parentNode.getAttribute('data-price'));
                 let salePrice = parseFloat(this.parentNode.getAttribute('data-sale-price'));
 
@@ -1067,8 +622,6 @@
                 document.getElementById('sale-price').textContent = '$' + salePrice;
             });
         });
-
-        // Optional: Initialize price display for the first variant on page load
         let initialPrice = parseFloat(document.querySelector('.variant__size--list:first-of-type').getAttribute(
             'data-price'));
         let initialSalePrice = parseFloat(document.querySelector('.variant__size--list:first-of-type').getAttribute(
@@ -1077,7 +630,9 @@
         document.getElementById('product-price').textContent = '$' + initialPrice;
         document.getElementById('sale-price').textContent = '$' + initialSalePrice;
 
-        document.addEventListener('DOMContentLoaded', function () {
+
+        // rating comment
+        document.addEventListener('DOMContentLoaded', function() {
             document.querySelector('#rating').value = 5;
             document.querySelectorAll('#reviews__ratting--icon svg path').forEach((path, idx) => {
                 if (idx < 5) {
@@ -1085,7 +640,6 @@
                 }
             });
         });
-
 
         document.querySelectorAll('#reviews__ratting--icon').forEach((star, index) => {
             star.addEventListener('click', () => {
@@ -1102,8 +656,8 @@
             });
         });
 
-
-        document.addEventListener('DOMContentLoaded',function(){
+        // submit from comment
+        document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('commentForm').addEventListener('submit', function(e) {
                 e.preventDefault();
 
@@ -1112,19 +666,21 @@
                 console.log(formData);
 
                 axios.post(form.getAttribute('action'), formData)
-                .then(function(response) {
-                    if(response.data.success) {
-                        alert(response.data.message);
-                        
-                        form.reset();
-                        var newComment = response.data.comment;
-                        var ratingStars = Array.from({length: 5}, (_, i) => 
-                        i < newComment.rating ? 
-                        '<span class="reviews__ratting--icon"><svg xmlns="http://www.w3.org/2000/svg" width="14.105" height="12.732" viewBox="0 0 10.105 9.732"><path data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor" /></svg></span>' :
-                        '<span class="reviews__ratting--icon"><svg xmlns="http://www.w3.org/2000/svg" width="14.105" height="12.732" viewBox="0 0 10.105 9.732"><path data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="#c7c5c2" /></svg></span>'
-                        ).join('');
+                    .then(function(response) {
+                        if (response.data.success) {
+                            alert(response.data.message);
 
-                        var commentHTML = `
+                            form.reset();
+                            var newComment = response.data.comment;
+                            var ratingStars = Array.from({
+                                    length: 5
+                                }, (_, i) =>
+                                i < newComment.rating ?
+                                '<span class="reviews__ratting--icon"><svg xmlns="http://www.w3.org/2000/svg" width="14.105" height="12.732" viewBox="0 0 10.105 9.732"><path data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor" /></svg></span>' :
+                                '<span class="reviews__ratting--icon"><svg xmlns="http://www.w3.org/2000/svg" width="14.105" height="12.732" viewBox="0 0 10.105 9.732"><path data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="#c7c5c2" /></svg></span>'
+                            ).join('');
+
+                            var commentHTML = `
                         <div class="reviews__comment--list d-flex">
                             <div class="reviews__comment--thumb">
                                 <img src="assets/img/other/comment-thumb1.png" alt="comment-thumb">
@@ -1144,22 +700,23 @@
                                 <p class="reviews__comment--content__desc">${newComment.content}</p>
                             </div>
                         </div>`;
-                        document.querySelector('#comments').insertAdjacentHTML('beforeend', commentHTML);
+                            document.querySelector('#comments').insertAdjacentHTML('beforeend',
+                                commentHTML);
 
-                    } else {
-                        alert('Something went wrong, please try again.');
-                    }
-                })
-                .catch(function(error) {
-                    console.error('Error:', error);
-                    if (error.response) {
-                        console.error('Response data:', error.response.data);
-                        console.error('Response status:', error.response.status);
-                        console.error('Response headers:', error.response.headers);
-                    }
+                        } else {
+                            alert('Something went wrong, please try again.');
+                        }
+                    })
+                    .catch(function(error) {
+                        console.error('Error:', error);
+                        if (error.response) {
+                            console.error('Response data:', error.response.data);
+                            console.error('Response status:', error.response.status);
+                            console.error('Response headers:', error.response.headers);
+                        }
 
-                    alert('An error occurred, please try again.');
-                });
+                        alert('An error occurred, please try again.');
+                    });
             });
         })
     </script>

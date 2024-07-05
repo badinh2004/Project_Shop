@@ -18,7 +18,6 @@ class ProductController extends Controller
      */
     public function index()
     {
-        // Sử dụng Eager Loading để lấy dữ liệu sản phẩm cùng với danh mục và biến thể
         $pro = Product::with(['categorys', 'variants'])->get();
         return view('admin.product.tableProduct', compact('pro'));
     }

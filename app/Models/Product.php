@@ -28,7 +28,6 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
-
     public function image()
     {
         return $this->hasMany(ProductImages::class);
@@ -37,6 +36,10 @@ class Product extends Model
     public function variants()
     {
         return $this->hasMany(ProductVariants::class, 'ProductID','id');
+    }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'product_id','id');
     }
     // public function variant()
     // {

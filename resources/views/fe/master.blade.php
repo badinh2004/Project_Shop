@@ -299,7 +299,7 @@
                                     </ul>
                                 </li>
                                 <li class="header__menu--items">
-                                    <a class="header__menu--link" href="blog.html">Blog
+                                    <a class="header__menu--link" href="{{route('blogs')}}">Blog
                                         <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
                                             width="12" height="7.41" viewBox="0 0 12 7.41">
                                             <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
@@ -307,7 +307,7 @@
                                         </svg>
                                     </a>
                                     <ul class="header__sub--menu">
-                                        <li class="header__sub--menu__items"><a href="blog.html"
+                                        <li class="header__sub--menu__items"><a href="{{route('blogs')}}"
                                                 class="header__sub--menu__link">Blog Grid</a></li>
                                         <li class="header__sub--menu__items"><a href="blog-details.html"
                                                 class="header__sub--menu__link">Blog Details</a></li>
@@ -539,7 +539,7 @@
                             </ul>
                         </li>
                         <li class="offcanvas__menu_li">
-                            <a class="offcanvas__menu_item" href="blog.html">Blog</a>
+                            <a class="offcanvas__menu_item" href="{{route('blogs')}}">Blog</a>
                             <ul class="offcanvas__sub_menu">
                                 <li class="offcanvas__sub_menu_li"><a href="blog.html"
                                         class="offcanvas__sub_menu_item">Blog Grid</a></li>

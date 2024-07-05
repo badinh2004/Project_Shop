@@ -5,19 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Comment extends Model
+class CommentsBlog extends Model
 {
     use HasFactory;
-    protected $table  = 'comments';
-    protected $fillable = ['customer_id','product_id','reply_id','content','rating','created_at'];
+    protected $table  = 'commentsblog';
+    protected $fillable = ['customer_id','blog_id','reply_id','content','created_at'];
 
     public function customer()
     {
         return $this->belongsTo(Customers::class, 'customer_id');
     }
 
-    public function product()
+    public function blog()
     {
-        return $this->belongsTo(Product::class, 'product_id','id');
+        return $this->belongsTo(Blogs::class, 'blog_id','id');
     }
 }

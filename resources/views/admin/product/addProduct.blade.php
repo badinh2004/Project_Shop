@@ -12,10 +12,12 @@
                 @csrf
 
                 <div class="box-body">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Name</label>
-                        <input type="text" name="name" class="form-control" id="exampleInputEmail1"
-                            placeholder="Enter Name Product">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Name</label>
+                            <input type="text" name="name" class="form-control" id="title"
+                                placeholder="Enter Name Product " onkeyup="ChangeToSlug();">
+                        </div>
                     </div>
                     <div id="variants">
                         <div class="form-group form-check form-check-inline">
@@ -63,8 +65,8 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Slug</label>
-                    <input type="text" name="slug" class="form-control" id="exampleInputEmail1"
-                        placeholder="Enter Name Product">
+                    <input type="text" name="slug" class="form-control" id="slug"
+                        placeholder="Enter Slug">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Origin</label>
@@ -100,54 +102,7 @@
     </div>
 @endsection
 @section('script')
-    <script>
-        let variantIndex = 1;
-
-        function addVariant() {
-            const variantsDiv = document.getElementById('variants');
-            const variantDiv = document.createElement('div');
-            variantDiv.innerHTML = `
-<div id="variants">
-            <div class="form-group form-check form-check-inline">
-              <label for="exampleInputEmail1">Enter size</label>
-              <div class="radio">
-                <label>
-                  <input type="radio" name="variants[${variantIndex}][size]" id="input" value="500g">
-                  500g
-                </label>
-                <label>
-                  <input type="radio" name="variants[${variantIndex}][size]" id="input" value="1kg">
-                  1kg
-                </label>
-                <label>
-                  <input type="radio" name="variants[${variantIndex}][size]" id="input" value="2kg" >
-                  2kg
-                </label>
-                <label>
-                  <input type="radio" name="variants[${variantIndex}][size]" id="input" value="5kg" >
-                  5kg
-                </label>
-              </div>
-            </div>
-            <div class="form-group">
-            <label for="exampleInputEmail1">Price</label>
-            <input type="text" name="variants[${variantIndex}][price]" class="form-control" id="exampleInputEmail1" placeholder="Enter Price">
-            </div>
-            <div class="form-group">
-              <label for="exampleInputEmail1">Sale Price</label>
-              <input type="text" name="variants[${variantIndex}][sale_price]" class="form-control" id="exampleInputEmail1" placeholder="Enter Price">
-              </div>
-            <div class="form-group">
-            <label for="exampleInputEmail1">Quatity</label>
-            <input type="text" name="variants[${variantIndex}][quatity]" class="form-control" id="exampleInputEmail1" placeholder="Enter Price">
-            </div>
-          </div>
-`;
-            variantsDiv.appendChild(variantDiv);
-            variantIndex++;
-        }
-    </script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
 
     <script>
         ClassicEditor
@@ -158,5 +113,87 @@
             .catch(error => {
                 console.error(error);
             });
+
+        function ChangeToSlug() {
+            var title, slug;
+
+            //Lấy text từ thẻ input title 
+            title = document.getElementById("title").value;
+
+            //Đổi chữ hoa thành chữ thường
+            slug = title.toLowerCase();
+
+            //Đổi ký tự có dấu thành không dấu
+            slug = slug.replace(/á|à|ả|ạ|ã|ă|ắ|ằ|ẳ|ẵ|ặ|â|ấ|ầ|ẩ|ẫ|ậ/gi, 'a');
+            slug = slug.replace(/é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ/gi, 'e');
+            slug = slug.replace(/i|í|ì|ỉ|ĩ|ị/gi, 'i');
+            slug = slug.replace(/ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ/gi, 'o');
+            slug = slug.replace(/ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự/gi, 'u');
+            slug = slug.replace(/ý|ỳ|ỷ|ỹ|ỵ/gi, 'y');
+            slug = slug.replace(/đ/gi, 'd');
+            //Xóa các ký tự đặt biệt
+            slug = slug.replace(/\`|\~|\!|\@|\#|\||\$|\%|\^|\&|\*|\(|\)|\+|\=|\,|\.|\/|\?|\>|\<|\'|\"|\:|\;|_/gi, '');
+            //Đổi khoảng trắng thành ký tự gạch ngang
+            slug = slug.replace(/ /gi, "-");
+            //Đổi nhiều ký tự gạch ngang liên tiếp thành 1 ký tự gạch ngang
+            //Phòng trường hợp người nhập vào quá nhiều ký tự trắng
+            slug = slug.replace(/\-\-\-\-\-/gi, '-');
+            slug = slug.replace(/\-\-\-\-/gi, '-');
+            slug = slug.replace(/\-\-\-/gi, '-');
+            slug = slug.replace(/\-\-/gi, '-');
+            //Xóa các ký tự gạch ngang ở đầu và cuối
+            slug = '@' + slug + '@';
+            slug = slug.replace(/\@\-|\-\@|\@/gi, '');
+            //In slug ra textbox có id “slug”
+            document.getElementById('slug').value = slug;
+        }
     </script>
+    <script>
+        let variantIndex = 1;
+
+        function addVariant() {
+            const variantsDiv = document.getElementById('variants');
+            const variantDiv = document.createElement('div');
+            variantDiv.innerHTML = `
+                            <div id="variants">
+                                <div class="form-group form-check form-check-inline">
+                                    <label for="exampleInputEmail1">Enter size</label>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="variants[${variantIndex}][size]" id="input" value="500g">
+                                            500g
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="variants[${variantIndex}][size]" id="input" value="1kg">
+                                            1kg
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="variants[${variantIndex}][size]" id="input" value="2kg" >
+                                            2kg
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="variants[${variantIndex}][size]" id="input" value="5kg" >
+                                            5kg
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Price</label>
+                                    <input type="text" name="variants[${variantIndex}][price]" class="form-control" id="exampleInputEmail1" placeholder="Enter Price">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Sale Price</label>
+                                    <input type="text" name="variants[${variantIndex}][sale_price]" class="form-control" id="exampleInputEmail1" placeholder="Enter Price">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Quatity</label>
+                                    <input type="text" name="variants[${variantIndex}][quatity]" class="form-control" id="exampleInputEmail1" placeholder="Enter Price">
+                                </div>
+                            </div>
+`;
+            variantsDiv.appendChild(variantDiv);
+            variantIndex++;
+        }
+    </script>
+    
 @endsection

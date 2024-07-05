@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>AdminLTE 2 | Blank Page</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -225,7 +226,7 @@
         </li>
 
         <li class="treeview">
-          <a href="#">
+          <a href="{{route('product.index')}}">
             <i class="fa fa-dashboard"></i> <span>Products</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -238,7 +239,7 @@
         </li>
 
         <li class="treeview">
-            <a href="#">
+            <a href="{{route('category.index')}}">
               <i class="fa fa-dashboard"></i> <span>Categorys</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
@@ -250,15 +251,15 @@
             </ul>
           </li>
           <li class="treeview">
-            <a href="#">
-              <i class="fa fa-dashboard"></i> <span>Variants</span>
+            <a href="{{route('blogs.index')}}">
+              <i class="fa fa-dashboard"></i> <span>Blogs</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
             </a>
             <ul class="treeview-menu">
-              <li><a href="{{route('variant.index')}}"><i class="fa fa-circle-o"></i>Table Variants</a></li>
-              <li><a href=""><i class="fa fa-circle-o"></i>Add Variants</a></li>
+              <li><a href="{{route('blogs.index')}}"><i class="fa fa-circle-o"></i>Table Blogs</a></li>
+              <li><a href="{{route('blogs.create')}}"><i class="fa fa-circle-o"></i>Add Blogs</a></li>
             </ul>
           </li>
         
