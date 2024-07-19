@@ -8,10 +8,12 @@ use App\Http\Controllers\admin\ProductVariantsController;
 use App\Http\Controllers\admin\VariantsController;
 use App\Http\Controllers\Fe\BlogsFoodController;
 use App\Http\Controllers\Fe\CartController;
+use App\Http\Controllers\Fe\CheckoutController;
 use App\Http\Controllers\Fe\CommentController;
 use App\Http\Controllers\Fe\FilterController;
 use App\Http\Controllers\Fe\HomeController;
 use App\Http\Controllers\Fe\ProductShopController;
+use App\Http\Controllers\Fe\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,7 +26,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+// ADMIN
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('/', [Admincontroller::class, 'admin'])->name('admin');
 
@@ -43,6 +45,9 @@ Route::prefix('admin')->group(function () {
     Route::get('/logout', [Admincontroller::class, 'logoutadmin'])->name('logoutadmin');
 });
 
+// end ADMIN 
+
+// User web
 Route::get('/', [HomeController::class, 'index'])->name('index');//home
 
 //login-logout-register
@@ -55,6 +60,11 @@ Route::prefix('account')->group(function(){
     Route::post('/postRegister', [HomeController::class, 'postRegister'])->name('postRegister');
     //logout
     Route::get('/logout', [HomeController::class, 'logout'])->name('logout');
+    //user
+    Route::get('/information',[UserController::class,'information'])->name('information');
+    Route::get('/EditInformation/{id}',[UserController::class,'EditInformation'])->name('EditInformation');
+    Route::put('/updateInformation/{user}',[UserController::class,'updateInformation'])->name('updateInformation');
+    Route::get('/odershistory',[UserController::class,'ViewOrdersHistory'])->name('ViewOrdersHistory');
     // reset password
     Route::get('/forgotpassword', [HomeController::class, 'forgotpassword'])->name('forgotpassword');
     Route::post('/postforgotpassword', [HomeController::class, 'postForgotpassword'])->name('postForgotpassword');
@@ -66,6 +76,7 @@ Route::prefix('account')->group(function(){
 });
 //end route login-logout-register
 
+
 // view Products-productdetail
 Route::get('/shop', [ProductShopController::class, 'ViewShop'])->name('shop');
 Route::get('/shop/{product}/{slug}', [ProductShopController::class, 'ViewProduct'])->name('productDetail');
@@ -74,7 +85,7 @@ Route::get('/shop/{product}/{slug}', [ProductShopController::class, 'ViewProduct
 //view blogs - blog-detail
 Route::get('/blogs',[BlogsFoodController::class,'ViewBlogs'])->name('blogs');
 Route::get('/blogs/{category}/{slug}',[BlogsFoodController::class,'BlogDetail'])->name('blogDetail');
-
+// end blogs
 
 // Filter
 Route::post('/filterByCategory/{id}', [FilterController::class, 'filterByCategory'])->name('filterByCategory');
@@ -89,21 +100,37 @@ Route::get('/search', [ProductShopController::class, 'handleSearchQuery'])->name
 Route::get('/tim-kiem/{search}', [ProductShopController::class, 'search'])->name('search');
 // end Search
 
+// wish list
 Route::get('/wishlist',[ProductShopController::class,'ViewWish'])->name('ViewWish');
 Route::get('/addWishList/{product}',[ProductShopController::class,'addWishlist'])->name('addWishlist');
 Route::get('/delete-wishlist/{id}', [ProductShopController::class, 'deleteWishList'])->name('deleteWishList');
+// end wishlist
 
+//comment
 Route::post('/commentproduct/{id}',[CommentController::class,'product'])->name('commentproduct');
 Route::post('/commentblog/{id}',[CommentController::class,'blog'])->name('commentblog');
+// end conment
 
-
-
+// cart
 Route::prefix('cart')->group(function(){
     Route::get('/',[CartController::class,'index'])->name('Cart');
     Route::get('/addToCart/{product}',[CartController::class,'addToCart'])->name('addToCart');
     Route::post('/updateCart',[CartController::class,'updateCart'])->name('updateCart');
+    Route::delete('/deleteOne/{id}',[CartController::class,'deleteOne'])->name('deleteOne');
+    Route::delete('/deleteAll',[CartController::class,'deleteAll'])->name('deleteAll');
+
+});
+// end cart
+Route::prefix('checkout')->group(function(){
+    Route::get('/',[CheckoutController::class,'index'])->name('Checkout');
+    // Route::get('/addToCart/{product}',[CartController::class,'addToCart'])->name('addToCart');
+    // Route::post('/updateCart',[CartController::class,'updateCart'])->name('updateCart');
 });
 
+
+
+// test realtime chat
+Route::get('/testlist',[UserController::class,'chattest'])->name('chattest');
 
 
 

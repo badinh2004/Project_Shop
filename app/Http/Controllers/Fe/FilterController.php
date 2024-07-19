@@ -88,13 +88,7 @@ class FilterController extends Controller
                 $products->push($product);
             }
         }
-
-        // Kiểm tra nếu sản phẩm được tạo trong vòng 2 ngày gần đây
-        if ($product->created_at->greaterThanOrEqualTo(Carbon::now()->subDays(2))) {
-            $product->isNew = true;
-        } else {
-            $product->isNew = false;
-        }
+        
         $cates = category::orderBy('id', 'desc')->get();
         $productsort = Product::orderBy('created_at', 'desc')->take(3)->get();
 

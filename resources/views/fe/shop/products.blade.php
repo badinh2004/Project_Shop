@@ -219,13 +219,13 @@
                             <ul class="widget__form--check">
                                 <li class="widget__form--check__list">
                                     <label class="widget__form--check__label" id="filter" data-id="all">
-                                        All
+                                        <a href="{{ route('shop') }}">All</a>
                                     </label>
                                 </li>
                                 @foreach ($cates as $item)
                                     <li class="widget__form--check__list">
-                                        <label class="widget__form--check__label" id="filter" data-id="{{$item->id}}">
-                                            {{ $item->name }}
+                                        <label class="widget__form--check__label">
+                                            <a href="{{ route('filterProductsByCategory', ['category' => $item->name]) }}">{{ $item->name }}</a>
                                         </label>
                                     </li>
                                 @endforeach
@@ -360,12 +360,7 @@
                                                                     <span class="visually-hidden">Wishlist</span>
                                                                 </a>
                                                             </li>
-                                                            <li class="product__items--action__list">
-                                                                <a class="product__items--action__btn" data-open="modal1" href="javascript:void(0)">
-                                                                    <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 512 512"><path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448"/></svg>
-                                                                    <span class="visually-hidden">Quick View</span>  
-                                                                </a>
-                                                            </li>
+                                                            
                                                             <li class="product__items--action__list">
                                                                 <a class="product__items--action__btn" href="compare.html">
                                                                     <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M400 304l48 48-48 48M400 112l48 48-48 48M64 352h85.19a80 80 0 0066.56-35.62L256 256"/><path d="M64 160h85.19a80 80 0 0166.56 35.62l80.5 120.76A80 80 0 00362.81 352H416M416 160h-53.19a80 80 0 00-66.56 35.62L288 208" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
@@ -375,12 +370,7 @@
                                                         </ul>
                                                     </div>
                                                     <div class="product__items--content product__items2--content text-center">
-                                                        <form id="addToCartForm{{ $value->id }}" action="{{ route('addToCart', $value->id) }}" method="get">
-                                                            @csrf
-                                                            <input type="hidden" name="variant_id" value="{{ $value->variants->first()->id }}">
-                                                            <input type="hidden" name="quantity" value="1">
-                                                            <a href="javascript:void(0)" onclick="submitForm('addToCartForm{{ $value->id }}')" class="add__to--cart__btn" style="font-size: 1.40rem;">+ add to cart</a>
-                                                        </form>
+                                                        <a href="{{ route('productDetail', ['product' => $value->category->name, 'slug' => $value->slug]) }}" class="add__to--cart__btn" style="font-size: 1.40rem;">-> More Detail</a>
                                                         <h3 class="product__items--content__title" style="font-size: 1.40rem;"><a href="{{ route('productDetail', ['product' => $value->category->name, 'slug' => $value->slug]) }}">{{$value->name}}-{{$value->variants->first()->size}}</a></h3>
                                                         <div class="product__items--price">
                                                             <span class="current__price">
@@ -573,7 +563,6 @@
         </div>
     </section>
     <!-- End shop section -->
-
     <!-- Start shipping section -->
     <section class="shipping__section2 shipping__style3">
         <div class="container">
@@ -622,211 +611,6 @@
 @endsection
 @section('script')
 {{-- <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var categories = document.querySelectorAll('.category');
-
-        categories.forEach(function(checkbox) {
-            checkbox.addEventListener('change', function() {
-                var categoryId = checkbox.closest('#checkbox-group').getAttribute('data-id');
-                console.log('categoryId:', categoryId);
-
-                var selectedCategories = [];
-
-                document.querySelectorAll('.category:checked').forEach(function(checked) {
-                    selectedCategories.push(checked.value);
-                });
-                console.log('selectedCategories:', selectedCategories);
-
-                axios.post('{{ route('filterByCategory', ['id' => ':categoryId']) }}'.replace(
-                        ':categoryId', categoryId), {
-                        categories: selectedCategories
-                    })
-                    .then(response => {
-                        console.log(response.data);
-                        updateProductDisplay(response.data.products);
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
-            });
-        });
-
-        function updateProductDisplay(products) {
-            var productContainer = document.querySelector('#filtered-products');
-            productContainer.innerHTML = '';
-            console.log(productContainer);
-            products.forEach(function(product) {
-                var categoryName = product.category && product.category.name ? product.category.name : '';
-                var salePrice = product.variants.length > 0 ? product.variants[0].sale_price : 0;
-                var price = product.variants.length > 0 ? product.variants[0].price : 0;
-                console.log(categoryName);
-                var productHTML = `           
-                                    <div class="col mb-30">
-                                        <div class="product__items product__items2">
-                                            <div class="product__items--thumbnail">
-                                                <a class="product__items--link"
-                                                    href="shop/${product.category}/${product.slug}">
-                                                    <img class="product__items--img product__primary--img"
-                                                        src="{{ asset('storage/images/${product.image}') }}"
-                                                        alt="product-img">
-                                                    <img class="product__items--img product__secondary--img"
-                                                        src="{{ asset('storage/images/${product.image}') }}"
-                                                        alt="product-img">
-                                                </a>
-                                                <ul class="product__items--action">
-                                                    <li class="product__items--action__list">
-                                                        <a class="product__items--action__btn"
-                                                            href="wishlist.html">
-                                                            <svg class="product__items--action__btn--svg"
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                viewBox="0 0 512 512">
-                                                                <path
-                                                                    d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z"
-                                                                    fill="none" stroke="currentColor"
-                                                                    stroke-linecap="round"
-                                                                    stroke-linejoin="round"
-                                                                    stroke-width="32" />
-                                                            </svg>
-                                                            <span class="visually-hidden">Wishlist</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="product__items--action__list">
-                                                        <a class="product__items--action__btn"
-                                                            data-open="modal1" href="javascript:void(0)">
-                                                            <svg class="product__items--action__btn--svg"
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                viewBox="0 0 512 512">
-                                                                <path
-                                                                    d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
-                                                                    fill="none" stroke="currentColor"
-                                                                    stroke-miterlimit="10"
-                                                                    stroke-width="32" />
-                                                                <path fill="none" stroke="currentColor"
-                                                                    stroke-linecap="round"
-                                                                    stroke-miterlimit="10"
-                                                                    stroke-width="32"
-                                                                    d="M338.29 338.29L448 448" />
-                                                            </svg>
-                                                            <span class="visually-hidden">Quick
-                                                                View</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="product__items--action__list">
-                                                        <a class="product__items--action__btn"
-                                                            href="compare.html">
-                                                            <svg class="product__items--action__btn--svg"
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                viewBox="0 0 512 512">
-                                                                <path fill="none" stroke="currentColor"
-                                                                    stroke-linecap="round"
-                                                                    stroke-linejoin="round"
-                                                                    stroke-width="32"
-                                                                    d="M400 304l48 48-48 48M400 112l48 48-48 48M64 352h85.19a80 80 0 0066.56-35.62L256 256" />
-                                                                <path
-                                                                    d="M64 160h85.19a80 80 0 0166.56 35.62l80.5 120.76A80 80 0 00362.81 352H416M416 160h-53.19a80 80 0 00-66.56 35.62L288 208"
-                                                                    fill="none" stroke="currentColor"
-                                                                    stroke-linecap="round"
-                                                                    stroke-linejoin="round"
-                                                                    stroke-width="32" />
-                                                            </svg>
-                                                            <span class="visually-hidden">Compare</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div
-                                                class="product__items--content product__items2--content text-center">
-                                                <a class="add__to--cart__btn" href="cart.html">+ Add
-                                                    to
-                                                    cart</a>
-                                                <h3 class="product__items--content__title h4"><a
-                                                        href="{{ route('productDetail', ['product' => $value->category->name, 'slug' => $value->slug]) }}">${product.name}</a>
-                                                </h3>
-                                                <div class="product__items--price">
-                                                    <span class="current__price">
-                                                        ${salePrice}$
-                                                </span>
-                                                <span class="old__price">
-                                                       ${price}$
-                                            </span>
-                                        </div>
-                                        <div
-                                            class="product__items--rating d-flex justify-content-center align-items-center">
-                                            <ul class="d-flex">
-                                                <li class="product__items--rating__list">
-                                                    <span class="product__items--rating__icon">
-                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                            width="10.105" height="9.732"
-                                                            viewBox="0 0 10.105 9.732">
-                                                            <path data-name="star - Copy"
-                                                                d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                                                transform="translate(0 -0.018)"
-                                                                fill="currentColor" />
-                                                        </svg>
-                                                    </span>
-                                                </li>
-                                                <li class="product__items--rating__list">
-                                                    <span class="product__items--rating__icon">
-                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                            width="10.105" height="9.732"
-                                                            viewBox="0 0 10.105 9.732">
-                                                            <path data-name="star - Copy"
-                                                                d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                                                transform="translate(0 -0.018)"
-                                                                fill="currentColor" />
-                                                        </svg>
-                                                    </span>
-                                                </li>
-                                                <li class="product__items--rating__list">
-                                                    <span class="product__items--rating__icon">
-                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                            width="10.105" height="9.732"
-                                                            viewBox="0 0 10.105 9.732">
-                                                            <path data-name="star - Copy"
-                                                                d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                                                transform="translate(0 -0.018)"
-                                                                fill="currentColor" />
-                                                        </svg>
-                                                    </span>
-                                                </li>
-                                                <li class="product__items--rating__list">
-                                                    <span class="product__items--rating__icon">
-                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                            width="10.105" height="9.732"
-                                                            viewBox="0 0 10.105 9.732">
-                                                            <path data-name="star - Copy"
-                                                                d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                                                transform="translate(0 -0.018)"
-                                                                fill="currentColor" />
-                                                        </svg>
-                                                    </span>
-                                                </li>
-                                                <li class="product__items--rating__list">
-                                                    <span class="product__items--rating__icon">
-                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                            width="10.105" height="9.732"
-                                                            viewBox="0 0 10.105 9.732">
-                                                            <path data-name="star - Copy"
-                                                                d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                                                transform="translate(0 -0.018)"
-                                                                fill="#c7c5c2" />
-                                                        </svg>
-                                                    </span>
-                                                </li>
-                                            </ul>
-                                            <span
-                                                class="product__items--rating__count--number">(24)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                productContainer.insertAdjacentHTML('beforeend', productHTML);
-            });
-        }
-    })
-</script> --}}
-<script>
     function submitForm(formId) {
         document.getElementById(formId).submit();
     }
@@ -929,6 +713,129 @@
                                     <a href="javascript:void(0)" onclick="submitForm('addToCartForm{{ $value->id }}')" class="add__to--cart__btn" style="font-size: 1.40rem;">+ add to cart</a>
                                 </form>
                                 <h3 class="product__items--content__title" style="font-size: 1.40rem;"><a href="shop/${product.category}/${product.slug}"">${product.name}-${variant_size}</a></h3>
+                                <div class="product__items--price">
+                                    <span class="current__price">
+                                        @foreach ($value->variants as $var)
+                                            <p>${salePrice}$</p>
+                                        @break
+                                        @endforeach
+                                    </span>
+                                    <span class="old__price">
+                                        @foreach ($value->variants as $var)
+                                            <p>${price}$</p>
+                                        @break
+                                        @endforeach
+                                    </span>
+                                </div>
+                                <div class="product__items--rating d-flex justify-content-center align-items-center">
+                                    <ul class="d-flex">
+                                        <li class="product__items--rating__list">
+                                            <span class="product__items--rating__icon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732" viewBox="0 0 10.105 9.732">
+                                                <path  data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor"/>
+                                                </svg>
+                                            </span>
+                                        </li>
+                                        <li class="product__items--rating__list">
+                                            <span class="product__items--rating__icon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732" viewBox="0 0 10.105 9.732">
+                                                <path  data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor"/>
+                                                </svg>
+                                            </span>
+                                        </li>
+                                        <li class="product__items--rating__list">
+                                            <span class="product__items--rating__icon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732" viewBox="0 0 10.105 9.732">
+                                                <path  data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor"/>
+                                                </svg>
+                                            </span>
+                                        </li>
+                                        <li class="product__items--rating__list">
+                                            <span class="product__items--rating__icon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732" viewBox="0 0 10.105 9.732">
+                                                <path  data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor"/>
+                                                </svg>
+                                            </span>
+                                        </li>
+                                        <li class="product__items--rating__list">
+                                            <span class="product__items--rating__icon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732" viewBox="0 0 10.105 9.732">
+                                                    <path  data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="#c7c5c2"/>
+                                                </svg> 
+                                            </span>
+                                        </li>
+                                    </ul>
+                                    <span class="product__items--rating__count--number">(24)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                productContainer.insertAdjacentHTML('beforeend', product1HTML);
+            });
+        }
+</script> --}}
+<script>
+    function submitForm(formId) {
+        document.getElementById(formId).submit();
+    }
+    document.getElementById('sortSelect').addEventListener('change', function() {
+        var selectedValue = this.value; // Lấy giá trị đã chọn
+
+        // Gửi AJAX request về server
+        axios.post('{{route('sortProducts')}}', {
+            sortBy: selectedValue
+        })
+        .then(function(response) {
+            // Xử lý kết quả trả về nếu cần thiết
+            console.log(response.data);
+            updateProductDisplay(response.data.products);
+        })
+        .catch(function(error) {
+            // Xử lý lỗi nếu có
+            console.error('Error:', error);
+        });
+    });
+    function updateProductDisplay(products) {
+            var productContainer = document.querySelector('#filtered-products');
+            
+            productContainer.innerHTML = '';
+            
+            products.forEach(function(product) {
+                var categoryName = product.category && product.category.name ? product.category.name : '';
+                var salePrice = product.variants.length > 0 ? product.variants[0].sale_price : 0;
+                var price = product.variants.length > 0 ? product.variants[0].price : 0;
+                var variant_id = product.variants[0].id;
+                var variant_size = product.variants[0].size;
+                var product1HTML = `
+                    <div class="col mb-30">
+                        <div class="product__items product__items2">
+                            <div class="product__items--thumbnail">
+                                <a class="product__items--link" href="shop/${product.category}/${product.slug}">
+                                    <img class="product__items--img product__primary--img" src="{{ asset('storage/images/${product.image}') }}" alt="product-img">
+                                    <img class="product__items--img product__secondary--img" src="{{ asset('storage/images/${product.image}') }}" alt="product-img">
+                                </a>
+                                <div class="product__badge">
+                                    ${product.isNew ? '<span class="product__badge--items new">New</span>' : '<span class="product__badge--items sale">Sale</span>'}
+                                </div>
+                                <ul class="product__items--action">
+                                    <li class="product__items--action__list">
+                                        <a class="product__items--action__btn" href="/addWishList/${product.id}">
+                                            <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 512 512"><path d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
+                                            <span class="visually-hidden">Wishlist</span>
+                                        </a>
+                                    </li>
+                                    <li class="product__items--action__list">
+                                        <a class="product__items--action__btn" href="compare.html">
+                                            <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M400 304l48 48-48 48M400 112l48 48-48 48M64 352h85.19a80 80 0 0066.56-35.62L256 256"/><path d="M64 160h85.19a80 80 0 0166.56 35.62l80.5 120.76A80 80 0 00362.81 352H416M416 160h-53.19a80 80 0 00-66.56 35.62L288 208" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
+                                            <span class="visually-hidden">Compare</span>    
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="product__items--content product__items2--content text-center">
+                                <a href="shop/${product.category}/${product.slug}" class="add__to--cart__btn" style="font-size: 1.40rem;">-> More Detail</a>
+                                <h3 class="product__items--content__title" style="font-size: 1.40rem;"><a href="shop/${product.category}/${product.slug}">${product.name}-${variant_size}</a></h3>
                                 <div class="product__items--price">
                                     <span class="current__price">
                                         @foreach ($value->variants as $var)

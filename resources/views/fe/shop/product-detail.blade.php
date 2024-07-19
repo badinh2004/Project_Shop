@@ -1,5 +1,6 @@
 @extends('fe.master')
 @section('main_master')
+
     <main class="main__content_wrapper">
 
         <!-- Start breadcrumb section -->
@@ -38,29 +39,12 @@
                                 <div class="swiper-wrapper">
                                     <div class="swiper-slide">
                                         <div class="product__media--preview__items">
-                                            <a class="product__media--preview__items--link glightbox"
-                                                data-gallery="product-media-preview"
-                                                href="{{ asset('storage/images/' . $products->image) }}"><img
-                                                    class="product__media--preview__items--img"
-                                                    src="{{ asset('storage/images/' . $products->image) }}"
-                                                    alt="product-media-img"></a>
-                                            <div class="product__media--view__icon">
-                                                <a class="product__media--view__icon--link glightbox"
-                                                    href="{{ asset('storage/images/' . $products->image) }}"
-                                                    data-gallery="product-media-preview">
-                                                    <svg class="product__items--action__btn--svg"
-                                                        xmlns="http://www.w3.org/2000/svg" width="22.51" height="22.443"
-                                                        viewBox="0 0 512 512">
-                                                        <path
-                                                            d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
-                                                            fill="none" stroke="currentColor" stroke-miterlimit="10"
-                                                            stroke-width="32"></path>
-                                                        <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                                            stroke-miterlimit="10" stroke-width="32"
-                                                            d="M338.29 338.29L448 448"></path>
-                                                    </svg>
-                                                    <span class="visually-hidden">product view</span>
-                                                </a>
+                                            <div>
+                                                <div class="product__media--preview__items">
+                                                    <img    class="product__media--preview__items--img"
+                                                            src="{{ asset('storage/images/' . $products->image) }}"
+                                                            alt="product-media-img">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -154,7 +138,7 @@
                                         <button class="btn quickview__cart--btn" type="submit">Add To Cart</button>
                                     </div>
                                     <div class="product__variant--list mb-15">
-                                        <a class="variant__wishlist--icon mb-15" href="wishlist.html"
+                                        <a class="variant__wishlist--icon mb-15" href="{{ route('addWishlist', $products->id) }}"
                                             title="Add to wishlist">
                                             <svg class="quickview__variant--wishlist__svg"
                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -477,22 +461,6 @@
                                             </a>
                                         </li>
                                         <li class="product__items--action__list">
-                                            <a class="product__items--action__btn" data-open="modal1"
-                                                href="javascript:void(0)">
-                                                <svg class="product__items--action__btn--svg"
-                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                                    <path
-                                                        d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
-                                                        fill="none" stroke="currentColor" stroke-miterlimit="10"
-                                                        stroke-width="32" />
-                                                    <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                                        stroke-miterlimit="10" stroke-width="32"
-                                                        d="M338.29 338.29L448 448" />
-                                                </svg>
-                                                <span class="visually-hidden">Quick View</span>
-                                            </a>
-                                        </li>
-                                        <li class="product__items--action__list">
                                             <a class="product__items--action__btn" href="compare.html">
                                                 <svg class="product__items--action__btn--svg"
                                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -510,12 +478,7 @@
                                     </ul>
                                 </div>
                                 <div class="product__items--content product__items2--content text-center">
-                                    <form id="addToCartForm{{ $value->id }}" action="{{ route('addToCart', $value->id) }}" method="get">
-                                        @csrf
-                                        <input type="hidden" name="variant_id" value="{{ $value->variants->first()->id }}">
-                                        <input type="hidden" name="quantity" value="1">
-                                        <a href="javascript:void(0)" onclick="submitForm('addToCartForm{{ $value->id }}')" class="add__to--cart__btn" style="font-size: 1.40rem;">+ add to cart</a>
-                                    </form>
+                                    <a href="{{ route('productDetail', ['product' => $value->category->name, 'slug' => $value->slug]) }}" class="add__to--cart__btn" style="font-size: 1.40rem;">-> More Detail</a>
                                     <h3 class="product__items--content__title h4"><a
                                             href="{{ route('productDetail', ['product' => $value->category->name, 'slug' => $value->slug]) }}">{{$value->name}}-{{$value->variants->first()->size}}</a></h3>
                                     <div class="product__items--price">
@@ -533,59 +496,33 @@
                                         </span>
                                     </div>
                                     <div class="product__items--rating d-flex justify-content-center align-items-center">
-                                        <ul class="d-flex">
-                                            <li class="product__items--rating__list">
-                                                <span class="product__items--rating__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732"
+                                        @php
+                                            $comments_count = $value->comments->count();
+                                            $totalRating = $value->comments->sum('rating');
+                                            $averageRating = $comments_count > 0 ? $totalRating / $comments_count : 0;
+                                        @endphp
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            @if ($i <= $averageRating || $averageRating == 0)
+                                                <span class="reviews__ratting--icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14.105" height="12.732"
                                                         viewBox="0 0 10.105 9.732">
                                                         <path data-name="star - Copy"
                                                             d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
                                                             transform="translate(0 -0.018)" fill="currentColor" />
                                                     </svg>
                                                 </span>
-                                            </li>
-                                            <li class="product__items--rating__list">
-                                                <span class="product__items--rating__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732"
-                                                        viewBox="0 0 10.105 9.732">
-                                                        <path data-name="star - Copy"
-                                                            d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                                            transform="translate(0 -0.018)" fill="currentColor" />
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="product__items--rating__list">
-                                                <span class="product__items--rating__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732"
-                                                        viewBox="0 0 10.105 9.732">
-                                                        <path data-name="star - Copy"
-                                                            d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                                            transform="translate(0 -0.018)" fill="currentColor" />
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="product__items--rating__list">
-                                                <span class="product__items--rating__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732"
-                                                        viewBox="0 0 10.105 9.732">
-                                                        <path data-name="star - Copy"
-                                                            d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
-                                                            transform="translate(0 -0.018)" fill="currentColor" />
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="product__items--rating__list">
-                                                <span class="product__items--rating__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10.105" height="9.732"
+                                            @else
+                                                <span class="reviews__ratting--icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14.105" height="12.732"
                                                         viewBox="0 0 10.105 9.732">
                                                         <path data-name="star - Copy"
                                                             d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z"
                                                             transform="translate(0 -0.018)" fill="#c7c5c2" />
                                                     </svg>
                                                 </span>
-                                            </li>
-                                        </ul>
-                                        <span class="product__items--rating__count--number">(24)</span>
+                                            @endif
+                                        @endfor
+                                        <span class="product__items--rating__count--number">({{$comments_count}})</span>
                                     </div>
                                 </div>
                             </div>

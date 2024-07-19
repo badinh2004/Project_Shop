@@ -28,6 +28,16 @@
 </head>
 
 <body>
+@if (session('err'))
+<script>
+    alert('{{session('err')}}');
+</script>
+@endif
+@if (session('success'))
+<script>
+    alert('{{session('success')}}');
+</script>
+@endif
 
     <!-- Start preloader -->
     <div id="preloader">
@@ -204,7 +214,7 @@
                                 <li class="header__menu--items">
                                     <a class="header__menu--link" href="{{ route('index') }}">Home</a>
                                 </li>
-                                <li class="header__menu--items mega__menu--items">
+                                {{-- <li class="header__menu--items mega__menu--items">
                                     <a class="header__menu--link" href="{{ route('shop') }}">Shop
                                         <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
                                             width="12" height="7.41" viewBox="0 0 12 7.41">
@@ -214,23 +224,14 @@
                                     </a>
                                     <ul class="header__mega--menu d-flex">
                                         <li class="header__mega--menu__li">
-                                            <span class="header__mega--subtitle">Column One</span>
                                             <ul class="header__mega--sub__menu">
-                                                <li class="header__mega--sub__menu_li"><a
-                                                        class="header__mega--sub__menu--title" href="shop.html">Shop
-                                                        Left Sidebar</a></li>
-                                                <li class="header__mega--sub__menu_li"><a
-                                                        class="header__mega--sub__menu--title"
-                                                        href="shop-right-sidebar.html">Shop Right Sidebar</a></li>
-                                                <li class="header__mega--sub__menu_li"><a
-                                                        class="header__mega--sub__menu--title"
-                                                        href="shop-grid.html">Shop Grid</a></li>
-                                                <li class="header__mega--sub__menu_li"><a
-                                                        class="header__mega--sub__menu--title"
-                                                        href="shop-grid-list.html">Shop Grid List</a></li>
-                                                <li class="header__mega--sub__menu_li"><a
-                                                        class="header__mega--sub__menu--title"
-                                                        href="shop-list.html">Shop List</a></li>
+                                                @foreach ($categorys as $category)
+                                                    <li class="header__mega--sub__menu_li">
+                                                        <a class="offcanvas__sub_menu_item" href="{{ route('filterProductsByCategory', ['category' => $category->name]) }}">
+                                                            {{ $category->name }}
+                                                        </a>
+                                                    </li>
+                                                @endforeach
                                             </ul>
                                         </li>
                                         <li class="header__mega--menu__li">
@@ -295,7 +296,25 @@
                                                         class="header__mega--sub__menu--title"
                                                         href="checkout-4.html">Checkout Style 4</a></li>
                                             </ul>
-                                        </li>
+                                        </li> 
+                                    </ul>
+                                </li> --}}
+                                <li class="header__menu--items">
+                                    <a class="header__menu--link" href="{{ route('shop') }}">Shop
+                                        <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg"
+                                            width="12" height="7.41" viewBox="0 0 12 7.41">
+                                            <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z"
+                                                transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7" />
+                                        </svg>
+                                    </a>
+                                    <ul class="header__sub--menu">
+                                        @foreach ($categorys as $category)
+                                            <li class="header__sub--menu__items">
+                                                <a class="header__sub--menu__link" href="{{ route('filterProductsByCategory', ['category' => $category->name]) }}">
+                                                    {{ $category->name }}
+                                                </a>
+                                            </li>
+                                        @endforeach
                                     </ul>
                                 </li>
                                 <li class="header__menu--items">
@@ -307,14 +326,13 @@
                                         </svg>
                                     </a>
                                     <ul class="header__sub--menu">
-                                        <li class="header__sub--menu__items"><a href="{{route('blogs')}}"
-                                                class="header__sub--menu__link">Blog Grid</a></li>
-                                        <li class="header__sub--menu__items"><a href="blog-details.html"
-                                                class="header__sub--menu__link">Blog Details</a></li>
-                                        <li class="header__sub--menu__items"><a href="blog-left-sidebar.html"
-                                                class="header__sub--menu__link">Blog Left Sidebar</a></li>
-                                        <li class="header__sub--menu__items"><a href="blog-right-sidebar.html"
-                                                class="header__sub--menu__link">Blog Right Sidebar</a></li>
+                                        @foreach ($categorys as $category)
+                                            <li class="header__sub--menu__items">
+                                                <a class="header__sub--menu__link" href="{{ route('filterBlogsByCategory', ['category' => $category->name]) }}">
+                                                    {{ $category->name }}
+                                                </a>
+                                            </li>
+                                        @endforeach
                                     </ul>
                                 </li>
                                 <li class="header__menu--items">
@@ -387,19 +405,18 @@
                             </li>
                             @if (auth('customers')->check())
                                 <li class="header__account--items d-none d-lg-block">
-                                    <a class="header__account--btn" title="{{ auth('customers')->user()->name }}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20.51" height="19.443"
-                                            viewBox="0 0 512 512">
-                                            <path
-                                                d="M344 144c-3.92 52.87-44 96-88 96s-84.15-43.12-88-96c-4-55 35-96 88-96s92 42 88 96z"
-                                                fill="none" stroke="currentColor" stroke-linecap="round"
-                                                stroke-linejoin="round" stroke-width="32" />
-                                            <path
-                                                d="M256 304c-87 0-175.3 48-191.64 138.6C62.39 453.52 68.57 464 80 464h352c11.44 0 17.62-10.48 15.65-21.4C431.3 352 343 304 256 304z"
-                                                fill="none" stroke="currentColor" stroke-miterlimit="10"
-                                                stroke-width="32" />
-                                        </svg>
-
+                                    <a class="header__account--btn" title="{{ auth('customers')->user()->name }}" href="{{route('information')}}">
+                                        @php
+                                            $user = auth('customers')->user();
+                                            $image = $user ? $user->image : null;
+                                        @endphp
+                                        @if ($image && filter_var($image, FILTER_VALIDATE_URL))
+                                            <img src="{{ $image }}" class="img-fluid rounded-circle" width="100" height="100">
+                                        @elseif ($image)
+                                            <img src="{{ asset('storage/images/' . $image) }}" class="img-fluid rounded-circle" width="100" height="100">
+                                        @else
+                                            <img src="{{ asset('storage/images/avatar.jpg') }}" class="img-fluid rounded-circle" width="100"  height="100"><br>
+                                        @endif
                                     </a>
                                 </li>
                             @else
@@ -462,93 +479,29 @@
                     <ul class="offcanvas__menu_ul">
                         <li class="offcanvas__menu_li">
                             <a class="offcanvas__menu_item" href="{{ route('index') }}">Home</a>
-                            <ul class="offcanvas__sub_menu">
-                                <li class="offcanvas__sub_menu_li"><a href="{{ route('index') }}"
-                                        class="offcanvas__sub_menu_item">Home One</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="index-2.html"
-                                        class="offcanvas__sub_menu_item">Home Two</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="index-3.html"
-                                        class="offcanvas__sub_menu_item">Home Three</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="index-4.html"
-                                        class="offcanvas__sub_menu_item">Home Four</a></li>
-                            </ul>
                         </li>
                         <li class="offcanvas__menu_li">
                             <a class="offcanvas__menu_item" href="{{ route('shop') }}">Shop</a>
                             <ul class="offcanvas__sub_menu">
-                                <li class="offcanvas__sub_menu_li">
-                                    <a href="#" class="offcanvas__sub_menu_item">Column One</a>
-                                    <ul class="offcanvas__sub_menu">
-                                        <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
-                                                href="shop.html">Shop Left Sidebar</a></li>
-                                        <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
-                                                href="shop-right-sidebar.html">Shop Right Sidebar</a></li>
-                                        <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
-                                                href="shop-grid.html">Shop Grid</a></li>
-                                        <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
-                                                href="shop-grid-list.html">Shop Grid List</a></li>
-                                        <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
-                                                href="shop-list.html">Shop List</a></li>
-                                    </ul>
-                                </li>
-                                <li class="offcanvas__sub_menu_li">
-                                    <a href="#" class="offcanvas__sub_menu_item">Column Two</a>
-                                    <ul class="offcanvas__sub_menu">
-                                        <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
-                                                href="product-details.html">Product Details</a></li>
-                                        <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
-                                                href="product-video.html">Video Product</a></li>
-                                        <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
-                                                href="product-details.html">Variable Product</a></li>
-                                        <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
-                                                href="product-left-sidebar.html">Product Left Sidebar</a></li>
-                                        <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
-                                                href="product-gallery.html">Product Gallery</a></li>
-                                    </ul>
-                                </li>
-                                <li class="offcanvas__sub_menu_li">
-                                    <a href="#" class="offcanvas__sub_menu_item">Column Three</a>
-                                    <ul class="offcanvas__sub_menu">
-                                        <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
-                                                href="my-account.html">My Account</a></li>
-                                        <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
-                                                href="my-account-2.html">My Account 2</a></li>
-                                        <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
-                                                href="404.html">404 Page</a></li>
-                                        <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
-                                                href="{{ route('login') }}">Login Page</a></li>
-                                        <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
-                                                href="faq.html">Faq Page</a></li>
-                                    </ul>
-                                </li>
-                                <li class="offcanvas__sub_menu_li">
-                                    <a href="#" class="offcanvas__sub_menu_item">Column Three</a>
-                                    <ul class="offcanvas__sub_menu">
-                                        <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
-                                                href="compare.html">Compare Pages</a></li>
-                                        <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
-                                                href="checkout.html">Checkout page</a></li>
-                                        <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
-                                                href="checkout-2.html">Checkout Style 2</a></li>
-                                        <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
-                                                href="checkout-3.html">Checkout Style 3</a></li>
-                                        <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
-                                                href="checkout-4.html">Checkout Style 4</a></li>
-                                    </ul>
-                                </li>
+                                @foreach ($categorys as $category)
+                                    <li class="offcanvas__sub_menu_li">
+                                        <a class="offcanvas__sub_menu_item" href="{{ route('filterProductsByCategory', ['category' => $category->name]) }}">
+                                            {{ $category->name }}
+                                        </a>
+                                    </li>
+                                @endforeach
                             </ul>
                         </li>
                         <li class="offcanvas__menu_li">
-                            <a class="offcanvas__menu_item" href="{{route('blogs')}}">Blog</a>
+                            <a class="offcanvas__menu_item" href="{{ route('blogs') }}">Blog</a>
                             <ul class="offcanvas__sub_menu">
-                                <li class="offcanvas__sub_menu_li"><a href="blog.html"
-                                        class="offcanvas__sub_menu_item">Blog Grid</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="blog-details.html"
-                                        class="offcanvas__sub_menu_item">Blog Details</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="blog-left-sidebar.html"
-                                        class="offcanvas__sub_menu_item">Blog Left Sidebar</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="blog-right-sidebar.html"
-                                        class="offcanvas__sub_menu_item">Blog Right Sidebar</a></li>
+                                @foreach ($categorys as $category)
+                                    <li class="offcanvas__sub_menu_li">
+                                        <a class="offcanvas__sub_menu_item" href="{{ route('filterBlogsByCategory', ['category' => $category->name]) }}">
+                                            {{ $category->name }}
+                                        </a>
+                                    </li>
+                                @endforeach
                             </ul>
                         </li>
                         <li class="offcanvas__menu_li">
@@ -740,17 +693,11 @@
                                     </div>
                                 </div>
                                 <div class="minicart__text--footer d-flex align-items-center">
-                                    {{-- <div class="quantity__box minicart__quantity">
-                                        <button type="button" class="quantity__value decrease"
-                                            aria-label="quantity value" id="Minus" value="Decrease Value">-</button>
-                                        <label>
-                                            <input type="number" id="quantity" class="quantity__number" value="{{ $item->quantity }}"
-                                                data-counter />
-                                        </label>
-                                        <button type="button" class="quantity__value increase"
-                                            aria-label="quantity value" id="Plus" value="Increase Value">+</button>
-                                    </div> --}}
-                                    <button class="minicart__product--remove" type="button">Remove</button>
+                                    <form action="{{ route('deleteOne', ['id' => $item->id]) }}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="minicart__product--remove" type="submit">Remove</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -776,7 +723,7 @@
                 </div>
                 <div class="minicart__button d-flex justify-content-center">
                     <a class="btn minicart__button--link" href="{{route('Cart')}}">View cart</a>
-                    <a class="btn minicart__button--link" href="checkout.html">Continue shopping</a>
+                    <a class="btn minicart__button--link" href="{{route('shop')}}">Continue shopping</a>
                 </div>
             </div>
         @endif
@@ -1035,6 +982,7 @@
     <!-- End footer section -->
 
     <!-- Quickview Wrapper -->
+        {{-- 
         <div class="modal" id="modal1" data-animation="slideInUp">
             <div class="modal-dialog quickview__main--wrapper">
                 <header class="modal-header quickview__header">
@@ -1044,225 +992,12 @@
                     <div class="row row-cols-lg-2 row-cols-md-2">
                         <div class="col">
                             <div class="quickview__gallery">
-                                <div class="product__media--preview  swiper">
-                                    <div class="swiper-wrapper">
-                                        <div class="swiper-slide">
-                                            <div class="product__media--preview__items">
-                                                <a class="product__media--preview__items--link glightbox"
-                                                    data-gallery="product-media-preview"
-                                                    href="{{ asset('assets') }}/img/product/big-product1.jpg"><img
-                                                        class="product__media--preview__items--img"
-                                                        src="{{ asset('assets') }}/img/product/big-product1.jpg"
-                                                        alt="product-media-img"></a>
-                                                <div class="product__media--view__icon">
-                                                    <a class="product__media--view__icon--link glightbox"
-                                                        href="{{ asset('assets') }}/img/product/big-product1.jpg"
-                                                        data-gallery="product-media-preview">
-                                                        <svg class="product__items--action__btn--svg"
-                                                            xmlns="http://www.w3.org/2000/svg" width="22.51"
-                                                            height="22.443" viewBox="0 0 512 512">
-                                                            <path
-                                                                d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
-                                                                fill="none" stroke="currentColor"
-                                                                stroke-miterlimit="10" stroke-width="32"></path>
-                                                            <path fill="none" stroke="currentColor"
-                                                                stroke-linecap="round" stroke-miterlimit="10"
-                                                                stroke-width="32" d="M338.29 338.29L448 448"></path>
-                                                        </svg>
-                                                        <span class="visually-hidden">product view</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="product__media--preview__items">
-                                                <a class="product__media--preview__items--link glightbox"
-                                                    data-gallery="product-media-preview"
-                                                    href="{{ asset('assets') }}/img/product/big-product2.jpg"><img
-                                                        class="product__media--preview__items--img"
-                                                        src="{{ asset('assets') }}/img/product/big-product2.jpg"
-                                                        alt="product-media-img"></a>
-                                                <div class="product__media--view__icon">
-                                                    <a class="product__media--view__icon--link glightbox"
-                                                        href="{{ asset('assets') }}/img/product/big-product2.jpg"
-                                                        data-gallery="product-media-preview">
-                                                        <svg class="product__items--action__btn--svg"
-                                                            xmlns="http://www.w3.org/2000/svg" width="22.51"
-                                                            height="22.443" viewBox="0 0 512 512">
-                                                            <path
-                                                                d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
-                                                                fill="none" stroke="currentColor"
-                                                                stroke-miterlimit="10" stroke-width="32"></path>
-                                                            <path fill="none" stroke="currentColor"
-                                                                stroke-linecap="round" stroke-miterlimit="10"
-                                                                stroke-width="32" d="M338.29 338.29L448 448"></path>
-                                                        </svg>
-                                                        <span class="visually-hidden">product view</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="product__media--preview__items">
-                                                <a class="product__media--preview__items--link glightbox"
-                                                    data-gallery="product-media-preview"
-                                                    href="{{ asset('assets') }}/img/product/big-product3.jpg"><img
-                                                        class="product__media--preview__items--img"
-                                                        src="{{ asset('assets') }}/img/product/big-product3.jpg"
-                                                        alt="product-media-img"></a>
-                                                <div class="product__media--view__icon">
-                                                    <a class="product__media--view__icon--link glightbox"
-                                                        href="{{ asset('assets') }}/img/product/big-product3.jpg"
-                                                        data-gallery="product-media-preview">
-                                                        <svg class="product__items--action__btn--svg"
-                                                            xmlns="http://www.w3.org/2000/svg" width="22.51"
-                                                            height="22.443" viewBox="0 0 512 512">
-                                                            <path
-                                                                d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
-                                                                fill="none" stroke="currentColor"
-                                                                stroke-miterlimit="10" stroke-width="32"></path>
-                                                            <path fill="none" stroke="currentColor"
-                                                                stroke-linecap="round" stroke-miterlimit="10"
-                                                                stroke-width="32" d="M338.29 338.29L448 448"></path>
-                                                        </svg>
-                                                        <span class="visually-hidden">product view</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="product__media--preview__items">
-                                                <a class="product__media--preview__items--link glightbox"
-                                                    data-gallery="product-media-preview"
-                                                    href="{{ asset('assets') }}/img/product/big-product4.jpg"><img
-                                                        class="product__media--preview__items--img"
-                                                        src="{{ asset('assets') }}/img/product/big-product4.jpg"
-                                                        alt="product-media-img"></a>
-                                                <div class="product__media--view__icon">
-                                                    <a class="product__media--view__icon--link glightbox"
-                                                        href="{{ asset('assets') }}/img/product/big-product4.jpg"
-                                                        data-gallery="product-media-preview">
-                                                        <svg class="product__items--action__btn--svg"
-                                                            xmlns="http://www.w3.org/2000/svg" width="22.51"
-                                                            height="22.443" viewBox="0 0 512 512">
-                                                            <path
-                                                                d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
-                                                                fill="none" stroke="currentColor"
-                                                                stroke-miterlimit="10" stroke-width="32"></path>
-                                                            <path fill="none" stroke="currentColor"
-                                                                stroke-linecap="round" stroke-miterlimit="10"
-                                                                stroke-width="32" d="M338.29 338.29L448 448"></path>
-                                                        </svg>
-                                                        <span class="visually-hidden">product view</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="product__media--preview__items">
-                                                <a class="product__media--preview__items--link glightbox"
-                                                    data-gallery="product-media-preview"
-                                                    href="{{ asset('assets') }}/img/product/big-product5.jpg"><img
-                                                        class="product__media--preview__items--img"
-                                                        src="{{ asset('assets') }}/img/product/big-product5.jpg"
-                                                        alt="product-media-img"></a>
-                                                <div class="product__media--view__icon">
-                                                    <a class="product__media--view__icon--link glightbox"
-                                                        href="{{ asset('assets') }}/img/product/big-product5.jpg"
-                                                        data-gallery="product-media-preview">
-                                                        <svg class="product__items--action__btn--svg"
-                                                            xmlns="http://www.w3.org/2000/svg" width="22.51"
-                                                            height="22.443" viewBox="0 0 512 512">
-                                                            <path
-                                                                d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
-                                                                fill="none" stroke="currentColor"
-                                                                stroke-miterlimit="10" stroke-width="32"></path>
-                                                            <path fill="none" stroke="currentColor"
-                                                                stroke-linecap="round" stroke-miterlimit="10"
-                                                                stroke-width="32" d="M338.29 338.29L448 448"></path>
-                                                        </svg>
-                                                        <span class="visually-hidden">product view</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="product__media--preview__items">
-                                                <a class="product__media--preview__items--link glightbox"
-                                                    data-gallery="product-media-preview"
-                                                    href="{{ asset('assets') }}/img/product/big-product6.jpg"><img
-                                                        class="product__media--preview__items--img"
-                                                        src="{{ asset('assets') }}/img/product/big-product6.jpg"
-                                                        alt="product-media-img"></a>
-                                                <div class="product__media--view__icon">
-                                                    <a class="product__media--view__icon--link glightbox"
-                                                        href="{{ asset('assets') }}/img/product/big-product6.jpg"
-                                                        data-gallery="product-media-preview">
-                                                        <svg class="product__items--action__btn--svg"
-                                                            xmlns="http://www.w3.org/2000/svg" width="22.51"
-                                                            height="22.443" viewBox="0 0 512 512">
-                                                            <path
-                                                                d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
-                                                                fill="none" stroke="currentColor"
-                                                                stroke-miterlimit="10" stroke-width="32"></path>
-                                                            <path fill="none" stroke="currentColor"
-                                                                stroke-linecap="round" stroke-miterlimit="10"
-                                                                stroke-width="32" d="M338.29 338.29L448 448"></path>
-                                                        </svg>
-                                                        <span class="visually-hidden">product view</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
+                                <div>
+                                    <div class="product__media--preview__items">
+                                        <img    class="product__media--preview__items--img"
+                                                src="{{ asset('assets') }}/img/product/big-product1.jpg"
+                                                alt="product-media-img">
                                     </div>
-                                </div>
-                                <div class="product__media--nav swiper">
-                                    <div class="swiper-wrapper">
-                                        <div class="swiper-slide">
-                                            <div class="product__media--nav__items">
-                                                <img class="product__media--nav__items--img"
-                                                    src="{{ asset('assets') }}/img/product/small-product6.png"
-                                                    alt="product-nav-img">
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="product__media--nav__items">
-                                                <img class="product__media--nav__items--img"
-                                                    src="{{ asset('assets') }}/img/product/small-product1.png"
-                                                    alt="product-nav-img">
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="product__media--nav__items">
-                                                <img class="product__media--nav__items--img"
-                                                    src="{{ asset('assets') }}/img/product/small-product2.png"
-                                                    alt="product-nav-img">
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="product__media--nav__items">
-                                                <img class="product__media--nav__items--img"
-                                                    src="{{ asset('assets') }}/img/product/small-product4.png"
-                                                    alt="product-nav-img">
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="product__media--nav__items">
-                                                <img class="product__media--nav__items--img"
-                                                    src="{{ asset('assets') }}/img/product/small-product5.png"
-                                                    alt="product-nav-img">
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="product__media--nav__items">
-                                                <img class="product__media--nav__items--img"
-                                                    src="{{ asset('assets') }}/img/product/small-product3.png"
-                                                    alt="product-nav-img">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper__nav--btn swiper-button-next"></div>
-                                    <div class="swiper__nav--btn swiper-button-prev"></div>
                                 </div>
                             </div>
                         </div>
@@ -1483,7 +1218,8 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> 
+        --}}
     <!-- Quickview Wrapper End -->
 
     <!-- Start News letter popup -->
@@ -1530,6 +1266,7 @@
     <script src="{{ asset('assets') }}/js/vendor/bootstrap.min.js" defer="defer"></script>
     <script src="{{ asset('assets') }}/js/plugins/swiper-bundle.min.js"></script>
     <script src="{{ asset('assets') }}/js/plugins/glightbox.min.js"></script>
+    {{-- @vite(['resources/js/app.js']) --}}
     @yield('script')
     <!-- Customscript js -->
     <script src="{{ asset('assets') }}/js/script.js"></script>

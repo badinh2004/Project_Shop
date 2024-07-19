@@ -11,15 +11,22 @@ class CartController extends Controller
 {
     public function addToCart(Request $req, Product $product)
     {
-        $customer_id = auth('customers')->id();
-        $data = [
-            'customer_id' => $customer_id,
-            'ProductID' => $product->id,
-            'variant_id' => $req->input('variant_id'),
-            'quantity' => $req->quantity
-        ];
-        Cart::create($data);
-        return redirect()->back();
+        if (auth('customers')->check()) {
+            $customer_id = auth('customers')->id();
+            $data = [
+                'customer_id' => $customer_id,
+                'ProductID' => $product->id,
+                'variant_id' => $req->input('variant_id'),
+                'quantity' => $req->quantity
+            ];
+            if ($data['variant_id'] == null) {
+                return redirect()->back()->with('err','Please choose weight');
+            }
+            Cart::create($data);
+            return redirect()->back();
+        }else{
+            return redirect()->route('login');
+        }
     }
 
     public function updateCart(Request $request)
@@ -40,7 +47,17 @@ class CartController extends Controller
     }
 
     public function index(){
-        $cart = Cart::all();
-        return view('fe.shop.cart',compact('cart'));
+        $product = Product::all();
+        $cart = Cart::where('customer_id',auth('customers')->id())->get();
+        return view('fe.shop.cart',compact('cart','product'));
+    }
+
+    public function deleteOne($id){
+        Cart::where('id',$id)->delete();
+        return back();
+    }
+    public function deleteAll(){
+        Cart::where('customer_id',auth('customers')->id())->delete();
+        return back();
     }
 }

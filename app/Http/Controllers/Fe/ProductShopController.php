@@ -97,32 +97,33 @@ class ProductShopController extends Controller
 
     public function addWishlist(Request $req, Product $product)
     {
-        $customer_id = auth('customers')->id();
-        $product_id = $product->id;
-        
-        if (Wishlist::where('customer_id', $customer_id)
-                    ->where('product_id', $product_id)
-                    ->exists()) {
-            // Đã tồn tại trong danh sách yêu thích
-            return redirect()->back()->with('error', 'Sản phẩm đã tồn tại trong danh sách yêu thích.');
+        if (auth('customers')->check()) {
+            $customer_id = auth('customers')->id();
+            $product_id = $product->id;
+            
+            if (Wishlist::where('customer_id', $customer_id)
+                        ->where('product_id', $product_id)
+                        ->exists()) {
+                return redirect()->back()->with('err', 'The product already exists in the favorites list.');
+            }
+            
+            $wishlistItem = Wishlist::create([
+                'customer_id' => $customer_id,
+                'product_id' => $product_id,
+                'variant_id' => $req->input('variant_id'), 
+            ]);
+            
+            return redirect()->back()->with('success', 'The product has been added to your favorites list.');
+        } else {
+            return redirect()->route('login');
         }
-        
-        // Nếu không tồn tại, thêm vào wishlist
-        $wishlistItem = Wishlist::create([
-            'customer_id' => $customer_id,
-            'product_id' => $product_id,
-            'variant_id' => $req->input('variant_id'), // Nếu có
-        ]);
-        
-        return redirect()->back()->with('success', 'Sản phẩm đã được thêm vào danh sách yêu thích.');
-        
+                
     }
 
     public function ViewWish()
     {
-        $wish = Wishlist::all();
+        $wish = Wishlist::where('customer_id',auth('customers')->id())->get();
         $productsort = Product::orderBy('created_at', 'desc')->take(5)->get();
-        // dd($wish->products);
         return view('fe.shop.wishlist', compact('wish', 'productsort'));
     }
 

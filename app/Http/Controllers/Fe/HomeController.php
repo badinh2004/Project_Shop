@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Fe;
 
 use App\Events\ForGotPassWord as EventsForGotPassWord;
 use App\Http\Controllers\Controller;
+use App\Models\Blogs;
 use App\Models\category;
 use App\Models\Customers;
 use App\Models\Forgotpassword;
@@ -24,6 +25,7 @@ class HomeController extends Controller
     public function index()
     {
         $product = Product::orderBy('id', 'desc')->get();
+        $blogs = Blogs::orderBy('id', 'desc')->get();
         $product = $product->take(8);
         foreach ($product as $value) {
             if ($value->created_at->greaterThanOrEqualTo(Carbon::now()->subDays(2))) {
@@ -33,7 +35,7 @@ class HomeController extends Controller
             }
         }
         $cate = category::orderBy('id', 'desc')->get();
-        return view('fe.index', compact('product', 'cate'));
+        return view('fe.index', compact('product', 'cate','blogs'));
     }
 
     public function login()
@@ -86,7 +88,7 @@ class HomeController extends Controller
     public function logout()
     {
         auth('customers')->logout();
-        return redirect()->back()->with('sucess', 'logout successfully');
+        return redirect()->route('index')->with('success', 'Logout successfully');
     }
 
     public function forgotpassword()
@@ -151,34 +153,37 @@ class HomeController extends Controller
         return Socialite::driver('google')->redirect();
     }
           
-    public function handleGoogleCallback()
+    public function handleGoogleCallback(Request $req)
     {
         try {
-        
+            // Lấy thông tin người dùng từ Google OAuth
             $user = Socialite::driver('google')->user();
-         
+    
+            // Tìm người dùng trong database theo google_id
             $finduser = Customers::where('google_id', $user->id)->first();
-         
-            if($finduser){
-         
+    
+            // Nếu người dùng đã tồn tại, đăng nhập và chuyển hướng về trang đã đính kèm
+            if ($finduser) {
                 Auth::guard('customers')->login($finduser);
-        
                 return redirect()->intended('/');
-         
-            }else{
-                $newUser = Customers::updateOrCreate(['email' => $user->email],[
-                        'name' => $user->name,
-                        'google_id'=> $user->id,
-                        'password' => encrypt('123456dummy')
-                    ]);
-         
-                    Auth::guard('customers')->login($newUser);
-        
+            } else {
+                // Nếu người dùng chưa tồn tại, tạo mới người dùng
+                $newUser = Customers::updateOrCreate(['email' => $user->email], [
+                    'name' => $user->name,
+                    'image' => $user->avatar, // Lấy ảnh từ Google, sử dụng $user->avatar
+                    'google_id' => $user->id,
+                    'password' => encrypt('123456dummy'), // Mật khẩu tạm thời, bạn nên cải thiện cách lưu mật khẩu
+                    'remember_token' => $user->token // Lưu id_token từ Google OAuth vào remember_token
+                ]);
+    
+                // Đăng nhập người dùng mới tạo
+                Auth::guard('customers')->login($newUser);
                 return redirect()->intended('/');
             }
-        
         } catch (\Throwable $th) {
+            // Xử lý ngoại lệ nếu có lỗi và hiển thị thông báo lỗi
             dd($th->getMessage());
         }
     }
+    
 }

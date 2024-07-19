@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Models\Cart;
+use App\Models\category;
+use App\Models\Customers;
 use App\Models\Wishlist;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,9 +26,10 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('*', function($view){
             $carts = Cart::where('customer_id',auth('customers')->id())->get();
             $wish = Wishlist::where('customer_id',auth('customers')->id())->get();
-
-            // dd($carts);
-            $view->with(compact('carts','wish'));
+            $categorys = category::query()->get();
+            
+            // dd($user);
+            $view->with(compact('carts','wish','categorys'));
         });
     }
 }
