@@ -48,4 +48,14 @@ class Customers extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function carts()
+    {
+        return $this->hasMany(Cart::class, 'customer_id', 'id')->orderBy('customer_id','desc');
+    }
+    public function oders()
+    {
+        return $this->hasMany(orders::class, 'customer_id', 'id');
+    }
+
 }

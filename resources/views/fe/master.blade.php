@@ -344,14 +344,12 @@
                                         </svg>
                                     </a>
                                     <ul class="header__sub--menu">
-                                        <li class="header__sub--menu__items"><a href="about.html"
+                                        <li class="header__sub--menu__items"><a href="{{route('about')}}"
                                                 class="header__sub--menu__link">About Us</a></li>
-                                        <li class="header__sub--menu__items"><a href="contact.html"
-                                                class="header__sub--menu__link">Contact Us</a></li>
                                         <li class="header__sub--menu__items"><a href="{{route('Cart')}}"
                                                 class="header__sub--menu__link">Cart Page</a>
                                         </li>
-                                        <li class="header__sub--menu__items"><a href="portfolio.html"
+                                        <li class="header__sub--menu__items"><a href="{{route('portfolio')}}"
                                                 class="header__sub--menu__link">Portfolio Page</a></li>
                                         <li class="header__sub--menu__items"><a href="{{route('ViewWish')}}"
                                                 class="header__sub--menu__link">Wishlist Page</a>
@@ -362,15 +360,15 @@
                                             </li>
                                         @else
                                             <li class="header__sub--menu__items"><a href="{{ route('login') }}"
-                                                    class="header__sub--menu__link">Login Page</a>
+                                                    class="header__sub--menu__link">Login</a>
                                             </li>
                                         @endif
-                                        <li class="header__sub--menu__items"><a href="404.html"
+                                        {{-- <li class="header__sub--menu__items"><a href="404.html"
                                                 class="header__sub--menu__link">Error Page</a>
                                         </li>
                                         <li class="header__menu--items">
                                             <a class="header__menu--link" href="contact.html">Contact </a>
-                                        </li>
+                                        </li> --}}
                                     </ul>
                                 </li>
                             </ul>
@@ -507,13 +505,13 @@
                         <li class="offcanvas__menu_li">
                             <a class="offcanvas__menu_item" href="#">Pages</a>
                             <ul class="offcanvas__sub_menu">
-                                <li class="offcanvas__sub_menu_li"><a href="about.html"
+                                <li class="offcanvas__sub_menu_li"><a href="{{route('about')}}"
                                         class="offcanvas__sub_menu_item">About Us</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="contact.html"
-                                        class="offcanvas__sub_menu_item">Contact Us</a></li>
+                                {{-- <li class="offcanvas__sub_menu_li"><a href="contact.html"
+                                        class="offcanvas__sub_menu_item">Contact Us</a></li> --}}
                                 <li class="offcanvas__sub_menu_li"><a href="{{route('Cart')}}"
                                         class="offcanvas__sub_menu_item">Cart Page</a></li>
-                                <li class="offcanvas__sub_menu_li"><a href="portfolio.html"
+                                <li class="offcanvas__sub_menu_li"><a href="{{route('portfolio')}}"
                                         class="offcanvas__sub_menu_item">Portfolio Page</a></li>
                                 <li class="offcanvas__sub_menu_li"><a href="{{route('ViewWish')}}"
                                         class="offcanvas__sub_menu_item">Wishlist Page</a></li>
@@ -522,16 +520,16 @@
                                             class="offcanvas__sub_menu_item">Logout</a></li>
                                 @else
                                     <li class="offcanvas__sub_menu_li"><a href="{{ route('login') }}"
-                                            class="offcanvas__sub_menu_item">Login Page</a></li>
+                                            class="offcanvas__sub_menu_item">Login</a></li>
                                 @endif
-                                <li class="offcanvas__sub_menu_li"><a href="404.html"
-                                        class="offcanvas__sub_menu_item">Error Page</a></li>
+                                {{-- <li class="offcanvas__sub_menu_li"><a href="404.html" --}}
+                                        {{-- class="offcanvas__sub_menu_item">Error Page</a></li> --}}
                             </ul>
                         </li>
-                        <li class="offcanvas__menu_li"><a class="offcanvas__menu_item" href="about.html">About</a>
+                        {{-- <li class="offcanvas__menu_li"><a class="offcanvas__menu_item" href="about.html">About</a>
                         </li>
                         <li class="offcanvas__menu_li"><a class="offcanvas__menu_item"
-                                href="contact.html">Contact</a></li>
+                                href="contact.html">Contact</a></li> --}}
                     </ul>
                     <div class="offcanvas__account--items">
                         @if (auth('customers')->check())

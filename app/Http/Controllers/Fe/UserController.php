@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Fe;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customers;
+use App\Models\Orders;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +18,14 @@ class UserController extends Controller
      */
     public function ViewOrdersHistory()
     {
-        return view('fe.user.OrdersHistory');
+        if (auth('customers')->check()) {
+            $orders = Orders::all()->where('customer_id',auth('customers')->id());
+            // dd($orders);
+            return view('fe.user.OrdersHistory',compact('orders'));
+        }else{
+            return redirect()->route('login');
+        }
+        
     }
     public function information()
     {

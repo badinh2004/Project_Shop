@@ -256,12 +256,12 @@
                                                         <span class="visually-hidden">Wishlist</span> 
                                                     </a>
                                                 </li>
-                                                <li class="product__items--action__list">
+                                                {{-- <li class="product__items--action__list">
                                                     <a class="product__items--action__btn" href="compare.html">
                                                         <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M400 304l48 48-48 48M400 112l48 48-48 48M64 352h85.19a80 80 0 0066.56-35.62L256 256"/><path d="M64 160h85.19a80 80 0 0166.56 35.62l80.5 120.76A80 80 0 00362.81 352H416M416 160h-53.19a80 80 0 00-66.56 35.62L288 208" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
                                                         <span class="visually-hidden">Compare</span>    
                                                     </a>
-                                                </li>
+                                                </li> --}}
                                             </ul>
                                         </div>
                                         <div class="product__items--content product__items2--content text-center">
@@ -323,7 +323,7 @@
     <!-- End product section -->
 
     <!-- Start deal product section -->
-    <section class="product__section section--padding pt-0">
+    {{-- <section class="product__section section--padding pt-0">
         <div class="container">
             <div class="section__heading mb-40">
                 <h2 class="section__heading--maintitle">Deal of  The Week</h2>
@@ -745,7 +745,7 @@
                 <div class="swiper__nav--btn swiper-button-prev"></div>
             </div>
         </div>
-    </section>
+    </section> --}}
     <!-- End deal product section -->
 
     <!-- Start counterup banner section -->
@@ -782,7 +782,7 @@
     <!-- End counterup banner section -->
 
     <!-- Start grid product section -->
-    <section class="product__section section--padding">
+    {{-- <section class="product__section section--padding">
         <div class="container">
             <div class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-2">
                 <div class="col custom-col">
@@ -1311,7 +1311,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
     <!-- End grid product section -->
     
     <!-- Start blog section -->

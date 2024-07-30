@@ -106,6 +106,10 @@ Route::get('/addWishList/{product}',[ProductShopController::class,'addWishlist']
 Route::get('/delete-wishlist/{id}', [ProductShopController::class, 'deleteWishList'])->name('deleteWishList');
 // end wishlist
 
+Route::get('/AboutUs',[ProductShopController::class,'about'])->name('about');
+Route::get('/portfolio',[ProductShopController::class,'portfolio'])->name('portfolio');
+
+
 //comment
 Route::post('/commentproduct/{id}',[CommentController::class,'product'])->name('commentproduct');
 Route::post('/commentblog/{id}',[CommentController::class,'blog'])->name('commentblog');
@@ -123,7 +127,7 @@ Route::prefix('cart')->group(function(){
 // end cart
 Route::prefix('checkout')->group(function(){
     Route::get('/',[CheckoutController::class,'index'])->name('Checkout');
-    // Route::get('/addToCart/{product}',[CartController::class,'addToCart'])->name('addToCart');
+    Route::post('/addOder',[CheckoutController::class,'addOder'])->name('addOder');
     // Route::post('/updateCart',[CartController::class,'updateCart'])->name('updateCart');
 });
 

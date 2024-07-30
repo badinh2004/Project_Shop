@@ -123,17 +123,17 @@
                                     </div>
                                     <div class="product__variant--list quantity d-flex align-items-center mb-20">
                                         <div class="quantity__box">
-                                            <button type="button"
-                                                class="quantity__value quickview__value--quantity decrease"
-                                                aria-label="quantity value" value="Decrease Value">-</button>
+                                            {{-- <button type="button" --}}
+                                                {{-- class="quantity__value quickview__value--quantity decrease" --}}
+                                                {{-- aria-label="quantity value" value="Decrease Value">-</button> --}}
                                             <label>
                                                 <input type="number" name="quantity"
-                                                    class="quantity__number quickview__value--number" value="1"
+                                                    class="quantity__number quickview__value--number" value="1" min="1"
                                                     data-counter />
                                             </label>
-                                            <button type="button"
-                                                class="quantity__value quickview__value--quantity increase"
-                                                aria-label="quantity value" value="Increase Value">+</button>
+                                            {{-- <button type="button" --}}
+                                                {{-- class="quantity__value quickview__value--quantity increase" --}}
+                                                {{-- aria-label="quantity value" value="Increase Value">+</button> --}}
                                         </div>
                                         <button class="btn quickview__cart--btn" type="submit">Add To Cart</button>
                                     </div>
@@ -149,7 +149,7 @@
                                             </svg>
                                             Add to Wishlist
                                         </a>
-                                        <button class="variant__buy--now__btn btn" type="submit">Buy it now</button>
+                                        {{-- <button class="variant__buy--now__btn btn" type="submit">Buy it now</button> --}}
                                     </div>
                                     <div class="product__variant--list mb-15">
                                         <div class="product__details--info__meta">
@@ -238,10 +238,10 @@
                                 Description</li>
                             <li class="product__details--tab__list" data-toggle="tab" data-target="#reviews">Product
                                 Reviews</li>
-                            <li class="product__details--tab__list" data-toggle="tab" data-target="#information">
+                            {{-- <li class="product__details--tab__list" data-toggle="tab" data-target="#information">
                                 Additional Info</li>
                             <li class="product__details--tab__list" data-toggle="tab" data-target="#custom">Custom
-                                Content</li>
+                                Content</li> --}}
                         </ul>
                         <div class="product__details--tab__inner border-radius-10">
                             <div class="tab_content">
@@ -385,7 +385,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="information" class="tab_pane">
+                                {{-- <div id="information" class="tab_pane">
                                     <div class="product__tab--conten">
                                         <div class="product__tab--content__step mb-30">
                                             <h2 class="product__tab--content__title h4 mb-10">Nam provident sequi</h2>
@@ -412,7 +412,7 @@
                                                 necessitatibus nam ab?</p>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -460,7 +460,7 @@
                                                 <span class="visually-hidden">Wishlist</span>
                                             </a>
                                         </li>
-                                        <li class="product__items--action__list">
+                                        {{-- <li class="product__items--action__list">
                                             <a class="product__items--action__btn" href="compare.html">
                                                 <svg class="product__items--action__btn--svg"
                                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -474,7 +474,7 @@
                                                 </svg>
                                                 <span class="visually-hidden">Compare</span>
                                             </a>
-                                        </li>
+                                        </li> --}}
                                     </ul>
                                 </div>
                                 <div class="product__items--content product__items2--content text-center">

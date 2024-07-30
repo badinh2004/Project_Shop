@@ -127,6 +127,14 @@ class ProductShopController extends Controller
         return view('fe.shop.wishlist', compact('wish', 'productsort'));
     }
 
+    public function about(){
+        return view('fe.shop.about');
+    }
+
+    public function portfolio(){
+        return view('fe.shop.portfolio');
+    }
+
     public function deleteWishList($id)
     {
         try {

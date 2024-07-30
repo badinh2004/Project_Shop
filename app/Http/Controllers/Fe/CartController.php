@@ -19,8 +19,18 @@ class CartController extends Controller
                 'variant_id' => $req->input('variant_id'),
                 'quantity' => $req->quantity
             ];
+            $cartItem = Cart::where('customer_id', $customer_id)
+                        ->where('ProductID', $product->id)
+                        ->where('variant_id',$req->input('variant_id'))
+                        ->first();
+                        // dd($cartItem);
             if ($data['variant_id'] == null) {
                 return redirect()->back()->with('err','Please choose weight');
+            }else
+            if ($cartItem) {
+                $cartItem->quantity += $req->quantity;
+                $cartItem->save();
+                return redirect()->back();
             }
             Cart::create($data);
             return redirect()->back();
@@ -47,9 +57,13 @@ class CartController extends Controller
     }
 
     public function index(){
+        if (auth('customers')->check()) {
         $product = Product::all();
         $cart = Cart::where('customer_id',auth('customers')->id())->get();
         return view('fe.shop.cart',compact('cart','product'));
+        }else{
+            return redirect()->route('login');
+        }
     }
 
     public function deleteOne($id){

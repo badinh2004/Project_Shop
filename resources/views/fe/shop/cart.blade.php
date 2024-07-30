@@ -51,14 +51,16 @@
                                                         <td class="cart__table--body__list">
                                                             <div class="cart__product d-flex align-items-center">
                                                                 <div class="cart__thumbnail">
-                                                                    <a href="product-details.html"><img
+                                                                    <a href="{{ route('productDetail', ['product' => $value->products->category->name, 'slug' => $value->products->slug]) }}">
+                                                                        <img
                                                                             class="border-radius-5"
                                                                             src="{{ asset('storage/images/' . $value->products->image) }}"
-                                                                            alt="cart-product"></a>
+                                                                            alt="cart-product">
+                                                                    </a>
                                                                 </div>
                                                                 <div class="cart__content">
                                                                     <h3 class="cart__content--title h4"><a
-                                                                            href="">{{ $value->products->name }}</a>
+                                                                            href="{{ route('productDetail', ['product' => $value->products->category->name, 'slug' => $value->products->slug]) }}">{{ $value->products->name }}</a>
                                                                     </h3>
                                                                     <span class="cart__content--variant">WEIGHT:
                                                                         {{ $value->variants->size }}</span>
@@ -120,18 +122,6 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="cart__summary border-radius-10">
-                                        <div class="coupon__code mb-30">
-                                            <h3 class="coupon__code--title">Coupon</h3>
-                                            <p class="coupon__code--desc">Enter your coupon code if you have one.</p>
-                                            <div class="coupon__code--field d-flex">
-                                                <label>
-                                                    <input class="coupon__code--field__input border-radius-5"
-                                                        placeholder="Coupon code" type="text">
-                                                </label>
-                                                <button class="coupon__code--field__btn btn" type="submit">Apply
-                                                    Coupon</button>
-                                            </div>
-                                        </div>
                                         <div class="cart__summary--total mb-20">
                                             <table class="cart__summary--total__table">
                                                 <tbody>
@@ -207,7 +197,7 @@
                                                 <span class="visually-hidden">Wishlist</span>
                                             </a>
                                         </li>
-                                        <li class="product__items--action__list">
+                                        {{-- <li class="product__items--action__list">
                                             <a class="product__items--action__btn" href="compare.html">
                                                 <svg class="product__items--action__btn--svg"
                                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -221,7 +211,7 @@
                                                 </svg>
                                                 <span class="visually-hidden">Compare</span>
                                             </a>
-                                        </li>
+                                        </li> --}}
                                     </ul>
                                 </div>
                                 <div class="product__items--content product__items2--content text-center">
