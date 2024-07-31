@@ -19,6 +19,7 @@ class Orders extends Model
         'note',
         'code',
         'total',
+        'payment',
         'token'
     ];
 

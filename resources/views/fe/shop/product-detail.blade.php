@@ -41,7 +41,8 @@
                                         <div class="product__media--preview__items">
                                             <div>
                                                 <div class="product__media--preview__items">
-                                                    <img    class="product__media--preview__items--img"
+                                                    <img    
+                                                    class="product__media--preview__items--img"
                                                             src="{{ asset('storage/images/' . $products->image) }}"
                                                             alt="product-media-img">
                                                 </div>

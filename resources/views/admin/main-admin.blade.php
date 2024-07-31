@@ -262,6 +262,17 @@
               <li><a href="{{route('blogs.create')}}"><i class="fa fa-circle-o"></i>Add Blogs</a></li>
             </ul>
           </li>
+          <li class="treeview">
+            <a href="{{route('blogs.index')}}">
+              <i class="fa fa-dashboard"></i> <span>Orders</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="{{route('orders.index')}}"><i class="fa fa-circle-o"></i>Table Order</a></li>
+            </ul>
+          </li>
         
         <li>
           <a href="">

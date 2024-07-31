@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\Admincontroller;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\admin\ProductVariantsController;
 use App\Http\Controllers\admin\VariantsController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Fe\CheckoutController;
 use App\Http\Controllers\Fe\CommentController;
 use App\Http\Controllers\Fe\FilterController;
 use App\Http\Controllers\Fe\HomeController;
+use App\Http\Controllers\Fe\Payment\VNPayController;
 use App\Http\Controllers\Fe\ProductShopController;
 use App\Http\Controllers\Fe\UserController;
 use Illuminate\Support\Facades\Route;
@@ -34,7 +36,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
         'category' => CategoryController::class,
         'product' => ProductController::class,
         'variant' => ProductVariantsController::class,
-        'blogs' => BlogController::class
+        'blogs' => BlogController::class,
+        'orders' => OrderController::class
     ]);
     Route::get('/products/{product}/variants/create', [ProductController::class, 'createVariant'])->name('variants.create');
     Route::post('/products/{product}/variants', [ProductController::class, 'storeVariant'])->name('variants.store');
@@ -128,6 +131,9 @@ Route::prefix('cart')->group(function(){
 Route::prefix('checkout')->group(function(){
     Route::get('/',[CheckoutController::class,'index'])->name('Checkout');
     Route::post('/addOder',[CheckoutController::class,'addOder'])->name('addOder');
+    Route::get('/checkpayment',[CheckoutController::class,'checkpayment'])->name('checkpayment');
+    Route::get('/checkdetail/{id}',[CheckoutController::class,'checkdetail'])->name('checkdetail');
+    Route::get('/vnpay/return', [VNPayController::class, 'return'])->name('vnpay.return');
     // Route::post('/updateCart',[CartController::class,'updateCart'])->name('updateCart');
 });
 

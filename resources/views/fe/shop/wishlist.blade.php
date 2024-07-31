@@ -59,9 +59,14 @@
                                                         <legend class="product__variant--title mb-8">Weight : </legend>
                                                         <ul class="variant__size d-flex">
                                                             @foreach ($value->products->variants as $index => $item)
-                                                                <li class="variant__size--list" data-price="{{ $item->price }}" data-sale-price="{{ $item->sale_price }}">
-                                                                    <input type="radio" id="weight_{{ $value->products->id }}_{{ $index }}" name="variant_id_{{ $value->products->id }}" value="{{ $item->id }}" data-variant-id="{{ $item->id }}">
-                                                                    <label class="variant__size--value red" for="weight_{{ $value->products->id }}_{{ $index }}">{{ $item->size }}</label>
+                                                                <li class="variant__size--list" data-price="{{ $item->price }}"
+                                                                    data-sale-price="{{ $item->sale_price }}">
+                                                                    <input type="radio"
+                                                                        id="weight_{{ $value->products->id }}_{{ $index }}"
+                                                                        name="variant_id" value="{{ $item->id }}"
+                                                                        data-variant-id="{{ $item->id }}">
+                                                                    <label class="variant__size--value red"
+                                                                        for="weight_{{ $value->products->id }}_{{ $index }}">{{ $item->size }}</label>
                                                                 </li>
                                                             @endforeach
                                                         </ul>

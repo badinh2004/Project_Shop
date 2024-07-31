@@ -52,8 +52,8 @@
                                     @foreach ($orders as $order)
                                     <tr class="account__table--body__child">
                                         <td class="account__table--body__child--items">{{$order->code}}</td>
-                                        <td class="account__table--body__child--items">{{ $order->created_at->format('F j, Y') }}</td>
-                                        <td class="account__table--body__child--items">Paid</td>
+                                        <td class="account__table--body__child--items">{{$order->created_at->format('F j, Y') }}</td>
+                                        <td class="account__table--body__child--items">{{$order->payment}}</td>
                                         <td class="account__table--body__child--items">{{$order->status->name}}</td>
                                         <td class="account__table--body__child--items">${{$order->total}}</td>
                                     </tr>

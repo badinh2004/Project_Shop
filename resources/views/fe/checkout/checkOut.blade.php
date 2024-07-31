@@ -55,9 +55,19 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="section__header mb-25">
+                                <h2 class="section__header--title h3">Payment</h2>
+                                <p class="section__header--desc">All transactions are secure and encrypted.</p>
+                            </div>
+                            <div class="col-12 mb-12">
+                                <select name="payment" class="checkout__input--field border-radius-5">
+                                    <option value="COD">Thanh toán khi nhận hàng (COD)</option>
+                                    <option value="VNPay">Thanh toán qua VNPay</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="checkout__content--step__footer d-flex align-items-center">
-                            <button class="continue__shipping--btn btn border-radius-5" type="submit">Continue To Shipping</button>
+                            <button class="continue__shipping--btn btn border-radius-5" name="redirect" type="submit">Continue To Shipping</button>
                             <a class="previous__link--content" href="{{route('Cart')}}">Return to cart</a>
                         </div>
                     </form>
@@ -98,14 +108,6 @@
                                 @endforeach
                         </tbody>
                     </table> 
-                </div>
-                <div class="checkout__discount--code">
-                    <form class="d-flex" action="#">
-                        <label>
-                            <input class="checkout__discount--code__input--field border-radius-5" placeholder="Gift card or discount code"  type="text">
-                        </label>
-                        <button class="checkout__discount--code__btn btn border-radius-5" type="submit">Apply</button>
-                    </form>
                 </div>
                 <div class="checkout__total">
                     <table class="checkout__total--table">
