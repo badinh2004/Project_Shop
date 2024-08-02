@@ -2,33 +2,28 @@
 @section('main_admin')
     <div class="col-xs-12">
         <div class="box">
-            
             <!-- /.box-header -->
             <div class="box-body table-responsive no-padding">
                 <table class="table table-hover">
                     <tbody>
                         <tr>
                             <th>ID</th>
-                            <th>Code Order</th>
                             <th>Name </th>
-                            <th>Phone </th>
-                            <th>Email</th>
-                            <th>Status</th>
-                            <th>Payment</th>
-                            <th>Total</th>
+                            <th>Discount Coupon</th>
+                            <th>Quantity</th>
+                            <th>End_date</th>
+                            <th>Description</th>
                             <th>Created_at</th>
                             <th>Action</th>
                         </tr>
-                        @foreach ($order as $value)
+                        @foreach ($coupon as $value)
                             <tr>
                                 <td>{{ $loop->index + 1 }}</td>
-                                <td>#{{ $value->code }}</td>
                                 <td>{{ $value->name }}</td>
-                                <td>{{ $value->phone }}</td>
-                                <td>{{ $value->email }}</td>
-                                <td>{{ $value->status->name }}</td>
-                                <td>{{ $value->payment}}</td>
-                                <td>{{ $value->total }}</td>
+                                <td>{{ $value->code }}</td>
+                                <td>{{ $value->quantity }}</td>
+                                <td>{{ $value->end_date }}</td>
+                                <td>{{ $value->mota }}</td>
                                 <td>{{$value->created_at->format('d-m-Y')}}</td>
                                 <td>
                                     <div class="dropdown">
@@ -41,10 +36,10 @@
                                             <ul class="list-unstyled">
                                                 <li>
                                                     <a class="dropdown-item btn btn-success"
-                                                        href="{{ route('orders.edit', $value->id) }}">Edit</a>
+                                                        href="{{ route('coupons.edit', $value->id) }}">Edit</a>
                                                 </li>
                                                 <li>
-                                                    <form action="{{ route('orders.destroy', $value->id) }}" method="post"
+                                                    <form action="{{ route('coupons.destroy', $value->id) }}" method="post"
                                                         class="d-inline">
                                                         @csrf
                                                         @method('DELETE')

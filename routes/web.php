@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Admin\Admincontroller;
+use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\admin\ProductVariantsController;
@@ -37,7 +39,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
         'product' => ProductController::class,
         'variant' => ProductVariantsController::class,
         'blogs' => BlogController::class,
-        'orders' => OrderController::class
+        'orders' => OrderController::class,
+        'coupons' => CouponController::class,
+        'banners' => BannerController::class
     ]);
     Route::get('/products/{product}/variants/create', [ProductController::class, 'createVariant'])->name('variants.create');
     Route::post('/products/{product}/variants', [ProductController::class, 'storeVariant'])->name('variants.store');
@@ -133,6 +137,9 @@ Route::prefix('checkout')->group(function(){
     Route::post('/addOder',[CheckoutController::class,'addOder'])->name('addOder');
     Route::get('/checkpayment',[CheckoutController::class,'checkpayment'])->name('checkpayment');
     Route::get('/checkdetail/{id}',[CheckoutController::class,'checkdetail'])->name('checkdetail');
+    Route::get('/checkcoupon/{id}',[CheckoutController::class,'checkcoupon'])->name('checkcoupon');
+    Route::post('/coupon',[CheckoutController::class,'coupon'])->name('coupon');
+    Route::get('/checkcout/{id}',[CheckoutController::class,'checkcout'])->name('checkcout');
     Route::get('/vnpay/return', [VNPayController::class, 'return'])->name('vnpay.return');
     // Route::post('/updateCart',[CartController::class,'updateCart'])->name('updateCart');
 });

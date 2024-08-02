@@ -218,7 +218,7 @@
 
         <li>
           <a href="">
-            <i class="fa fa-th"></i> <span>??????????</span>
+            <i class="fa fa-dashboard"></i> <span>??????????</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-green">FE</small>
             </span>
@@ -227,7 +227,7 @@
 
         <li class="treeview">
           <a href="{{route('product.index')}}">
-            <i class="fa fa-dashboard"></i> <span>Products</span>
+            <i class="fa fa-th"></i> <span>Products</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -240,7 +240,7 @@
 
         <li class="treeview">
             <a href="{{route('category.index')}}">
-              <i class="fa fa-dashboard"></i> <span>Categorys</span>
+              <i class="fa fa-th"></i> <span>Categorys</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
@@ -252,7 +252,7 @@
           </li>
           <li class="treeview">
             <a href="{{route('blogs.index')}}">
-              <i class="fa fa-dashboard"></i> <span>Blogs</span>
+              <i class="fa fa-th"></i> <span>Blogs</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
@@ -264,13 +264,37 @@
           </li>
           <li class="treeview">
             <a href="{{route('blogs.index')}}">
-              <i class="fa fa-dashboard"></i> <span>Orders</span>
+              <i class="fa fa-th"></i> <span>Orders</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
             </a>
             <ul class="treeview-menu">
               <li><a href="{{route('orders.index')}}"><i class="fa fa-circle-o"></i>Table Order</a></li>
+            </ul>
+          </li>
+          <li class="treeview">
+            <a href="{{route('blogs.index')}}">
+              <i class="fa fa-th"></i> <span>Coupons</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="{{route('coupons.index')}}"><i class="fa fa-circle-o"></i>Table Coupons</a></li>
+              <li><a href="{{route('coupons.create')}}"><i class="fa fa-circle-o"></i>Add Coupons</a></li>
+            </ul>
+          </li>
+          <li class="treeview">
+            <a href="{{route('blogs.index')}}">
+              <i class="fa fa-th"></i> <span>Banners</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="{{route('banners.index')}}"><i class="fa fa-circle-o"></i>Table Banners</a></li>
+              <li><a href="{{route('banners.create')}}"><i class="fa fa-circle-o"></i>Add Banners</a></li>
             </ul>
           </li>
         

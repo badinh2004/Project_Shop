@@ -3,20 +3,19 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\OrderDetail;
-use App\Models\Orders;
-use App\Models\Status;
+use App\Models\Coupon;
+use App\Models\CouponOrder;
 use Illuminate\Http\Request;
 
-class OrderController extends Controller
+class CouponController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $order = Orders::query()->get();
-        return view('admin.order.list',compact('order'));
+        $coupon = Coupon::query()->get();
+        return view('admin.coupon.index',compact('coupon'));
     }
 
     /**
@@ -24,7 +23,7 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.coupon.add');
     }
 
     /**
@@ -32,7 +31,8 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Coupon::create($request->all());
+        return redirect()->route('coupons.index')->with('success','Successflly');
     }
 
     /**
@@ -48,19 +48,17 @@ class OrderController extends Controller
      */
     public function edit(string $id)
     {
-        $order = Orders::query()->where('id',$id)->get()->first();
-        $status = Status::query()->get();
-        // dd($order);
-        return view('admin.order.edit',compact('order','status'));
+        $coupon = Coupon::where('id',$id)->first();
+        return view('admin.coupon.edit',compact('coupon'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Orders $order)
+    public function update(Request $request,Coupon $coupon)
     {
-        $order->update($request->all());
-        return redirect()->route('orders.index');
+        $coupon->update($request->all());
+        return redirect()->route('coupons.index')->with('success','successflly');
     }
 
     /**
@@ -68,8 +66,8 @@ class OrderController extends Controller
      */
     public function destroy(string $id)
     {
-        OrderDetail::query()->where('order_id',$id)->delete();
-        Orders::find($id)->delete();
+        CouponOrder::query()->where('coupon_id',$id)->delete();
+        Coupon::find($id)->delete();
         return back()->with('success','DELETE Successfully!!');
     }
 }

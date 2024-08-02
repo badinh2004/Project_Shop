@@ -19,6 +19,8 @@ class Orders extends Model
         'note',
         'code',
         'total',
+        'subtotal',
+        'coupon_id',
         'payment',
         'token'
     ];
@@ -39,5 +41,9 @@ class Orders extends Model
     public function status()
     {
         return $this->belongsTo(Status::class, 'status_id');
+    }
+    public function coupons()
+    {
+        return $this->hasMany(Coupon::class,  "coupon_id", "id");
     }
 }
