@@ -225,78 +225,79 @@ class CheckoutController extends Controller
     }
 
     public function checkcout(Request $request)
-{
-    $order = Orders::query()->where('id', $request->id)->first();
-
-    // dd($order);
-    // $order->payment = $request->payment;
-    // $order->save();
-    // if ($request->payment === 'VNPay') {
-    if ($order->payment === 'VNPay') {
-        $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://127.0.0.1:8000/";
-        $vnp_TmnCode = "ROGC3KGV";
-        $vnp_HashSecret = "HFMZ2NHJU1BZMMA5UE5KOUTX1ZY5STQ8";
-
-        $vnp_TxnRef = $order->code;
-        $vnp_OrderInfo = 'thanh toan hoa don';
-        $vnp_OrderType = 'Shopfood';
-        $vnp_Amount = $order->total * 23000 * 100;
-        $vnp_Locale = 'VN';
-        $vnp_BankCode = 'NCB';
-        $vnp_IpAddr = $request->ip();
-
-        $inputData = array(
-            "vnp_Version" => "2.1.0",
-            "vnp_TmnCode" => $vnp_TmnCode,
-            "vnp_Amount" => $vnp_Amount,
-            "vnp_Command" => "pay",
-            "vnp_CreateDate" => date('YmdHis'),
-            "vnp_CurrCode" => "VND",
-            "vnp_IpAddr" => $vnp_IpAddr,
-            "vnp_Locale" => $vnp_Locale,
-            "vnp_OrderInfo" => $vnp_OrderInfo,
-            "vnp_OrderType" => $vnp_OrderType,
-            "vnp_ReturnUrl" => $vnp_Returnurl,
-            "vnp_TxnRef" => $vnp_TxnRef
-        );
-
-        if (isset($vnp_BankCode) && $vnp_BankCode != "") {
-            $inputData['vnp_BankCode'] = $vnp_BankCode;
-        }
-
-        ksort($inputData);
-        $hashdata = "";
-        $query = "";
-        $i = 0;
-        foreach ($inputData as $key => $value) {
-            if ($i == 1) {
-                $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
-            } else {
-                $hashdata .= urlencode($key) . "=" . urlencode($value);
-                $i = 1;
+    {
+        $order = Orders::query()->where('id', $request->id)->first();
+        Mail::to($order->email)->queue(new OrderMail($order));
+    
+        // dd($order);
+        // $order->payment = $request->payment;
+        // $order->save();
+        // if ($request->payment === 'VNPay') {
+        if ($order->payment === 'VNPay') {
+            $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+            $vnp_Returnurl = "http://127.0.0.1:8000/";
+            $vnp_TmnCode = "ROGC3KGV";
+            $vnp_HashSecret = "HFMZ2NHJU1BZMMA5UE5KOUTX1ZY5STQ8";
+        
+            $vnp_TxnRef = $order->code;
+            $vnp_OrderInfo = 'thanh toan hoa don';
+            $vnp_OrderType = 'Shopfood';
+            $vnp_Amount = $order->total * 23000 * 100;
+            $vnp_Locale = 'VN';
+            $vnp_BankCode = 'NCB';
+            $vnp_IpAddr = $request->ip();
+        
+            $inputData = array(
+                "vnp_Version" => "2.1.0",
+                "vnp_TmnCode" => $vnp_TmnCode,
+                "vnp_Amount" => $vnp_Amount,
+                "vnp_Command" => "pay",
+                "vnp_CreateDate" => date('YmdHis'),
+                "vnp_CurrCode" => "VND",
+                "vnp_IpAddr" => $vnp_IpAddr,
+                "vnp_Locale" => $vnp_Locale,
+                "vnp_OrderInfo" => $vnp_OrderInfo,
+                "vnp_OrderType" => $vnp_OrderType,
+                "vnp_ReturnUrl" => $vnp_Returnurl,
+                "vnp_TxnRef" => $vnp_TxnRef
+            );
+        
+            if (isset($vnp_BankCode) && $vnp_BankCode != "") {
+                $inputData['vnp_BankCode'] = $vnp_BankCode;
             }
-            $query .= urlencode($key) . "=" . urlencode($value) . '&';
+        
+            ksort($inputData);
+            $hashdata = "";
+            $query = "";
+            $i = 0;
+            foreach ($inputData as $key => $value) {
+                if ($i == 1) {
+                    $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+                } else {
+                    $hashdata .= urlencode($key) . "=" . urlencode($value);
+                    $i = 1;
+                }
+                $query .= urlencode($key) . "=" . urlencode($value) . '&';
+            }
+        
+            $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
+            $vnp_Url .= "?" . $query . 'vnp_SecureHash=' . $vnpSecureHash;
+        
+            $returnData = array(
+                'code' => '00',
+                'message' => 'success',
+                'data' => $vnp_Url
+            );
+        
+            // if (isset($_POST['redirect'])) {
+                return redirect()->to($vnp_Url);
+            // } else {
+            //     return response()->json($returnData);
+            // }
+        } else {
+            return redirect()->route('checkdetail', $order->id);
         }
-
-        $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
-        $vnp_Url .= "?" . $query . 'vnp_SecureHash=' . $vnpSecureHash;
-
-        $returnData = array(
-            'code' => '00',
-            'message' => 'success',
-            'data' => $vnp_Url
-        );
-
-        // if (isset($_POST['redirect'])) {
-            return redirect()->to($vnp_Url);
-        // } else {
-        //     return response()->json($returnData);
-        // }
-    } else {
-        return redirect()->route('checkdetail', $order->id);
     }
-}
 
 
     public function checkdetail($id)

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Fe;
 
 use App\Events\ForGotPassWord as EventsForGotPassWord;
 use App\Http\Controllers\Controller;
+use App\Models\Banner;
 use App\Models\Blogs;
 use App\Models\category;
 use App\Models\Customers;
@@ -26,6 +27,7 @@ class HomeController extends Controller
     {
         $product = Product::orderBy('id', 'desc')->get();
         $blogs = Blogs::orderBy('id', 'desc')->get();
+        $banners = Banner::query()->get();
         $product = $product->take(8);
         foreach ($product as $value) {
             if ($value->created_at->greaterThanOrEqualTo(Carbon::now()->subDays(2))) {
@@ -35,7 +37,7 @@ class HomeController extends Controller
             }
         }
         $cate = category::orderBy('id', 'desc')->get();
-        return view('fe.index', compact('product', 'cate','blogs'));
+        return view('fe.index', compact('product', 'cate','blogs','banners'));
     }
 
     public function login()
