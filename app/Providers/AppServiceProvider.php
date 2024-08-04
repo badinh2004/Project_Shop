@@ -26,7 +26,8 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('*', function($view){
             $carts = Cart::where('customer_id',auth('customers')->id())->get();
             $wish = Wishlist::where('customer_id',auth('customers')->id())->get();
-            $categorys = category::query()->get();
+            $categorys
+            = category::query()->get();
             
             // dd($user);
             $view->with(compact('carts','wish','categorys'));
